@@ -360,9 +360,9 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m[data-s="home"] .logo{left:20px;top:23px}
 .app.m:not([data-s="home"]) .logo{opacity:0;pointer-events:none}
 .app.m .close{left:auto;right:12px;top:8px;width:44px;height:44px}
-.app.m .close svg{width:20px;height:20px}
+.app.m .close svg{width:14px;height:14px}
 .app.m .back{display:grid;place-items:center;position:absolute;left:12px;top:8px;width:44px;height:44px;transition:opacity .4s}
-.app.m .back svg{width:20px;height:20px}
+.app.m .back svg{width:14px;height:14px}
 .app.m .htl{display:block;position:absolute;left:60px;right:60px;top:19px;height:22px;text-align:center;font-size:16px;line-height:22px;font-weight:600;pointer-events:none;transition:opacity .4s}
 .app.m[data-s="home"] .back,.app.m[data-s="home"] .htl,.app.m[data-s="done"] .back{opacity:0;pointer-events:none}
 .app.m .stepper{left:0;right:0;top:54px;height:36px;gap:0;justify-content:stretch;align-items:stretch}
@@ -378,17 +378,27 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m:not([data-s="home"]) .burger{opacity:0;pointer-events:none}
 .burger svg{width:24px;height:24px}.burger .bx{display:none}
 .app.m.menu .burger .bb{display:none}.app.m.menu .burger .bx{display:block}
-.app.m .mmenu{display:flex;flex-direction:column;position:fixed;left:0;top:68px;width:var(--W);height:calc(var(--H) - 68px);padding:16px 20px 20px;background:#0b0608;z-index:30;opacity:0;pointer-events:none;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .5s var(--spring),visibility 0s .5s}
+.app.m .mmenu{display:flex;flex-direction:column;position:fixed;left:0;top:0;width:var(--W);height:var(--H);padding:84px 20px 20px;background:var(--mbg);z-index:30;opacity:0;pointer-events:none;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .5s var(--spring),visibility 0s .5s}
 .app.m.menu .mmenu{opacity:1;pointer-events:auto;visibility:visible;transform:none;transition:opacity .3s,transform .5s var(--spring),visibility 0s}
-.app.m .mmenu a{display:flex;align-items:center;justify-content:space-between;height:72px;color:#fff;font-size:28px;letter-spacing:-.02em;border-bottom:1px solid rgba(255,255,255,.12);cursor:pointer}
+.app.m .mmenu a{display:flex;align-items:center;justify-content:space-between;height:72px;font-size:28px;letter-spacing:-.02em;border-bottom:1px solid color-mix(in srgb,var(--ink) 16%,transparent);cursor:pointer;color:var(--ink)}
+.app.m .mmenu a:first-child{border-top:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}
 .app.m .mmenu a svg{width:20px;height:20px;opacity:.7}
-.app.m .mmenu a:active{background:rgba(255,255,255,.06)}
-.app.m .mmenu .trow{margin-top:auto;display:flex;align-items:center;justify-content:space-between;height:42px;color:#fff;font-size:16px}
-.app.m .mmenu .theme{display:flex;position:relative;left:auto;top:auto;width:76px;height:42px;padding:3px;gap:0;opacity:1;pointer-events:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
-.app.m .mmenu .theme button{width:34px;height:34px;color:#fff}
-.app.m .mmenu .theme button[aria-pressed="true"]{background:#f2f0ec;color:#0d0d0e}
+.app.m .mmenu a:active{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.app.m .mmenu .trow{margin-top:auto;display:flex;align-items:center;justify-content:space-between;height:42px;color:var(--ink);font-size:16px}
+.app.m .mmenu .theme{display:flex;position:relative;left:auto;top:auto;width:76px;height:42px;padding:3px;gap:0;opacity:1;pointer-events:inherit;background:color-mix(in srgb,var(--ink) 7%,transparent);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.app.m .mmenu .theme button{width:34px;height:34px;color:var(--ink)}
+.app.m .mmenu .theme button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.app.m.menu .logo,.app.m.menu .burger{color:var(--ink)!important;z-index:32}
+.app.m{--mbg:radial-gradient(60% 40% at 15% 6%,rgba(247,214,190,.9),transparent 70%),radial-gradient(50% 36% at 85% 28%,rgba(240,176,184,.75),transparent 70%),radial-gradient(60% 40% at 80% 96%,rgba(236,170,176,.8),transparent 70%),radial-gradient(50% 30% at 55% 62%,rgba(224,220,238,.8),transparent 70%),#f3f0eb;--sel:var(--violet);--on-sel:var(--on-violet)}
+.app.m .badge{box-shadow:inset 0 0 0 1px var(--glass-line)}
 /* titles: 27/30 Regular */
-.app.m .ttl{position:relative;left:auto!important;top:auto!important;right:auto;white-space:normal;font-size:27px;line-height:30px;margin:0 0 12px}
+.app.m .ttl{position:relative;left:auto!important;top:auto!important;right:auto;white-space:normal;font-size:27px;line-height:30px;margin:0 0 var(--g)}
+.app.m .scr{--g:18px}
+.app.m .scr:has(.more.on){--g:12px}
+.app.m .ttl:has(+.desc){margin-bottom:8px}
+.app.m .ttl:has(+.sub){margin-bottom:14px}
+.app.m .scr[data-s="recipient"] .ttl{margin-bottom:var(--g)}
+.app.m .scr[data-s="recipient"] .sub{line-height:24px;margin:0 0 4px}
 .app.m .ttl.c{position:absolute;left:16px!important;right:16px;top:115px!important;margin:0;text-align:center}
 /* footer + Next: 350×68 r14 at 20/756 */
 .app.m .mfoot{display:block;position:absolute;left:0;right:0;bottom:0;height:102px;z-index:14;pointer-events:none;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);-webkit-mask-image:linear-gradient(180deg,transparent,#000 45%);mask-image:linear-gradient(180deg,transparent,#000 45%);opacity:0;transition:opacity .4s}
@@ -418,49 +428,51 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .arr{width:42px;height:42px;top:0;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.6);color:var(--ink);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:none}
 .app.m .arr svg{width:16px;height:16px;opacity:.55}
 .app.m .chips{left:0;width:100%;touch-action:pan-y}
-.app.m .chip{border-radius:37%;font-weight:600}
+.app.m .chip{font-weight:600}
+.app.m .chip.c{box-shadow:0 8px 20px rgba(0,0,0,.10),inset 0 0 0 1px rgba(255,255,255,.8)}
 /* NOMINAL: amount 76/600 in a 182 box at x127, wheel R300 centred at (195, 887) */
-.app.m .big{left:127px;right:auto;width:182px;justify-content:flex-end;gap:10px;align-items:baseline}
+.app.m .big{left:127px;right:auto;width:182px;justify-content:flex-end;gap:14px;align-items:baseline}
 .app.m .big .n{font-size:76px;line-height:104px;font-weight:600;min-width:0}
-.app.m .big .u{font-size:24px;color:#5a5a5e}
+.app.m .big .u{font-size:24px;color:var(--sec)}
 .app.m .big input.n{font-size:calc(var(--bf,1)*76px);line-height:104px}
 .app.m .cust{left:0;right:0;width:auto}
 .app.m .cust .ln{width:182px;margin:0 0 0 127px}
-.app.m .cust .hint{margin-top:10px;font-size:15px;font-weight:500;text-align:center;white-space:normal;color:#5a5a5e}
+.app.m .cust .hint{margin-top:10px;font-size:15px;font-weight:500;text-align:center;white-space:normal;color:var(--sec)}
 .app.m .dial{left:calc(50% - 300px);width:600px;height:600px;pointer-events:none}
 .app.m .dial .rot{transition:transform .7s var(--spring)}
-.app.m .dv{pointer-events:none;font-size:15px;color:#5a5a5e}
+.app.m .dv{pointer-events:none;font-size:15px;color:var(--sec)}
 .app.m .dv.on{font-size:22px;font-weight:500;color:var(--ink)}
 .app.m .dhit{display:block;position:absolute;left:0;right:0;height:120px;touch-action:none;z-index:5}
 /* badge: 95×40 pill at 102/116 */
-.app.m .badge{left:102px;top:130px;min-width:95px;height:40px;font-size:18px;font-weight:600;border-radius:12px}
+.app.m .badge{background:var(--chip);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);left:102px;top:130px;min-width:95px;height:40px;font-size:18px;font-weight:600;border-radius:12px}
 /* FORM SCREENS — spacing straight from Figma (label 24 + 4 + field 44, blocks 12 apart) */
 .app.m .scr[data-s="recipient"],.app.m .scr[data-s="time"],.app.m .scr[data-s="wish"],.app.m .scr[data-s="pay"]{overflow-y:auto;overflow-x:hidden;padding:0 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
 .app.m .scr::-webkit-scrollbar{display:none}
-.app.m .scr[data-s="recipient"]{inset:198px 0 102px 0}
-.app.m .scr[data-s="time"]{inset:204px 0 102px 0}
-.app.m .scr[data-s="wish"]{inset:200px 0 102px 0}
+.app.m .scr[data-s="recipient"]{inset:206px 0 102px 0}
+.app.m .scr[data-s="recipient"]:has(.more.on){top:200px}
+.app.m .scr[data-s="time"]{inset:206px 0 102px 0}
+.app.m .scr[data-s="wish"]{inset:202px 0 102px 0}
 .app.m .scr[data-s="pay"]{inset:116px 0 102px 0}
-.app.m .lab{position:relative;left:auto!important;top:auto!important;display:block;height:24px;line-height:24px;margin:12px 0 4px;font-size:14px;font-weight:500;color:#636369;white-space:normal}
+.app.m .lab{position:relative;left:auto!important;top:auto!important;display:block;height:24px;line-height:24px;margin:var(--g) 0 4px;font-size:14px;font-weight:500;color:var(--sec);white-space:normal}
 .app.m #fPhone{margin-top:0}
 .app.m .ttl.r+.lab{margin-top:0}
 .app.m #fFrom+.lab{margin-top:10px}
 .app.m .fld{position:relative;left:auto!important;top:auto!important;width:auto!important;height:44px;border-radius:14px;padding:0 17px}
 .app.m .fld,.app.m .fld input{font-size:14px}
-.app.m .sur{position:relative;left:auto!important;top:auto!important;width:auto;height:44px;border-radius:16px;gap:14px;padding:0 17px;font-size:15px;font-weight:600}
-.app.m .pdf{position:relative;left:auto;top:auto;width:auto;height:68px;margin-top:12px;border-radius:16px;padding:0 17px}
-.app.m .pdf small{color:#5a5a5e}
+.app.m .sur{position:relative;left:auto!important;top:auto!important;width:100%!important;box-sizing:border-box;height:44px;border-radius:16px;gap:14px;padding:0 17px;font-size:15px;font-weight:600}
+.app.m .pdf{position:relative;left:auto;top:auto;width:100%!important;box-sizing:border-box;height:68px;margin-top:var(--g);border-radius:16px;padding:0 17px}
+.app.m .pdf small{color:var(--sec)}
 .app.m .more{position:relative;width:auto;height:auto;display:none}
 .app.m .more.on{display:block}
 .app.m .more>*{opacity:1;transform:none;pointer-events:auto}
 .app.m .cons{position:relative;left:auto;top:auto;width:auto;height:86px;margin-top:12px;border-radius:16px;gap:14px;padding:0 17px}
 .app.m .cons b{font-size:15px;font-weight:600;line-height:18px}
-.app.m .cons u{font-size:13px;color:#5a5a5e;margin-top:2px}
+.app.m .cons u{font-size:13px;color:var(--sec);margin-top:2px}
 .app.m .ttl.r+.desc{margin-top:0}
-.app.m .desc{position:relative;left:auto;top:auto;width:auto;font-size:14px;line-height:20px;color:#5a5a5e;margin:-4px 0 18px}
+.app.m .desc{position:relative;left:auto;top:auto;width:auto;font-size:14px;line-height:20px;color:var(--sec);margin:0 0 18px}
 .app.m .seg{position:relative;left:auto;top:auto;width:auto;height:40px;border-radius:14px}
 .app.m .seg i{border-radius:12px}
-.app.m .seg button{font-weight:700;font-size:14px;color:#636369}
+.app.m .seg button{font-weight:700;font-size:14px;color:var(--sec)}
 .app.m .seg button.on{color:var(--on-sel)}
 .app.m #when{margin-top:18px}
 .app.m #when.on{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:12px}
@@ -470,7 +482,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .sub{position:relative;left:auto;top:auto;margin:0 0 14px;font-size:14px;font-weight:500;line-height:20px}
 .app.m .ta{position:relative;left:auto;top:auto;width:auto;height:130px;border-radius:16px}
 .app.m .ta textarea{font-size:15px}
-.app.m .ai{position:relative;left:auto;top:auto;width:auto;height:43px;margin-top:14px;border-radius:14px}
+.app.m .ai{position:relative;left:auto;top:auto;width:100%!important;box-sizing:border-box;height:43px;margin-top:14px;border-radius:14px}
 /* PAY: receipt 358, rows 63 apart, label 11 / value 14 */
 .app.m .ttl.pt{margin-bottom:14px}
 .app.m .stat{position:relative;left:auto;top:auto;width:auto;height:64px;max-height:0;margin:0;padding:0 15px;border-width:0;overflow:hidden;transition:max-height .5s var(--ease),margin .5s var(--ease),opacity .45s,border-width .3s}
@@ -478,17 +490,18 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .stat b{font-size:14px}.app.m .stat small{font-size:12px}
 .app.m .rc{position:relative;left:auto;top:auto;width:auto;transform:none!important}
 .app.m .rc .in{padding:22px 24px 0}
-.app.m .rc .hd{font-size:10.5px;padding-bottom:14px;border-bottom:1px dashed var(--hair-2)}
-.app.m .rr{height:auto;padding:14px 0;align-items:flex-start;border-bottom:1px dashed var(--hair-2)}
+.app.m .rc .hd{font-size:10.5px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+.app.m .rr{height:auto;padding:14px 0 13px;align-items:flex-start;border-bottom:1px solid var(--hair)}
 .app.m .rr>div{max-width:242px;min-width:0}
-.app.m .rr small{font-size:11px;font-weight:500;color:#636369;margin-bottom:1px;line-height:15px}
+.app.m .rr small{font-size:11px;font-weight:500;color:var(--sec);margin-bottom:1px;line-height:15px}
 .app.m .rr span.v{font-size:14px;font-weight:500;line-height:19px;max-width:none;white-space:normal}
 .app.m .rr button{font-size:12px;font-weight:600;align-self:center;padding-left:12px;flex:none}
 .app.m .tot{margin:0 -24px;height:95px;font-size:14px;font-weight:500}
 .app.m .tot b{font-size:26px}
 /* DONE: block centred between header and footer */
+.app.m .dn br{display:none}
 .app.m .dn{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 130px);font-size:27px;line-height:30px}
-.app.m .dn2{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 204px);font-size:15px;line-height:19px;color:#636369}
+.app.m .dn2{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 204px);font-size:15px;line-height:19px;color:var(--sec)}
 .app.m .lnk{left:0;right:0;top:auto;bottom:20px;justify-content:center;gap:10px;font-size:16px}
 .app.m .lnk svg{width:18px;height:18px}
 /* MODALS → 358-wide glass cards */
@@ -496,15 +509,18 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .md{position:relative;left:auto!important;top:auto!important;width:100%;max-width:420px;padding:0 27px 24px;border-radius:24px;flex:none}
 .app.m .md .mh,.app.m .md .mh.c{height:56px;font-size:15px;font-weight:600}
 .app.m .md .ar{width:27px;height:27px}
-.app.m .wd{height:46px;font-size:15px;font-weight:600;color:#5a5a5e}
+.app.m .wd{height:46px;font-size:15px;font-weight:600;color:var(--sec)}
 .app.m .cg{row-gap:2px}.app.m .cg button{width:44px;height:44px;font-size:15px}
-.app.m .mb{margin-top:20px;gap:12px}.app.m .mb button{height:48px}
+.app.m .mb{margin-top:20px;gap:12px}.app.m .mb button{height:44px;font-size:15px}.app.m .mb button:not(.ok){background:rgba(255,255,255,.62)}
 .app.m .wh{height:266px;margin-top:12px}
-.app.m .wh .bar{top:114px;height:38px}
+.app.m .wh .bar{top:114px;height:38px;background:var(--hair);border:1px solid color-mix(in srgb,var(--ink) 40%,transparent);border-radius:10px}
 .app.m .wc .wi{height:38px;font-size:20px;font-weight:500}
 .app.m .wc .wi.c{font-size:24px;font-weight:700}
 .app.m .sepc{top:114px;height:38px;font-size:24px}
 .app.m .toast{bottom:112px;white-space:normal;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .app.m{--mbg:radial-gradient(60% 40% at 20% 10%,rgba(122,52,66,.55),transparent 70%),radial-gradient(50% 30% at 85% 90%,rgba(70,48,127,.5),transparent 70%),#0b0608}:root:not([data-theme="light"]) .app.m .blob{filter:brightness(1.45) saturate(1.15)}}
+:root[data-theme="dark"] .app.m{--mbg:radial-gradient(60% 40% at 20% 10%,rgba(122,52,66,.55),transparent 70%),radial-gradient(50% 30% at 85% 90%,rgba(70,48,127,.5),transparent 70%),#0b0608}
+:root[data-theme="dark"] .app.m .blob{filter:brightness(1.45) saturate(1.15)}
 </style>
 </head><body>
 
@@ -604,7 +620,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 
     <!-- 6 PAY -->
     <section class="scr" data-s="pay" aria-label="Шаг 6. Оплата">
-      <h1 class="ttl r" data-a id="payT">Ну что, дарим?</h1>
+      <h1 class="ttl r pt" data-a id="payT">Ну что, дарим?</h1>
       <div class="stat" id="stat"><span class="sp2"></span><span><b>Обрабатываем платёж…</b><small>Пожалуйста, не закрывайте страницу</small></span></div>
       <div class="rc" id="rc" data-a><div class="in" id="rcIn">
         <div class="hd"><span>mooon · подарочная карта</span><span id="rcDate">30.10.2026 · 18:42</span></div>
@@ -619,7 +635,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 
     <!-- DONE -->
     <section class="scr" data-s="done" aria-label="Готово">
-      <h1 class="dn" data-a>Всё получилось.<br>Впереди — чьи-то счастливые моменты</h1>
+      <h1 class="dn" data-a>Всё получилось. <br>Впереди — чьи-то счастливые моменты</h1>
       <p class="dn2" id="dn2" data-a></p>
       <button class="lnk" id="lnk" data-a><span id="lnkT">Отправить ещё раз</span><svg id="lnkI" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 7.5A7 7 0 0 0 4 6.2M3.5 12.5A7 7 0 0 0 16 13.8M4 3v3.4h3.4M16 17v-3.4h-3.4"/></svg></button>
     </section>
@@ -772,12 +788,12 @@ const tl=items.map(()=>({rx:0,ry:0,go:0,gx:50,gy:30}));let mg={x:0,y:0};
 /* occasions strip */
 const chipsEl=$('#chips');
 const CW=[177,150,130,111,90],CH=[38,34,30,26,22],CF=[16,14,12.5,11,10],CO=[1,.8,.5,0,0];
-const CWM=[161,136,117,103,103],CHM=[38,34,30,26,26],CFM=[15,13,11.5,10.5,10.5],COM=[1,.8,.5,.26,.26];
+const CWM=[161,136,117,103,103],CHM=[38,34,30,26,26],CFM=[15,13,11.5,10.5,10.5],COM=[1,.8,.5,.26,.26],CRM=[14,13,11,10,10];
 const chipEls=OCC.map((t,i)=>{const b=document.createElement('button');b.className='chip';b.textContent=t;b.onclick=()=>{S.occ=i;occ()};chipsEl.appendChild(b);return b});
 function occ(){const n=OCC.length,cw=M?CWM:CW,ch=M?CHM:CH,cf=M?CFM:CF,co=M?COM:CO,c0=M?W/2:720,bh=38;
   chipEls.forEach((b,i)=>{let o=((i-S.occ)%n+n)%n;if(o>n/2)o-=n;const a=Math.abs(o),k=Math.min(a,4);
   let x;if(o===0)x=c0-cw[0]/2;else{let off=cw[0]/2+9;for(let j=1;j<a;j++)off+=cw[Math.min(j,4)]+9;x=o>0?c0+off:c0-off-cw[k]}
-  b.style.left=x+'px';b.style.width=cw[k]+'px';b.style.height=ch[k]+'px';b.style.top=((bh-ch[k])/2)+'px';b.style.fontSize=cf[k]+'px';b.style.opacity=co[k];b.style.pointerEvents=a>2?'none':'auto';b.classList.toggle('c',o===0);b.tabIndex=a<3?0:-1})}
+  b.style.left=x+'px';b.style.width=cw[k]+'px';b.style.height=ch[k]+'px';b.style.top=((bh-ch[k])/2)+'px';b.style.fontSize=cf[k]+'px';b.style.borderRadius=M?CRM[k]+'px':'';b.style.opacity=co[k];b.style.pointerEvents=a>2?'none':'auto';b.classList.toggle('c',o===0);b.tabIndex=a<3?0:-1})}
 
 /* ── stepper ── */
 const stp=$('#stepper');
@@ -902,11 +918,11 @@ function fixTime(){const now=new Date();if(+S.date===+today){const min=new Date(
 const MINS=[...Array(12)].map((_,i)=>i*5),HRS=[...Array(24)].map((_,i)=>i);
 function wheel(el,arr,get,set){
   const items=[];for(let k=-3;k<=3;k++){const d=document.createElement('div');d.className='wi';el.appendChild(d);items.push(d)}
-  function render(){const idx=arr.indexOf(get());items.forEach((d,j)=>{const k=j-3,v=arr[((idx+k)%arr.length+arr.length)%arr.length];d.textContent=pad(v);d.style.top=(138+k*46)+'px';d.style.opacity=k===0?1:Math.max(.15,1-Math.abs(k)*.3);d.classList.toggle('c',k===0);d.onclick=()=>{move(k)}})}
+  function render(){const idx=arr.indexOf(get());items.forEach((d,j)=>{const k=j-3,v=arr[((idx+k)%arr.length+arr.length)%arr.length];d.textContent=pad(v);d.style.top=((M?114:138)+k*(M?38:46))+'px';d.style.opacity=k===0?1:Math.max(.15,1-Math.abs(k)*.3);d.classList.toggle('c',k===0);d.onclick=()=>{move(k)}})}
   function move(k){const idx=arr.indexOf(get());set(arr[((idx+k)%arr.length+arr.length)%arr.length]);render()}
   el.addEventListener('wheel',e=>{e.preventDefault();move(e.deltaY>0?1:-1)},{passive:false});
   let y0=null;let cap=false;el.addEventListener('pointerdown',e=>{y0=e.clientY;cap=false});
-  el.addEventListener('pointermove',e=>{if(y0===null)return;const s=parseFloat(getComputedStyle(frame).getPropertyValue('--s'))||1,dy=(e.clientY-y0)/s;if(Math.abs(dy)>6&&!cap){cap=true;el.setPointerCapture(e.pointerId)}if(Math.abs(dy)>=46){move(dy>0?-1:1);y0=e.clientY}});
+  el.addEventListener('pointermove',e=>{if(y0===null)return;const s=parseFloat(getComputedStyle(frame).getPropertyValue('--s'))||1,dy=(e.clientY-y0)/s;if(Math.abs(dy)>6&&!cap){cap=true;el.setPointerCapture(e.pointerId)}if(Math.abs(dy)>=(M?38:46)){move(dy>0?-1:1);y0=e.clientY}});
   el.addEventListener('pointerup',()=>y0=null);
   return render}
 let wr1,wr2;
