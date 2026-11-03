@@ -280,9 +280,10 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 :root[data-theme="dark"] .hero .ph .hv,:root:not([data-theme="dark"]) .hero .ph .hm{display:none}
 /* герой переключается темой в шапке; второй не рендерится — зум масштабирует одну картинку, как в v4 */
 .hero .vg,.hero .dim{pointer-events:none}
-.zm{position:absolute;inset:0;transform-origin:var(--zx,50%) var(--zy,50%);transform:scale(var(--z,1));transition:transform .9s var(--spring);will-change:transform}
-.app:not(.m) .hero.hovE .zm{--z:1.07;--zx:390px;--zy:480px}
-.app:not(.m) .hero.hovP .zm{--z:1.07;--zx:1070px;--zy:480px}
+/* зум к карте = сдвиг + масштаб от 0 0: оба анимируются вместе, точка зума не прыгает при переходе с карты на карту */
+.zm{position:absolute;inset:0;transform-origin:0 0;transform:translate(0px,0px) scale(1);transition:transform .9s var(--spring);will-change:transform}
+.app:not(.m) .hero.hovE .zm{transform:translate(-27.3px,-33.6px) scale(1.07)}
+.app:not(.m) .hero.hovP .zm{transform:translate(-74.9px,-33.6px) scale(1.07)}
 .app:not(.m) .buy{display:none}
 .hero .vg{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(8,4,6,.55) 100%),linear-gradient(180deg,rgba(8,4,6,.35),transparent 22%)}
 .hero .dim{position:absolute;inset:0;background:rgba(6,3,6,.0);transition:background .6s}
