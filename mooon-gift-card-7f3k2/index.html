@@ -466,6 +466,17 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .scr[data-s="time"]{inset:206px 0 102px 0}
 .app.m .scr[data-s="wish"]{inset:202px 0 102px 0}
 .app.m .scr[data-s="pay"]{inset:116px 0 102px 0}
+/* короткий экран (<720 по высоте артборда): всё важное — над кнопкой без скролла */
+.app.m.short .badge{left:84px;top:119px;min-width:84px;height:34px;font-size:16px;border-radius:11px}
+.app.m.short .scr{--g:13px}
+.app.m.short .scr[data-s="recipient"],.app.m.short .scr[data-s="time"]{inset:176px 0 102px 0}
+.app.m.short .scr[data-s="recipient"]:has(.more.on){top:172px}
+.app.m.short .scr[data-s="wish"]{inset:174px 0 102px 0}
+.app.m.short .scr[data-s="pay"]{inset:100px 0 102px 0}
+.app.m.short .rc .in{padding-top:16px}
+.app.m.short .rc .hd{padding-bottom:10px}
+.app.m.short .rr{padding:9px 0 8px}
+.app.m.short .tot{height:72px}
 .app.m .lab{position:relative;left:auto!important;top:auto!important;display:block;height:24px;line-height:24px;margin:var(--g) 0 4px;font-size:14px;font-weight:500;color:var(--sec);white-space:normal}
 .app.m #fPhone{margin-top:0}
 .app.m .ttl.r+.lab{margin-top:0}
@@ -704,7 +715,7 @@ function fit(){
   if(m){const sc=Math.min(iw/390,ih/640);W=iw/sc;H=ih/sc;K=Math.max(.72,Math.min(1.15,(H-210)/634));KD=Math.max(K,Math.min(1,(H-448)/250));
     frame.style.setProperty('--s',sc);frame.style.setProperty('--W',W+'px');frame.style.setProperty('--H',H+'px');frame.style.setProperty('--dy',((H+36)/2-130)+'px')}
   else{W=1440;H=900;K=1;KD=1;frame.style.setProperty('--s',Math.min(iw/1440,ih/900))}
-  const ch=m!==M;M=m;app.classList.toggle('m',m);
+  const ch=m!==M;M=m;app.classList.toggle('m',m);app.classList.toggle('short',m&&H<720); // короткий экран (Safari с панелями): уплотняем «Получателя», «Время», «Пожелания», «Итог»
   if(ch||m)refreshMode()}
 addEventListener('resize',fit);
 function placeStatic(){const aP=$('#aP'),aN=$('#aN');
@@ -749,8 +760,9 @@ function target(i,sc){const r=rel(i),a=Math.abs(r);
     if(sc==='design'){const cy=dCY();if(a===0)return {cx,cy,d:250*KD,op:1};if(a===1)return {cx:cx+r*200*KD,cy,d:140*KD,op:1};return {cx:cx+Math.sign(r)*330*KD,cy,d:105*KD,op:0}} // пропорции Figma 01а моб: 250 / 140 / ±200 // сдвиг масштабируется вместе с дисками — пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
     if(sc==='nominal'){const cy=vy(282);if(a===0)return {cx,cy,d:190*K,op:1};return {cx:cx+Math.sign(r)*200,cy,d:140*K,op:0}}
     if(sc==='done')return {cx,cy:(H+36)/2-130+58,d:116,op:a===0?1:0};
-    if(sc==='pay')return {cx:52,cy:150,d:72,op:0};
-    return {cx:52,cy:150,d:72,op:a===0?1:0}}
+    const SH=app.classList.contains('short'),bx=SH?44:52,by=SH?136:150,bd=SH?56:72;
+    if(sc==='pay')return {cx:bx,cy:by,d:bd,op:0};
+    return {cx:bx,cy:by,d:bd,op:a===0?1:0}}
   if(sc==='home')return {cx:720,cy:470,d:300,op:0};
   if(sc==='design'){if(a===0)return {cx:720,cy:470,d:380,op:1};if(a===1)return {cx:720+r*375,cy:470,d:150,op:1};return {cx:720+Math.sign(r)*515,cy:470,d:105,op:1}}
   if(sc==='nominal'){if(a===0)return {cx:720,cy:470,d:380,op:1};return {cx:720+Math.sign(r)*(a===1?375:515),cy:470,d:a===1?150:105,op:0}}
@@ -965,7 +977,7 @@ $$('[data-e]').forEach(b=>b.onclick=()=>{if(S.busy)return;S.returnTo='pay';go(b.
 
 /* ── next ── */
 function ready(){switch(S.screen){case'nominal':return VALUES[S.val]!=='свой'||customOk();case'recipient':return recOk();case'time':return futureOk();default:return true}}
-function nextLabel(){return S.screen==='pay'?'Оплатить':(S.screen==='wish'||S.returnTo)?'К оплате':'Далее'}
+function nextLabel(){return S.screen==='pay'?(M?`Оплатить ${money()} BYN`:'Оплатить'):(S.screen==='wish'||S.returnTo)?'К оплате':'Далее'}
 function upd(){
   const i=FLOW.indexOf(S.screen);next.classList.toggle('hide',i<0);if(i<0)return;
   const l=nextLabel();if(nextT.textContent!==l){next.classList.add('sw');setTimeout(()=>{nextT.textContent=l;next.classList.remove('sw')},160)}
