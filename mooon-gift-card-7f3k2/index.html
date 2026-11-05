@@ -373,12 +373,16 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .back svg{width:14px;height:14px}
 .app.m .htl{display:block;position:absolute;left:60px;right:60px;top:19px;height:22px;text-align:center;font-size:16px;line-height:22px;font-weight:600;pointer-events:none;transition:opacity .4s}
 .app.m[data-s="home"] .back,.app.m[data-s="home"] .htl,.app.m[data-s="done"] .back{opacity:0;pointer-events:none}
-.app.m .stepper{left:0;right:0;top:54px;height:36px;gap:0;justify-content:stretch;align-items:stretch}
-.app.m .stepper::before{content:'';position:absolute;left:0;right:0;top:34px;height:1px;background:var(--ink);opacity:.12}
-.app.m .stepper::after{content:'';position:absolute;left:0;top:33px;height:3px;width:calc(var(--p,1)*100%/6);background:var(--sel);transition:width .6s var(--ease)}
-.app.m .sp{flex:1;min-width:0;height:100%;border:0;border-radius:0;background:none;font-size:15px;font-weight:500;color:var(--ink);padding:0 0 3px;display:grid;place-items:center}
+/* mobile stepper v2 (05.11): «Шаг · 1/6» в шапке + сегментный прогресс; пройденные сегменты кликабельны, зона нажатия 44px */
+.app.m .stepper{left:0;right:0;top:40px;height:44px;gap:4px;padding:0 16px;justify-content:stretch;align-items:stretch}
+.app.m .stepper::before,.app.m .stepper::after{content:none}
+.app.m .sp{flex:1;min-width:0;height:100%;border:0;border-radius:0;background:none;font-size:0;padding:0;display:block;position:relative}
+.app.m .sp .n{display:none}
+.app.m .sp::before{content:'';position:absolute;left:0;right:0;top:20px;height:3px;border-radius:2px;background:var(--ink);opacity:.14;transition:background .5s var(--ease),opacity .5s}
+.app.m .sp.done::before,.app.m .sp.on::before{background:var(--sel);opacity:1}
+.app.m .sp:not(.done):not(.on){opacity:1}
 .app.m .sp .lb{display:none!important}
-.app.m .sp:not(.done):not(.on){opacity:.3}
+.app.m .sp.on{background:none;padding:0}
 .app.m .sp.done,.app.m .sp.done:hover{background:none}
 .app.m .sp.on{background:none;color:var(--ink);font-weight:700;padding:0 0 3px}
 /* home: burger ↔ close, full-screen menu */
@@ -807,7 +811,7 @@ function occ(){const n=OCC.length,cw=M?CWM:CW,ch=M?CHM:CH,cf=M?CFM:CF,co=M?COM:C
 /* ── stepper ── */
 const stp=$('#stepper');
 FLOW.forEach((f,i)=>{const b=document.createElement('button');b.className='sp';b.innerHTML=`<span class="n">${i+1}</span><span class="lb">${TITLES[i]}</span>`;b.onclick=()=>{if(b.classList.contains('done')&&!S.busy)go(f)};stp.appendChild(b)});
-function updStep(){const i=FLOW.indexOf(S.screen);[...stp.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?TITLES[i]:(S.screen==='done'?'Готово':'')}
+function updStep(){const i=FLOW.indexOf(S.screen);[...stp.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} · ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'')}
 
 /* ── home hero: cursor-reactive cards ── */
 function start(){resetState();go('design')}
