@@ -744,7 +744,7 @@ function place(el,cx,cy,d,op){el.style.transform=`translate(${cx-d/2}px,${cy-d/2
 function target(i,sc){const r=rel(i),a=Math.abs(r);
   if(M){const cx=W/2;
     if(sc==='home')return {cx,cy:300,d:200,op:0};
-    if(sc==='design'){const cy=vy(333);if(a===0)return {cx,cy,d:250*K,op:1};if(a===1)return {cx:cx+r*200,cy,d:140*K,op:1};return {cx:cx+Math.sign(r)*330,cy,d:105*K,op:0}}
+    if(sc==='design'){const cy=vy(333);if(a===0)return {cx,cy,d:250*K,op:1};if(a===1)return {cx:cx+r*200*K,cy,d:140*K,op:1};return {cx:cx+Math.sign(r)*330*K,cy,d:105*K,op:0}} // сдвиг масштабируется вместе с дисками — пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
     if(sc==='nominal'){const cy=vy(282);if(a===0)return {cx,cy,d:190*K,op:1};return {cx:cx+Math.sign(r)*200,cy,d:140*K,op:0}}
     if(sc==='done')return {cx,cy:(H+36)/2-130+58,d:116,op:a===0?1:0};
     if(sc==='pay')return {cx:52,cy:150,d:72,op:0};
