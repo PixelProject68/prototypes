@@ -998,7 +998,7 @@ $$('[data-e]').forEach(b=>b.onclick=()=>{if(S.busy)return;S.returnTo='pay';go(b.
 
 /* ── next ── */
 function ready(){switch(S.screen){case'nominal':return VALUES[S.val]!=='свой'||customOk();case'recipient':return recOk();case'time':return futureOk();default:return true}}
-function nextLabel(){return S.screen==='pay'?'Оплатить':(S.screen==='wish'||S.returnTo)?'К оплате':'Далее'}
+function nextLabel(){return S.screen==='pay'?(M?`Оплатить ${money()} BYN`:'Оплатить'):(S.screen==='wish'||S.returnTo)?'К оплате':'Далее'}
 function upd(){
   const i=FLOW.indexOf(S.screen);next.classList.toggle('hide',i<0);if(i<0)return;
   const l=nextLabel();if(nextT.textContent!==l){next.classList.add('sw');setTimeout(()=>{nextT.textContent=l;next.classList.remove('sw')},160)}
