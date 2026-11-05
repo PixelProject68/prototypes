@@ -693,20 +693,22 @@ const pad=n=>String(n).padStart(2,'0');
 const S={screen:'home',design:2,val:2,custom:120,occ:3,phone:'+375 29 314-52-08',from:'',surprise:false,pdf:false,email:USER_EMAIL,consent:false,when:0,date:null,hh:18,mm:30,wish:'',returnTo:null,busy:false,resent:false,sentNow:false};
 
 /* fit artboard */
-const MQ=matchMedia('(max-width:820px)');let M=null,W=1440,H=900,K=1,lastIW=0;
+const MQ=matchMedia('(max-width:820px)');let M=null,W=1440,H=900,K=1,KD=1,lastIW=0;
+// KD — масштаб карусели «Дизайн» на мобилке: максимум, что влезает между заголовком и кнопкой (Figma 01а моб = 1)
+const dCY=()=>208+125*KD,dDots=()=>dCY()+125*KD+39,dChips=()=>dDots()+59;
 const vy=y=>100+(y-100)*K;
 function fit(){
   const iw=innerWidth,ih=innerHeight,m=MQ.matches,ae=document.activeElement;
   if(m&&M&&iw===lastIW&&ae&&ae.matches&&ae.matches('input,textarea'))return; // soft keyboard: keep layout
   lastIW=iw;
-  if(m){const sc=Math.min(iw/390,ih/640);W=iw/sc;H=ih/sc;K=Math.max(.72,Math.min(1.15,(H-210)/634));
+  if(m){const sc=Math.min(iw/390,ih/640);W=iw/sc;H=ih/sc;K=Math.max(.72,Math.min(1.15,(H-210)/634));KD=Math.max(K,Math.min(1,(H-448)/250));
     frame.style.setProperty('--s',sc);frame.style.setProperty('--W',W+'px');frame.style.setProperty('--H',H+'px');frame.style.setProperty('--dy',((H+36)/2-130)+'px')}
-  else{W=1440;H=900;K=1;frame.style.setProperty('--s',Math.min(iw/1440,ih/900))}
+  else{W=1440;H=900;K=1;KD=1;frame.style.setProperty('--s',Math.min(iw/1440,ih/900))}
   const ch=m!==M;M=m;app.classList.toggle('m',m);
   if(ch||m)refreshMode()}
 addEventListener('resize',fit);
 function placeStatic(){const aP=$('#aP'),aN=$('#aN');
-  if(M){const cy=vy(333),R=125*K;aP.style.left=(W/2-R-21)+'px';aN.style.left=(W/2+R-21)+'px';aP.style.top=aN.style.top=(cy-21)+'px';$('#dots').style.top=vy(497)+'px';$('#chips').style.top=(vy(575)-19)+'px'}
+  if(M){const cy=dCY(),R=125*KD;aP.style.left=(W/2-R-21)+'px';aN.style.left=(W/2+R-21)+'px';aP.style.top=aN.style.top=(cy-21)+'px';$('#dots').style.top=dDots()+'px';$('#chips').style.top=dChips()+'px'}
   else{aP.style.left='504px';aN.style.left='884px';aP.style.top=aN.style.top='';$('#dots').style.top='';$('#chips').style.top=''}}
 function syncBadge(){$('#badge').classList.toggle('hid',!((M?['recipient','time','wish']:['recipient','time','wish','pay','done']).includes(S.screen)))}
 function refreshMode(){placeStatic();layoutDial();syncBadge();occ();layout();syncNominal(true);updStep()}
@@ -744,7 +746,7 @@ function place(el,cx,cy,d,op){el.style.transform=`translate(${cx-d/2}px,${cy-d/2
 function target(i,sc){const r=rel(i),a=Math.abs(r);
   if(M){const cx=W/2;
     if(sc==='home')return {cx,cy:300,d:200,op:0};
-    if(sc==='design'){const cy=vy(333);if(a===0)return {cx,cy,d:250*K,op:1};if(a===1)return {cx:cx+r*200*K,cy,d:140*K,op:1};return {cx:cx+Math.sign(r)*330*K,cy,d:105*K,op:0}} // сдвиг масштабируется вместе с дисками — пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
+    if(sc==='design'){const cy=dCY();if(a===0)return {cx,cy,d:250*KD,op:1};if(a===1)return {cx:cx+r*200*KD,cy,d:140*KD,op:1};return {cx:cx+Math.sign(r)*330*KD,cy,d:105*KD,op:0}} // пропорции Figma 01а моб: 250 / 140 / ±200 // сдвиг масштабируется вместе с дисками — пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
     if(sc==='nominal'){const cy=vy(282);if(a===0)return {cx,cy,d:190*K,op:1};return {cx:cx+Math.sign(r)*200,cy,d:140*K,op:0}}
     if(sc==='done')return {cx,cy:(H+36)/2-130+58,d:116,op:a===0?1:0};
     if(sc==='pay')return {cx:52,cy:150,d:72,op:0};
@@ -857,7 +859,7 @@ function syncNominal(instant){
   dvs.forEach((b,i)=>b.classList.toggle('on',i===S.val));dks.forEach((k,i)=>k.classList.toggle('on',i===S.val));
   $('#cust').classList.toggle('on',isC);
   if(M){rotEl.style.transform=`rotate(${-S.val*TH}deg)`;dvs.forEach((b,i)=>{const d=Math.abs(i-S.val);b.style.opacity=d>2?0:(d===0?1:.54)});dks.forEach((k,i)=>{k.style.opacity=Math.abs(i-S.val)>3?0:''});
-    const bt=vy(422);$('#big').style.top=bt+'px';$('#cust').style.top=vy(515)+'px';const dt=vy(587)+(isC?21*K:0);dial.style.top=dt+'px';$('#dhit').style.top=(dt-8)+'px'}
+    const bt=vy(422);$('#big').style.top=bt+'px';$('#cust').style.top=(bt+93)+'px'; /* линия и подсказка — от низа цифр, а не от масштаба экрана */const dt=vy(587)+(isC?21*K:0);dial.style.top=dt+'px';$('#dhit').style.top=(dt-8)+'px'}
   else{rotEl.style.transform='';$('#big').style.top=(isC?388:410)+'px';$('#cust').style.top='';dial.style.top=''}
   bigN.hidden=isC;bigIn.hidden=!isC;
   if(isC){bigIn.value=S.custom||'';fitBig();const bad=!customOk()&&S.custom!=='';$('#cust').classList.toggle('bad',bad);$('#cust .hint').textContent='Любая сумма от 50 BYN'}
