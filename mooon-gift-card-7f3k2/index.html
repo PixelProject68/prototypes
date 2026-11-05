@@ -783,9 +783,23 @@ function layout(intro){
     put(el,t);el.style.opacity=t.op})}
 function rot(d){S.design=((S.design+d)%N+N)%N;layout();dots();updBadge()}
 $('#aP').onclick=()=>rot(-1);$('#aN').onclick=()=>rot(1);
-{const ce=$('#chips');let cx0=null,moved=false;ce.addEventListener('pointerdown',e=>{cx0=e.clientX;moved=false});
-ce.addEventListener('pointermove',e=>{if(cx0===null)return;const d=e.clientX-cx0;if(Math.abs(d)>=36){moved=true;S.occ=(S.occ+(d<0?1:-1)+OCC.length)%OCC.length;occ();cx0=e.clientX}});
-ce.addEventListener('pointerup',()=>{cx0=null});ce.addEventListener('pointercancel',()=>{cx0=null});
+{/* поводы: лента едет за пальцем, после отпускания — пружиной к ближайшему поводу (05.11) */
+const ce=$('#chips');let cx0=null,moved=false,dx=0,step=150,occ0=0,pid=null;
+const sc_=()=>parseFloat(frame.style.getPropertyValue('--s'))||1;
+const NOLEFT='width .5s var(--spring),height .5s var(--spring),opacity .4s,font-size .4s,background .4s,box-shadow .4s,top .5s var(--spring)';
+ce.addEventListener('pointerdown',e=>{cx0=e.clientX;moved=false;dx=0;occ0=S.occ;pid=e.pointerId;
+  const c=chipEls.find(b=>b.classList.contains('c')),nx=chipEls[(S.occ+1)%OCC.length];
+  if(c&&nx){const a=parseFloat(c.style.left)+parseFloat(c.style.width)/2,b=parseFloat(nx.style.left)+parseFloat(nx.style.width)/2;step=Math.max(60,Math.abs(b-a))}
+  ce.style.transition='none'});
+ce.addEventListener('pointermove',e=>{if(cx0===null)return;dx=(e.clientX-cx0)/sc_();
+  if(!moved&&Math.abs(dx)>6){moved=true;try{ce.setPointerCapture(pid)}catch(_){}}
+  if(moved)ce.style.transform=`translateX(${dx}px)`});
+const release=()=>{if(cx0===null)return;cx0=null;if(!moved){ce.style.transform='';return}
+  const k=Math.max(-3,Math.min(3,Math.round(-dx/step)));
+  if(k){chipEls.forEach(b=>b.style.transition=NOLEFT);S.occ=((occ0+k)%OCC.length+OCC.length)%OCC.length;occ();
+    ce.style.transform=`translateX(${dx+k*step}px)`;void ce.offsetWidth;setTimeout(()=>chipEls.forEach(b=>b.style.transition=''),560)}
+  ce.style.transition='transform .55s var(--spring)';ce.style.transform='translateX(0)'};
+ce.addEventListener('pointerup',release);ce.addEventListener('pointercancel',release);
 ce.addEventListener('click',e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true)}
 let sx=null;$('#frame').addEventListener('pointerdown',e=>{if(S.screen==='design'&&!e.target.closest('button'))sx=e.clientX});
 addEventListener('pointerup',e=>{if(sx!==null&&S.screen==='design'){const dx=e.clientX-sx;if(Math.abs(dx)>50)rot(dx<0?1:-1)}sx=null});
