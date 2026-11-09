@@ -805,6 +805,51 @@ body.demo #demo{display:block}
 .rc .rr:has(+.tot){border-bottom:0}
 .rc .rr{border-bottom:1px solid var(--hair)}
 .rc .rr:has(+.tot){border-bottom:0}
+
+/* ── вход и регистрация (10а–10д) ── */
+#gmA{width:480px;padding:32px 33px 33px;background:var(--modal);border:1px solid var(--glass-line);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);color:var(--ink)}
+#gmA .x{position:absolute;right:30px;top:32px;width:24px;height:24px;display:grid;place-items:center;transition:transform .3s var(--spring);z-index:2}
+#gmA .x:hover{transform:rotate(90deg)}#gmA .x svg{width:16px;height:16px}
+.atabs{display:flex;gap:28px;height:44px;margin-bottom:14px}
+.atabs button{font-size:24px;letter-spacing:-.02em;color:var(--sec);position:relative;height:36px;transition:color .3s}
+.atabs button.on{color:var(--ink)}
+.atabs button::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--spring)}
+.atabs button.on::after{transform:scaleX(1)}
+.atabs.hid{display:none}
+.ap{display:none}.ap.on{display:block;animation:swIn .45s var(--out)}
+.ah{font-size:14px;line-height:20px;color:var(--sec);margin:0 0 10px}.ah b{color:var(--ink);font-weight:500}
+.al{display:block;font-size:14px;color:var(--sec);margin:12px 0 6px}
+.af{display:block;width:100%;height:44px;border-radius:12px;background:var(--field);border:1px solid var(--field-line);padding:0 16px;font-size:14px;transition:border-color .25s,box-shadow .25s}
+.af:focus{border-color:var(--field-focus);box-shadow:0 0 0 3px rgba(70,48,127,.13)}
+.af.bad{border-color:var(--danger)}
+.af.code{text-align:center;letter-spacing:.6em;font-size:18px;padding-left:.6em}
+.afw{position:relative}.afw .af{padding-right:46px}
+.eye{position:absolute;right:8px;top:8px;width:28px;height:28px;display:grid;place-items:center}
+.eye svg{width:18px;height:18px}.eye .sl{stroke-dasharray:22;stroke-dashoffset:0;transition:stroke-dashoffset .35s var(--out)}
+.eye.on .sl{stroke-dashoffset:22}
+.arow{display:flex;justify-content:space-between;align-items:center;margin:14px 0 14px;font-size:13px}
+.ac{display:flex;align-items:flex-start;gap:12px;text-align:left;font-size:14px;line-height:18px;color:var(--sec);margin:12px 0 0;width:100%}
+.arow .ac{margin:0;width:auto;align-items:center}
+.ac u{color:var(--ink);text-decoration:none}
+.ac .cb{margin-top:-1px;flex:none}
+.alk{color:var(--ink);font-size:13px;text-decoration:none}.alk:hover{text-decoration:underline}
+.ab{display:grid;place-items:center;width:100%;height:52px;border-radius:26px;margin-top:16px;font-size:16px;font-weight:500;letter-spacing:-.01em;background:var(--glass);border:1px solid var(--glass-line);color:var(--ink);transition:background .3s,color .3s,transform .35s var(--spring),box-shadow .3s}
+.ab.on,.ab.caps{background:var(--violet);color:var(--on-violet);border-color:transparent;box-shadow:0 14px 28px -14px rgba(68,45,124,.8)}
+.ab.caps{text-transform:uppercase;font-size:14px;font-weight:600;letter-spacing:.06em}
+.ab:active{transform:scale(.98)}
+.ab.ghost{background:transparent;border:1px solid var(--hair-2);color:var(--ink);box-shadow:none;height:46px}
+.ab.shake{animation:shake .4s}
+.an{font-size:12.5px;line-height:19px;color:var(--sec);text-align:center;margin:14px 0 0}
+.mailp{text-align:center}
+.mailp .ck2{width:64px;height:64px;border-radius:50%;background:#0c0c0e;color:#fff;display:grid;place-items:center;margin:14px auto 14px}
+.mailp .ck2 svg{width:26px;height:26px}
+.mailp h3{font-size:24px}.mailp .an{margin-top:10px}
+.mailp .ab{margin-top:18px}
+#toProf.saved{background:var(--glass);color:var(--ink);box-shadow:none;pointer-events:none}
+.rlink{position:absolute;left:692px;top:610px;font-size:14px;color:var(--sec);display:flex;gap:8px;align-items:center;transition:color .2s}
+.rlink:hover{color:var(--ink)}.rlink svg{width:16px;height:16px;transition:transform .4s var(--spring)}.rlink:hover svg{transform:translateX(4px)}
+.app.m #gmA{position:absolute;left:12px;right:12px;bottom:12px;width:auto;padding:24px 20px 24px;border-radius:32px}
+.app.m .rlink{left:0;right:0;bottom:72px;top:auto;justify-content:center}
 </style>
 </head><body>
 
@@ -937,6 +982,7 @@ body.demo #demo{display:block}
       <button class="lnk" id="lnk" data-a><span id="lnkT">Отправить ещё раз</span><svg id="lnkI" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 7.5A7 7 0 0 0 4 6.2M3.5 12.5A7 7 0 0 0 16 13.8M4 3v3.4h3.4M16 17v-3.4h-3.4"/></svg></button>
       <div class="lbox" id="lbox" hidden data-a><span id="lnkV">mooon.by/g/kx4-92lp</span><button id="cpL" aria-label="Скопировать ссылку"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.8V3.5a1.5 1.5 0 0 0-1.5-1.5H3.8A1.8 1.8 0 0 0 2 3.8V9a1.5 1.5 0 0 0 1.5 1.5H4"/></svg></button></div>
       <button class="pill dl" id="dl" hidden data-a><svg class="dli" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5M3.5 15.5h13"/></svg><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.8 3.8L16 6.5"/></svg><span id="dlT">Скачать карту</span></button>
+      <button class="rlink" id="toRcpt" data-a>Посмотреть, как получит подарок<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
     </section>
 
     
@@ -1007,6 +1053,43 @@ body.demo #demo{display:block}
         <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3>Файл загружен</h3><p>mooon-gift-card.pdf · 142 КБ</p>
         <button class="pillc" id="openF">Открыть</button>
+      </div>
+
+      <div class="gm" id="gmA" role="dialog" aria-label="Вход и регистрация">
+        <button class="x" data-close aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg></button>
+        <div class="atabs" id="aTabs"><button class="on" data-t="login">Вход</button><button data-t="reg">Регистрация</button></div>
+        <div class="ap on" data-p="login">
+          <p class="ah">Для входа используйте свой <b>email и пароль сайта mooon.by</b></p>
+          <label class="al" for="aId">email или номер телефона</label><input class="af" id="aId" placeholder="name@email.by" autocomplete="off">
+          <label class="al" for="aPw">пароль</label><div class="afw"><input class="af" id="aPw" type="password" placeholder="••••••••" autocomplete="off"><button class="eye" id="aEye" aria-label="Показать пароль"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10s3-5.5 8-5.5S18 10 18 10s-3 5.5-8 5.5S2 10 2 10z"/><circle cx="10" cy="10" r="2.4"/><path class="sl" d="M3 3l14 14"/></svg></button></div>
+          <div class="arow"><button class="ac on" id="aRm" role="checkbox" aria-checked="true"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span>Запомнить меня</button><button class="alk" id="aForgot">Забыли пароль?</button></div>
+          <button class="ab caps" id="aGo1">Войти</button>
+        </div>
+        <div class="ap" data-p="reg1">
+          <label class="al" for="aPh">номер телефона</label><input class="af" id="aPh" type="tel" inputmode="tel" placeholder="+375 __ ___ - ___" autocomplete="off">
+          <button class="ac" data-c="0" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я ознакомлен(а) и согласен(а) <u>с политикой обработки персональных данных.</u></span></button>
+          <button class="ac" data-c="1" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я ознакомлен(а) и согласен(а) <u>с правилами программы лояльности.</u></span></button>
+          <button class="ac" data-c="2" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я согласен(а) на получение рекламно-информационных материалов по электронной почте.</span></button>
+          <button class="ab" id="aGo2">получить код по SMS</button>
+        </div>
+        <div class="ap" data-p="reg2">
+          <label class="al" for="aCode">введите код из SMS</label><input class="af code" id="aCode" inputmode="numeric" maxlength="4" placeholder="____" autocomplete="one-time-code">
+          <button class="ab on" id="aGo3">далее</button>
+          <p class="an" id="aTimer">Отправить код повторно или изменить номер телефона можно будет через 87 сек</p>
+        </div>
+        <div class="ap" data-p="reg3">
+          <label class="al" for="aName">имя</label><input class="af" id="aName" placeholder="как вас зовут" autocomplete="off">
+          <label class="al" for="aMail">email</label><input class="af" id="aMail" type="email" placeholder="name@email.by" autocomplete="off">
+          <button class="ab on" id="aGo4">зарегистрироваться</button>
+          <p class="an">Подтвердите email: отправим письмо со ссылкой для активации.</p>
+        </div>
+        <div class="ap mailp" data-p="reg4">
+          <div class="ck2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M15.4 12v1.6a2.2 2.2 0 0 0 4.4 0V12a7.8 7.8 0 1 0-3 6.1"/></svg></div>
+          <h3>Проверьте почту</h3>
+          <p class="an" id="aSent">Отправили письмо на name@email.by. Перейдите по ссылке из письма, чтобы активировать профиль, и подарок появится в нём.</p>
+          <button class="ab ghost" id="aChg">изменить email</button>
+          <p class="an">Письмо не пришло? <button class="alk" id="aAgain">Отправить ещё раз</button></p>
+        </div>
       </div>
     </div></div>
 
@@ -1522,7 +1605,6 @@ $('#openGift').onclick=()=>{sfx('ok');go(S.wish.trim()?'msg':'card')};
 $('#smile').onclick=()=>go('card');
 $('#cp').onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText('0101 0101 1100 1010')}catch(_){}
   const b=$('#cp');b.classList.add('ok');b.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-6.5"/></svg>';sfx('ok');setTimeout(()=>{b.classList.remove('ok');b.innerHTML=ICON_COPY},1800)};
-$('#toProf').onclick=()=>toast('Вход и регистрация – отдельный флоу');
 
 /* модалки */
 const ov2=$('#ov2');
@@ -1567,6 +1649,34 @@ addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))retu
 if(Q.has('demo'))document.body.classList.add('demo');
 resetPost();syncDemo();
 if(Q.has('recipient'))setTimeout(()=>$('#dGo').click(),400);
+
+/* ── вход и регистрация ── */
+const AU={pane:'login',cons:[false,false,false],t:87,iv:0};
+const $ap=n=>$(`#gmA .ap[data-p="${n}"]`);
+function aShow(n){AU.pane=n;$$('#gmA .ap').forEach(e=>e.classList.toggle('on',e.dataset.p===n));
+  $('#aTabs').classList.toggle('hid',n==='reg4');$$('#aTabs button').forEach(b=>b.classList.toggle('on',(b.dataset.t==='login')===(n==='login')));
+  clearInterval(AU.iv);if(n==='reg2'){AU.t=87;aTick();AU.iv=setInterval(()=>{AU.t=Math.max(0,AU.t-1);aTick()},1000)}aSync()}
+function aTick(){$('#aTimer').textContent=AU.t>0?`Отправить код повторно или изменить номер телефона можно будет через ${AU.t} сек`:'Отправить код повторно или изменить номер телефона можно'}
+function aSync(){
+  $('#aGo2').classList.toggle('on',phoneOkS($('#aPh').value)&&AU.cons[0]&&AU.cons[1]);
+  $$('#gmA .ac[data-c]').forEach(b=>{const i=+b.dataset.c;b.classList.toggle('on',AU.cons[i]);b.setAttribute('aria-checked',AU.cons[i])})}
+$$('#aTabs button').forEach(b=>b.onclick=()=>aShow(b.dataset.t==='login'?'login':'reg1'));
+$('#aPh').addEventListener('input',e=>{e.target.value=fmtPhone(e.target.value);aSync()});
+$$('#gmA .ac[data-c]').forEach(b=>b.onclick=()=>{const i=+b.dataset.c;AU.cons[i]=!AU.cons[i];aSync()});
+$('#aRm').onclick=()=>{const b=$('#aRm');b.classList.toggle('on');b.setAttribute('aria-checked',b.classList.contains('on'))};
+$('#aEye').onclick=()=>{const b=$('#aEye'),i=$('#aPw'),on=i.type==='password';i.type=on?'text':'password';b.classList.toggle('on',on)};
+const shk=el=>{el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')};
+$('#aGo1').onclick=()=>{const id=$('#aId'),pw=$('#aPw');let ok=true;[id,pw].forEach(e=>{const bad=e.value.trim().length<3;e.classList.toggle('bad',bad);if(bad)ok=false});
+  if(!ok)return shk($('#aGo1'));sfx('ok');closeM2();const b=$('#toProf');b.classList.add('saved');b.textContent='Карта в профиле'};
+$('#aGo2').onclick=()=>{if(!$('#aGo2').classList.contains('on'))return shk($('#aGo2'));aShow('reg2');setTimeout(()=>$('#aCode').focus(),200)};
+$('#aCode').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);e.target.classList.remove('bad')});
+$('#aGo3').onclick=()=>{if($('#aCode').value.length<4){$('#aCode').classList.add('bad');return shk($('#aGo3'))}aShow('reg3')};
+$('#aGo4').onclick=()=>{const n=$('#aName'),m=$('#aMail');const bn=!n.value.trim(),bm=!mailOk(m.value.trim());n.classList.toggle('bad',bn);m.classList.toggle('bad',bm);
+  if(bn||bm)return shk($('#aGo4'));$('#aSent').textContent=`Отправили письмо на ${m.value.trim()}. Перейдите по ссылке из письма, чтобы активировать профиль, и подарок появится в нём.`;aShow('reg4')};
+$('#aChg').onclick=()=>aShow('reg3');
+$('#aAgain').onclick=()=>toast('Письмо отправлено ещё раз');
+$('#toProf').onclick=()=>{aShow('login');openM2('gmA')};
+$('#toRcpt').onclick=()=>{if(!S.from.trim()&&!S.surprise)S.from='Денис';go('open')};
 
 /* boot */
 $('#phone').value=S.phone;syncRecipient();syncTime();dots();fit();layout(true);updBadge();
