@@ -367,7 +367,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important;transition-delay:0s!important}}
 
 /* ───────── MOBILE (≤820px): 390-wide layout, sized from Figma «new» (моб) ───────── */
-.back,.htl,.burger,.mmenu,.dhit,.buy .bm,.mfoot{display:none}
+.back,.htl,.burger,.mmenu,.dhit,.buy .bm{display:none}
 .dial .rot{position:absolute;inset:0}
 .app.m .frame{left:0;top:0;width:var(--W);height:var(--H);transform:scale(var(--s,1));transform-origin:0 0}
 .app.m[data-s="design"] .frame,.app.m[data-s="pdesign"] .frame{touch-action:none}
@@ -430,10 +430,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .scr[data-s="recipient"] .sub{line-height:24px;margin:0 0 4px}
 .app.m .ttl.c{position:absolute;left:16px!important;right:16px;top:97px!important;margin:0;text-align:center}
 /* footer + Next: 350×68 r14 at 20/756 */
-.app.m .mfoot{display:block;position:absolute;left:0;right:0;bottom:0;height:102px;z-index:14;pointer-events:none;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);-webkit-mask-image:linear-gradient(180deg,transparent,#000 45%);mask-image:linear-gradient(180deg,transparent,#000 45%);opacity:0;transition:opacity .4s}
-.app.m:not([data-s="home"]):not([data-s="done"]) .mfoot{opacity:1}
 /* 05.11: размытая подложка над кнопкой давала в Safari полосу смены цвета; контент до кнопки не доходит – убрана */
-.app.m .mfoot{display:none}
 .app.m .next{left:28px;right:28px;top:auto;bottom:20px;width:auto;height:52px;border-radius:26px;font-size:18px}
 .app.m .next:hover{transform:none}
 .app.m .next.hide{transform:translateY(12px)}
@@ -481,19 +478,19 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .scr[data-s="recipient"],.app.m .scr[data-s="time"],.app.m .scr[data-s="wish"],.app.m .scr[data-s="pay"]{overflow-y:auto;overflow-x:hidden;padding:0 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
 .app.m .scr::-webkit-scrollbar{display:none}
 /* 05.11: отступ от шапки до контента меньше на всех мобильных шагах (−18…−36) */
-.app.m .scr[data-s="recipient"]{inset:172px 0 86px 0}
+.app.m .scr[data-s="recipient"]{inset:172px 0 0 0}
 .app.m .scr[data-s="recipient"]:has(.more.on){top:166px}
-.app.m .scr[data-s="time"]{inset:172px 0 86px 0}
-.app.m .scr[data-s="wish"]{inset:168px 0 86px 0}
-.app.m .scr[data-s="pay"]{inset:82px 0 86px 0}
+.app.m .scr[data-s="time"]{inset:172px 0 0 0}
+.app.m .scr[data-s="wish"]{inset:168px 0 0 0}
+.app.m .scr[data-s="pay"]{inset:82px 0 0 0}
 /* короткий экран (<720 по высоте артборда): всё важное – над кнопкой без скролла */
 .app.m.short .badge{left:84px;top:97px;min-width:84px;height:34px;font-size:16px;border-radius:11px}
 .app.m.short .scr{--g:16px}
 /* отступ от шапки до контента – вдвое меньше, освободившееся место отдано самому контенту */
-.app.m.short .scr[data-s="recipient"],.app.m.short .scr[data-s="time"]{inset:154px 0 86px 0}
+.app.m.short .scr[data-s="recipient"],.app.m.short .scr[data-s="time"]{inset:154px 0 0 0}
 .app.m.short .scr[data-s="recipient"]:has(.more.on){top:150px}
-.app.m.short .scr[data-s="wish"]{inset:152px 0 86px 0}
-.app.m.short .scr[data-s="pay"]{inset:82px 0 86px 0}
+.app.m.short .scr[data-s="wish"]{inset:152px 0 0 0}
+.app.m.short .scr[data-s="pay"]{inset:82px 0 0 0}
 .app.m.short .rc .in{padding-top:20px}
 .app.m.short .rc .hd{padding-bottom:12px}
 .app.m.short .rr{padding:12px 0 10px}
@@ -1030,7 +1027,6 @@ body.demo #demo{display:block}
 .app.m[data-s="about"] .logo{opacity:1;pointer-events:auto;left:20px;top:23px}
 .app.m[data-s="about"] .burger{opacity:1;pointer-events:auto;color:var(--ink)}
 .app.m[data-s="about"] .back,.app.m[data-s="about"] .htl,.app.m[data-s="about"] .close,.app.m[data-s="about"] .stepper,.app.m[data-s="bal"] .stepper,.app.m[data-s="bal"] .htl{opacity:0;pointer-events:none}
-.app.m[data-s="about"] .mfoot,.app.m[data-s="bal"] .mfoot{opacity:0}
 .app.m .scr[data-s="about"] .abs{top:68px}
 .app.m .abveil{display:none}
 .app.m .scr[data-s="about"] .abs.sc{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 28px);mask-image:linear-gradient(180deg,transparent 0,#000 28px)}
@@ -1105,13 +1101,12 @@ body.demo #demo{display:block}
 .app[data-s="pdesign"] .k1{transform:translate(14vw,2vh)} .app[data-s="pdesign"] .k2{transform:translate(-6vw,6vh)}
 .app[data-s="ppack"] .k2{transform:translate(-8vw,8vh)} .app[data-s="porder"] .k3{transform:translate(12vw,-6vh)} .app[data-s="prcpt"] .k2{transform:translate(-12vw,10vh)}
 .pring{position:absolute;left:0;top:0;width:0;height:0;z-index:3;pointer-events:none;opacity:0;transform:translate(720px,470px);transition:transform .9s var(--spring),opacity .5s var(--ease)}
-.pg{position:absolute;left:0;top:0;opacity:0;transform:scale(.9);transition:opacity .4s var(--ease),transform .7s var(--spring)}
-.pg.on{opacity:1;transform:none}
-.pc{position:absolute;border-radius:18px;box-shadow:0 34px 60px -28px var(--shadow),0 6px 16px -8px rgba(0,0,0,.18);will-change:transform,opacity;pointer-events:none;cursor:pointer;transition:scale .5s var(--spring)}
+.pg{position:absolute;left:0;top:0}
+.pc{position:absolute;border-radius:18px;box-shadow:calc(var(--sx,0)*34px) calc(var(--sy,1)*34px) 60px -28px var(--shadow),calc(var(--sx,0)*6px) calc(var(--sy,1)*6px) 16px -8px rgba(0,0,0,.18);will-change:transform,opacity;pointer-events:none;cursor:pointer;transition:scale .5s var(--spring)}
 .pc:not(.cur):hover{scale:1.06}.app.m .pc:hover{scale:1}
 .pc .pcw{position:absolute;inset:0;border-radius:inherit;overflow:hidden;transform:translateZ(0)}
 .pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
-.pc .pcl{position:absolute;left:6.5%;bottom:8%;width:22%;height:auto;display:block;transition:color .4s}
+.pc .pcl{position:absolute;left:6.5%;bottom:8%;width:22%;height:auto;display:block;transition:color .4s;opacity:var(--lo,1)}
 .pg[data-f="v"] .pcl{left:9%;bottom:6%;width:36%}
 .pc .shn{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}
 .pfmt{position:absolute;left:671px;top:294px;width:98px;height:40px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-line);padding:4px;display:grid;grid-template-columns:1fr 1fr;z-index:6;transition:top .9s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
@@ -1182,13 +1177,21 @@ body.demo #demo{display:block}
 .app.m .pktot{left:16px;right:16px;text-align:left;top:487px;font-size:24px;line-height:32px}
 .app.m .scr[data-s="ppack"].no .pktot{top:443px}
 .app.m .scr[data-s="porder"],.app.m .scr[data-s="prcpt"]{overflow-y:auto;overflow-x:hidden;padding:0 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
-.app.m .scr[data-s="porder"]{inset:82px 0 86px 0}
+.app.m .scr[data-s="porder"]{inset:82px 0 0 0}
 .app.m .scr[data-s="prcpt"]{inset:82px 0 0 0;padding-bottom:120px}
 .app.m .pcol{position:relative;left:auto;top:auto;width:auto}
 .app.m .pcol .ttl{font-size:28px;line-height:32px;margin:0 0 14px}
 .app.m .orow{min-height:58px;padding:10px 14px 10px 14px}
 .app.m .osum{margin-top:12px;padding:20px}
 .app.m .pcons{min-height:86px;padding:14px 17px;gap:14px}
+/* мобилка: подвал с кнопкой. Контент не срезается по линии, а уходит под размытие, которое плавно нарастает книзу (два слоя: слабое и сильное) */
+.mfoot{display:none}
+.app.m .mfoot{display:block;position:absolute;left:0;right:0;bottom:0;height:132px;z-index:14;pointer-events:none;opacity:0;transition:opacity .4s var(--ease)}
+.app.m:is([data-s="recipient"],[data-s="time"],[data-s="wish"],[data-s="pay"],[data-s="porder"]) .mfoot{opacity:1}
+.mfoot::before,.mfoot::after{content:'';position:absolute;inset:0}
+.mfoot::before{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 38%);mask-image:linear-gradient(to bottom,transparent 0,#000 38%)}
+.mfoot::after{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);-webkit-mask-image:linear-gradient(to bottom,transparent 20%,#000 60%);mask-image:linear-gradient(to bottom,transparent 20%,#000 60%);background:linear-gradient(to bottom,transparent 20%,color-mix(in srgb,var(--bg) 34%,transparent) 72%)}
+.app.m .scr:is([data-s="recipient"],[data-s="time"],[data-s="wish"],[data-s="pay"],[data-s="porder"]){padding-bottom:110px}
 </style>
 </head><body>
 
@@ -1537,7 +1540,7 @@ body.demo #demo{display:block}
     </div></div>
 
     <div class="badge hid" id="badge">100 BYN</div>
-    <div class="mfoot" id="mfoot"></div>
+    <div class="mfoot" aria-hidden="true"></div>
     <button class="next hide" id="next"><span class="tx" id="nextT">Далее</span><span class="spin"></span></button>
 
     <!-- modals -->
@@ -2352,7 +2355,7 @@ if(Q.get('theme')==='dark'||Q.get('theme')==='light')setTh(Q.get('theme'));
 if(Q.has('about')){go('about');const y=+Q.get('about');if(y)requestAnimationFrame(()=>{$('#abs').scrollTop=y})}
 if(Q.has('balance')){go('bal');const v=(Q.get('balance')||'').replace(/\D/g,'');if(v){bIn.value=v;bIn.dispatchEvent(new Event('input'));bGo.click()}}
 (document.fonts&&document.fonts.ready||Promise.resolve()).then(()=>{});
-window.__S=S;window.__go=go;
+window.__S=S;window.__go=go;window.__pf=()=>({pF,pDraw,vis:v=>{pVis=pVisT=v}});
 
 /* ═════ ПЛАСТИК · покупка онлайн (Figma «Пластиковые карты · покупка онлайн» 3287:2885), 17.11 ═════
    Шаги: Дизайн (формат гор./верт.) → Номинал (тот же экран, что у электронной) → Упаковка → Оформление заказа (+ Получатель).
@@ -2380,6 +2383,8 @@ function pGeo(sc,f,any){const v=(f||(S.p&&S.p.fmt))==='v',off={cx:M?W/2:720,cy:M
 /* ── карусель карт: кольцо. Позиция – дробный номер слота, движение – пружина (стрелки, клик по боковой карте, свайп с ведением за пальцем).
    Центральная карта не меняет место между «Дизайном» и «Номиналом»: боковые уходят за неё, вокруг встаёт шкала номиналов. ── */
 const PRING={h:null,v:null};let pVis=0,pVisT=0,pRaf=0,pLast=0,pDrag=null,pMoved=false;
+/* формат: 0 – горизонтальная, 1 – вертикальная. c – центральная карта, s – боковые (идут следом). Карта не гаснет, а поворачивается на 90°, рисунок на ней сменяется к концу поворота */
+const pF={c:0,s:0,vc:0,vs:0,tc:0,ts:0,tm:0};
 function pBuild(){const tpl=$('#pcT');
   ['h','v'].forEach(f=>{const src=PCARDS[f],n=src.length;let list=src.map((c,j)=>({c,j}));while(n>1&&list.length<4)list=list.concat(src.map((c,j)=>({c,j}))); // 2–3 дизайна: повторяем, чтобы кольцо замыкалось
     const g=document.createElement('div');g.className='pg';g.dataset.f=f;PL.ring.appendChild(g);
@@ -2394,23 +2399,35 @@ const pOff=(R,k,at)=>{let o=((k-at)%R.L+R.L)%R.L;return o>R.L/2?o-R.L:o};
 function pRingP(f){const b=pGeo('pdesign',f,true);
   if(M)return f==='v'?{w:b.w,h:b.h,rx:b.w*.88,sn:.56,tuck:.7}:{w:b.w,h:b.h,rx:W/2+b.w*.4+12,sn:.8,tuck:1};
   return f==='v'?{w:b.w,h:b.h,rx:280,sn:.48,tuck:.5}:{w:b.w,h:b.h,rx:370,sn:190/440,tuck:.5}}
-function pDraw(){['h','v'].forEach(f=>{const R=PRING[f],P=pRingP(f),act=f===S.p.fmt&&S.screen==='pdesign';
-  R.cards.forEach(c=>{const o=pOff(R,c.k,R.pos),a=Math.abs(o),side=Math.min(1,a),th=Math.max(-2,Math.min(2,o))*Math.PI/2,cs=Math.cos(th);
-    const s=(cs>=0?P.sn+(1-P.sn)*cs:P.sn*(1+.35*cs))*lerp(1,lerp(.8,1,pVis),side);
-    const x=P.rx*Math.sin(th)*lerp(1,lerp(P.tuck,1,pVis),side);
-    const op=(a<=1?1:Math.max(0,1-(a-1)/.5))*lerp(1,pVis,side);
-    const st=c.el.style;st.transform=`translate(${x.toFixed(2)}px,0) scale(${s.toFixed(4)})`;st.opacity=op.toFixed(3);st.zIndex=Math.round(cs*10)+10;
-    c.el.classList.toggle('cur',a<.5);st.pointerEvents=(act&&a>=.5&&op>.6)?'auto':'none'})})}
-function pTick(t){const R=PRING[S.p.fmt],dt=Math.min(.2,(t-pLast)/1000)||.016,n=Math.max(1,Math.ceil(dt/.008));pLast=t;let live=false;
-  if(RM){R.pos=R.tgt;R.vel=0;pVis=pVisT}
+const pSm=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
+/* место карты в кольце своего формата: сдвиг, масштаб, прозрачность, глубина */
+function pSlot(P,o){const a=Math.abs(o),side=Math.min(1,a),th=Math.max(-2,Math.min(2,o))*Math.PI/2,cs=Math.cos(th);
+  return {s:(cs>=0?P.sn+(1-P.sn)*cs:P.sn*(1+.35*cs))*lerp(1,lerp(.8,1,pVis),side),x:P.rx*Math.sin(th)*lerp(1,lerp(P.tuck,1,pVis),side),
+    op:(a<=1?1:Math.max(0,1-(a-1)/.5))*lerp(1,pVis,side),cs,a,side}}
+function pDraw(){const Ph=pRingP('h'),Pv=pRingP('v');
+  ['h','v'].forEach(f=>{const R=PRING[f],isV=f==='v',act=f===S.p.fmt&&S.screen==='pdesign';
+  R.cards.forEach(c=>{const o=pOff(R,c.k,R.pos),gh=pSlot(Ph,o),gv=pSlot(Pv,o),p=lerp(pF.c,pF.s,gh.side),pc=Math.max(0,Math.min(1,p));
+    /* одна и та же «физическая» карта: длинная сторона L, угол 0° – лежит, 90° – стоит; слой горизонтального и слой вертикального рисунка совпадают по контуру */
+    const x=lerp(gh.x,gv.x,p),L=lerp(Ph.w*gh.s,Pv.h*gv.s,p)*(1-.06*Math.sin(Math.PI*pc)),ang=p*90-(isV?90:0),rad=ang*Math.PI/180,sc=L/(isV?Pv.h:Ph.w);
+    const op=lerp(gh.op,gv.op,pc)*(isV?pSm(.55,.97,pc):(pc<.97?1:0));
+    const st=c.el.style;st.transform=`translate(${x.toFixed(2)}px,0) rotate(${ang.toFixed(2)}deg) scale(${sc.toFixed(4)})`;st.opacity=op.toFixed(3);st.zIndex=Math.round(gh.cs*10)+10;
+    st.setProperty('--lo',(isV?pSm(.86,1,pc):1-pSm(.12,.45,pc)).toFixed(3));st.setProperty('--sx',Math.sin(rad).toFixed(3));st.setProperty('--sy',Math.cos(rad).toFixed(3));
+    c.el.classList.toggle('cur',gh.a<.5);st.pointerEvents=(act&&gh.a>=.5&&op>.6)?'auto':'none'})})}
+function pTick(t){const dt=Math.min(.2,(t-pLast)/1000)||.016,n=Math.max(1,Math.ceil(dt/.008));pLast=t;let live=false;
+  if(RM){['h','v'].forEach(f=>{const R=PRING[f];R.pos=R.tgt;R.vel=0});pVis=pVisT;pF.c=pF.tc;pF.s=pF.ts;pF.vc=pF.vs=0;if(pF.tc!==pF.ts)live=true}
   else{
-    if(!pDrag){const k=Math.pow(2*Math.PI/.62,2),c=2*.8*Math.sqrt(k);for(let i=0;i<n;i++){const h=dt/n,ac=-k*(R.pos-R.tgt)-c*R.vel;R.vel+=ac*h;R.pos+=R.vel*h}
-      if(Math.abs(R.pos-R.tgt)<.0015&&Math.abs(R.vel)<.02){R.pos=R.tgt=((R.tgt%R.L)+R.L)%R.L;R.vel=0}else live=true}else live=true;
-    pVis+=(pVisT-pVis)*(1-Math.exp(-dt*7.5));if(Math.abs(pVisT-pVis)<.002)pVis=pVisT;else live=true}
+    ['h','v'].forEach(f=>{const R=PRING[f];if(pDrag&&f===S.p.fmt){live=true;return}
+      const k=Math.pow(2*Math.PI/.62,2),c=2*.8*Math.sqrt(k);for(let i=0;i<n;i++){const h=dt/n,ac=-k*(R.pos-R.tgt)-c*R.vel;R.vel+=ac*h;R.pos+=R.vel*h}
+      if(Math.abs(R.pos-R.tgt)<.0015&&Math.abs(R.vel)<.02){R.pos=R.tgt=((R.tgt%R.L)+R.L)%R.L;R.vel=0}else live=true});
+    pVis+=(pVisT-pVis)*(1-Math.exp(-dt*7.5));if(Math.abs(pVisT-pVis)<.002)pVis=pVisT;else live=true;
+    /* поворот формата: пружина с лёгким перелётом */
+    const kf=Math.pow(2*Math.PI/.78,2),cf=2*.7*Math.sqrt(kf);
+    for(let i=0;i<n;i++){const h=dt/n;pF.vc+=(-kf*(pF.c-pF.tc)-cf*pF.vc)*h;pF.c+=pF.vc*h;pF.vs+=(-kf*(pF.s-pF.ts)-cf*pF.vs)*h;pF.s+=pF.vs*h}
+    if(pF.tc===pF.ts&&Math.abs(pF.c-pF.tc)<.001&&Math.abs(pF.vc)<.01&&Math.abs(pF.s-pF.ts)<.001&&Math.abs(pF.vs)<.01){pF.c=pF.s=pF.tc;pF.vc=pF.vs=0}else live=true}
   pDraw();pRaf=live?requestAnimationFrame(pTick):0}
 function pKick(){if(!pRaf){pLast=performance.now();pRaf=requestAnimationFrame(pTick)}}
 function pLayout(){if(!PL)return;const f=S.p.fmt,g=pGeo(S.screen),b=pGeo('pdesign',f,true);
-  ['h','v'].forEach(ff=>{const q=pGeo('pdesign',ff,true),R=PRING[ff];R.el.classList.toggle('on',ff===f);
+  ['h','v'].forEach(ff=>{const q=pGeo('pdesign',ff,true),R=PRING[ff];
     R.cards.forEach(c=>{const st=c.el.style;st.width=q.w+'px';st.height=q.h+'px';st.left=(-q.w/2)+'px';st.top=(-q.h/2)+'px';st.borderRadius=(Math.min(q.w,q.h)*34/540).toFixed(1)+'px'})});
   PL.ring.style.transform=`translate(${g.cx}px,${g.cy}px) scale(${(g.w/b.w).toFixed(4)})`;PL.ring.style.opacity=g.op;
   pVisT=S.screen==='pdesign'?1:0;pDraw();pKick();
@@ -2423,7 +2440,9 @@ function pLayout(){if(!PL)return;const f=S.p.fmt,g=pGeo(S.screen),b=pGeo('pdesig
 function pPlaceNext(){if(M&&S.screen==='prcpt'){const f=$('#prForm'),fr=frame.getBoundingClientRect(),s=fr.width/W,b=(f.getBoundingClientRect().bottom-fr.top)/s;next.style.top=Math.min(b+28,H-72)+'px';next.style.bottom='auto'}else{next.style.top='';next.style.bottom=''}}
 function pDots(){const d=$('#pDots'),n=PCARDS[S.p.fmt].length;d.innerHTML='';for(let k=0;k<n;k++){const e=document.createElement('span');e.className='dot'+(k===S.p.i[S.p.fmt]?' on':'');d.appendChild(e)}}
 function pRot(d){const f=S.p.fmt,R=PRING[f];if(R.n<2)return;R.tgt=Math.round(R.tgt)+d;S.p.i[f]=((R.tgt%R.n)+R.n)%R.n;pDots();pKick()}
-function pSyncFmt(silent){const f=S.p.fmt;$('#pFmt').classList.toggle('v',f==='v');$$('#pFmt button').forEach(b=>{const on=b.dataset.f===f;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});pDots();pLayout()}
+function pSyncFmt(silent){const f=S.p.fmt;$('#pFmt').classList.toggle('v',f==='v');$$('#pFmt button').forEach(b=>{const on=b.dataset.f===f;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});
+  const t=f==='v'?1:0;clearTimeout(pF.tm);pF.tc=t;if(silent||RM){pF.ts=pF.c=pF.s=t;pF.vc=pF.vs=0}else pF.tm=setTimeout(()=>{pF.ts=t;pKick()},80); // боковые карты поворачиваются следом за центральной
+  pDots();pLayout()}
 /* упаковка */
 function pSyncPack(){const sc=$('.scr[data-s="ppack"]');sc.classList.toggle('no',S.p.no);const ch=$('#pkNo');ch.classList.toggle('on',S.p.no);ch.setAttribute('aria-pressed',String(S.p.no));
   const d=$('#pkDots');if(!d.children.length)for(let k=0;k<3;k++)d.appendChild(Object.assign(document.createElement('span'),{className:'dot'}));[...d.children].forEach((x,k)=>x.classList.toggle('on',k===S.p.pk));pSum()}
