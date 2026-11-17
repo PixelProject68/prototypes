@@ -622,8 +622,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ec .fl{position:absolute;left:0;top:0;width:520px;height:200px;transform-origin:50% 0;pointer-events:none}
 .ec .fli{top:-2px;height:202px;transform-origin:50% 2px;opacity:0}
 .ec .sd{opacity:0}
-.ec .fc{position:absolute;left:0;top:0;width:520px;height:19px;background:#ff63a0;opacity:0;pointer-events:none}
-.ec .fc .sd{position:absolute;inset:0;background:#000}
+.ec .fc{position:absolute;inset:0;opacity:0;pointer-events:none}
 .ec .cw{position:absolute;left:0;top:-700px;width:520px;height:1040px;pointer-events:none;z-index:2;clip-path:polygon(-300px 0,-300px 700px,0 700px,260px 898px,520px 700px,820px 700px,820px 0)}
 .ec .cw.free{clip-path:none}
 .ec .card{position:absolute;left:105px;top:530px;width:310px;height:310px}
@@ -1990,10 +1989,14 @@ const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(_){}};
 /* ── конверт (общий для упаковки и получателя) ──
    Один контур #envC (520×340, r18) обрезает задник, перед и клапан; сгибы переда идут точно в углы.
    Клапан – два слоя с одним поворотом: внешний (поверх карты) виден до 90°, внутренний (под задником) – после 90°.
-   Клапан шире V-выреза переда на 1,5px. Внешний слой обрезан контуром конверта (.flw) – при повороте не выступает за скруглённые углы.
-   Внутренний слой – с прямым основанием на всю ширину и заходит под задник на 2px; пока он виден (от 90°), углы за скруглением кармана
-   закрыты тем же листом (.fc), поэтому между клапаном и корпусом фон не виден ни при каком угле. */
-const FLAP='-2.5,0 522.5,0 260,199.9',FLAPI='0,0 520,0 260,199.9';
+   Клапан шире V-выреза переда на 1,5px. Внешний слой (до 90°) обрезан контуром конверта (.flw) – при повороте не выступает за скруглённые углы.
+   Внутренний слой (от 90°): кромка открытого клапана – касательная к радиусу угла конверта, силуэт идёт из скругления в кромку без излома,
+   выступа и выемки. Основание слоя стоит в точке, где эта касательная пересекает сгиб (FB); кусочек между сгибом и точкой касания (FT)
+   закрывает неподвижная накладка .fc под задником. Слой заходит под задник на 2px. */
+const FLAP='-2.5,0 522.5,0 260,199.9';
+const {FT,FB}=(()=>{const R=18,px=260,py=-199.9,dx=px-R,dy=py-R,a=Math.atan2(dy,dx)-Math.acos(R/Math.hypot(dx,dy)),x=R+R*Math.cos(a),y=R+R*Math.sin(a);return {FT:[x,y],FB:x+(px-x)*y/(y-py)}})();
+const n2=v=>v.toFixed(2),FLAPI=`${n2(FB)},0 ${n2(520-FB)},0 260,199.9`,FSTRIP=`x="${n2(FB)}" y="-2" width="${n2(520-2*FB)}" height="3"`;
+const FCORN=`M${n2(FT[0])} ${n2(FT[1])}L${n2(FB)} 0H24V10H${n2(FT[0])}ZM${n2(520-FT[0])} ${n2(FT[1])}L${n2(520-FB)} 0H496V10H${n2(520-FT[0])}Z`;
 document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <clipPath id="envC"><rect width="520" height="340" rx="18"/></clipPath>
 <clipPath id="envV"><polygon points="0,0 520,0 260,198"/></clipPath>
@@ -2007,8 +2010,8 @@ document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="p
 <filter id="lipB" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
 </defs></svg>`);
 const ENV=`<div class="ew"><div class="eg">
-<div class="fl fli"><svg class="es" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="0" y="-2" width="520" height="3" fill="#ff63a0"/><polygon points="${FLAPI}" fill="url(#fbg)"/></svg><svg class="es sd" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="0" y="-2" width="520" height="3"/><polygon points="${FLAPI}"/></svg></div>
-<div class="fc"><i class="sd"></i></div>
+<div class="fl fli"><svg class="es" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect ${FSTRIP} fill="#ff63a0"/><polygon points="${FLAPI}" fill="url(#fbg)"/></svg><svg class="es sd" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect ${FSTRIP}/><polygon points="${FLAPI}"/></svg></div>
+<div class="fc"><svg class="es" viewBox="0 0 520 340" preserveAspectRatio="none"><path d="${FCORN}" fill="#ff63a0"/></svg><svg class="es sd" viewBox="0 0 520 340" preserveAspectRatio="none"><path d="${FCORN}"/></svg></div>
 <div class="shadow"></div>
 <svg class="es bk" viewBox="0 0 520 340" preserveAspectRatio="none"><g clip-path="url(#envC)"><rect width="520" height="340" fill="url(#eBk)"/><rect width="520" height="56" fill="url(#eBkS)"/></g></svg>
 <svg class="es front" viewBox="0 0 520 340" preserveAspectRatio="none"><g clip-path="url(#envC)"><path d="M0 0 L260 198 L520 0 V340 H0 Z" fill="url(#pkg)"/><path d="M0 0 L260 198 L0 340 Z" fill="#fff" fill-opacity=".07"/><path d="M520 0 L260 198 L520 340 Z" fill="#000" fill-opacity=".12"/><path d="M0 340 L260 198 L520 340 Z" fill="#fff" fill-opacity=".03"/></g></svg></div>
