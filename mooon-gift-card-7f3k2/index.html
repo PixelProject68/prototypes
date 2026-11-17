@@ -102,13 +102,30 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .stepper{position:absolute;left:0;right:0;top:47px;height:22px;display:flex;justify-content:center;align-items:center;gap:12px;transition:opacity .4s}
 .stepper{pointer-events:none}.stepper .sp{pointer-events:auto}
 .app[data-s="home"] .stepper,.app[data-s="done"] .stepper{opacity:0}.app[data-s="home"] .stepper .sp,.app[data-s="done"] .stepper .sp{pointer-events:none}
-.sp{height:22px;min-width:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--ink);transition:background .5s var(--ease),border-color .5s,padding .5s var(--ease);border:1.2px solid var(--step-line);cursor:default;gap:8px;overflow:hidden;white-space:nowrap}
+/* шаг = «кожа» (кружок 22 в ::before: обводка или серый «пройден») + цифра и подпись поверх; активная пилюля в покое – фон кнопки,
+   во время смены шага – капля .spb (SVG) между кожей и текстом, см. spPlay */
+.stepper{isolation:isolate}
+.sp{position:relative;height:22px;min-width:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--ink);cursor:default;gap:8px;white-space:nowrap}
+.app:not(.m) .sp::before{content:'';position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;box-sizing:border-box;border:1.2px solid var(--step-line);transition:background .3s,border-color .3s,transform .35s var(--spring)}
+.app:not(.m) .sp.done::before{background:var(--step-done);border-color:transparent}
+.app:not(.m) .sp.done:hover::before{background:var(--hair-2)}
+.app:not(.m) .sp.on::before{opacity:0}
+.sp .n,.sp .lb{position:relative;z-index:2}
+.sp .n{transition:color .14s}
 .sp .lb{display:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
-.sp.done{background:var(--step-done);border-color:transparent;cursor:pointer}
-.sp.done:hover{background:var(--hair-2)}
-.sp.on{background:var(--sel);border-color:var(--sel);color:var(--on-sel);padding:0 12px}
-.sp.on .lb{display:inline;animation:lbIn .45s var(--out)}
-@keyframes lbIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.sp.done{cursor:pointer}
+.sp.on{background:var(--sel);color:var(--on-sel);padding:0 13.2px}
+.sp.on .lb{display:inline}
+.spb{position:absolute;left:0;top:0;width:100%;height:22px;overflow:visible;z-index:1;pointer-events:none;display:none}
+.spb path{fill:var(--sel)}
+.stepper.mv .spb{display:block}
+.stepper.mv .sp{overflow:hidden}
+.stepper.mv .sp.on{background:none}
+.stepper.mv .sp::before{opacity:1!important;transform:none!important}
+.stepper.mv .sp .n{color:var(--ink)}
+.stepper.mv .sp.cv .n,.stepper.mv .sp .lb{color:var(--on-sel)}
+.stepper.mv .sp.was .lb{display:inline}
+.app.m .spb{display:none!important}
 .close{position:absolute;left:1331px;top:46px;width:24px;height:24px;display:grid;place-items:center;transition:opacity .4s,transform .4s var(--spring)}
 .close:hover{transform:rotate(90deg)}
 .close svg{width:16px;height:16px}
@@ -395,8 +412,9 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .stepper::before,.app.m .stepper::after{content:none}
 .app.m .sp{flex:1;min-width:0;height:100%;border:0;border-radius:0;background:none;font-size:0;padding:0;display:block;position:relative}
 .app.m .sp .n{display:none}
-.app.m .sp::before{content:'';position:absolute;left:0;right:0;top:20px;height:3px;border-radius:2px;background:var(--ink);opacity:.14;transition:background .5s var(--ease),opacity .5s}
-.app.m .sp.done::before,.app.m .sp.on::before{background:var(--sel);opacity:1}
+.app.m .sp::before{content:'';position:absolute;left:0;right:0;top:20px;height:3px;border-radius:2px;background:var(--ink);opacity:.14}
+.app.m .sp::after{content:'';position:absolute;left:0;right:0;top:20px;height:3px;border-radius:2px;background:var(--sel);transform:scaleX(0);transform-origin:0 50%;transition:transform .55s var(--ease)}
+.app.m .sp.done::after,.app.m .sp.on::after{transform:scaleX(1)}
 .app.m .sp:not(.done):not(.on){opacity:1}
 .app.m .sp .lb{display:none!important}
 .app.m .sp.on{background:none;padding:0}
@@ -882,8 +900,6 @@ body.demo #demo{display:block}
 :is(.alk,.skip,.rr button,.rlink,.lnk,.ablk){transition:transform .2s var(--out),opacity .3s,color .2s}
 :is(.alk,.skip,.rr button,.rlink,.lnk,.ablk):active{transform:translateY(1px)}
 .chip:active{background:color-mix(in srgb,var(--ab-navon) 12%,var(--chip))}
-.sp{transition:background .5s var(--ease),border-color .5s,padding .5s var(--ease),transform .35s var(--spring)}
-.app.m .sp.done:hover{transform:none}
 
 /* hover – только на устройствах с мышью: на телефоне нажатая кнопка не «залипает» приподнятой */
 @media (hover:hover) and (pointer:fine){
@@ -894,7 +910,7 @@ body.demo #demo{display:block}
 .chip:hover{border-color:color-mix(in srgb,var(--ab-navon) 55%,transparent)}
 :is(.fld,.ta):hover:not(:focus-within):not(.bad):not(.dis){border-color:color-mix(in srgb,var(--ab-navon) 45%,transparent)}
 .af:hover:not(:focus):not(.bad){border-color:color-mix(in srgb,var(--ab-navon) 45%,transparent)}
-.sp.done:hover{transform:scale(1.1)}
+.app:not(.m) .sp.done:hover::before{transform:scale(1.1)}
 .slch button:hover{box-shadow:inset 0 0 0 1px var(--ab-navon)}
 .slar:hover{transform:scale(1.06)}
 .pl:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px var(--shadow)}
@@ -1724,8 +1740,48 @@ function occ(){const n=OCC.length,cw=M?CWM:CW,ch=M?CHM:CH,cf=M?CFM:CF,co=M?COM:C
 
 /* ── stepper ── */
 const stp=$('#stepper');
-function buildSteps(){stp.innerHTML='';FLOW.forEach((f,i)=>{const b=document.createElement('button');b.className='sp';b.innerHTML=`<span class="n">${i+1}</span><span class="lb">${TITLES[i]}</span>`;b.title=TITLES[i];b.onclick=()=>{if(b.classList.contains('done')&&!S.busy)go(f)};stp.appendChild(b)});}buildSteps();
-function updStep(){const i=stepOf(S.screen);[...stp.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'')}
+let sps=[],spbP=null,spPrev=-1,spAnim=null;
+function buildSteps(){spStop();spPrev=-1;stp.innerHTML='<svg class="spb" aria-hidden="true"><path/></svg>';spbP=$('path',stp);
+  sps=FLOW.map((f,i)=>{const b=document.createElement('button');b.className='sp';b.innerHTML=`<span class="n">${i+1}</span><span class="lb">${TITLES[i]}</span>`;b.title=TITLES[i];b.onclick=()=>{if(b.classList.contains('done')&&!S.busy)go(f)};stp.appendChild(b);return b})}buildSteps();
+function updStep(){const i=stepOf(S.screen),p=spPrev,mv=!M&&!RM&&p>=0&&i>=0&&p!==i;
+  if(p!==i||M)spStop();const w0=mv?sps[p].offsetWidth:0;
+  sps.forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'');
+  spPrev=i;if(mv)spPlay(p,i,w0)}
+/* ── смена шага: активная пилюля собирается в каплю на своей цифре, капля перелетает на цифру нового шага и раскрывается там в пилюлю.
+   Ряд при этом не «дышит»: старый шаг сужается, новый расширяется одним ходом (ширина ряда почти постоянна), а фиолетовое пятно живёт поверх
+   своей жизнью. Пятно = два круга и плавная перемычка между ними (SVG-путь, считается каждый кадр): ведущий круг и хвост, хвост в полёте тоньше.
+   Цифра белеет, пока пятно под ней толще 5px; подписи режутся кромкой пятна. ?tl – ручной режим: __sp.seek(мс), __sp.finish() */
+const SPDBG=/[?&]tl\b/.test(location.search);
+const spH=(u,r1,r2)=>{const v=Math.pow(r1<=r2?u:1-u,1.5);return Math.min(r1,r2)+Math.abs(r2-r1)*v*v*(3-2*v)};   // полувысота перемычки: у хвоста тонко, к голове плавно толстеет
+function spBlob(x1,r1,x2,r2){const y=11,d=x2-x1,f=v=>v.toFixed(2),ci=(x,r)=>`M${f(x-r)},${y}a${f(r)},${f(r)} 0 1 1 ${f(2*r)},0a${f(r)},${f(r)} 0 1 1 ${f(-2*r)},0Z`;
+  let p=ci(x1,r1)+ci(x2,r2);if(d<.5)return p;const N=Math.max(2,Math.ceil(d/2.5)),top=[],bot=[];
+  for(let i=0;i<=N;i++){const u=i/N,h=spH(u,r1,r2),x=f(x1+u*d);top.push(x+','+f(y-h));bot.unshift(x+','+f(y+h))}
+  return p+'M'+top.join('L')+'L'+bot.join('L')+'Z'}
+function spStop(){const a=spAnim;if(!a)return;spAnim=null;cancelAnimationFrame(a.raf);stp.classList.remove('mv');
+  sps.forEach(b=>{b.classList.remove('was','cv');b.style.cssText='';b.lastChild.style.cssText=''})}
+function spPlay(ai,bi,w0){
+  const A=sps[ai],B=sps[bi],Al=A.lastChild,Bl=B.lastChild,R=11,PL=13.2,w1=B.offsetWidth,
+    pa=(22-A.firstChild.offsetWidth)/2,pb=(22-B.firstChild.offsetWidth)/2,dir=bi>ai?1:-1,fl=240+Math.min(3,Math.abs(bi-ai)-1)*45,
+    T={c:220,p0:150,p1:150+fl,q0:200,q1:225+fl,e0:80+fl,r:270+fl,end:640+fl};
+  const cl=x=>x<0?0:x>1?1:x,sg=(t,a,b)=>cl((t-a)/(b-a)),eio=x=>x<.5?4*x*x*x:1-Math.pow(2-2*x,3)/2,eo=x=>1-Math.pow(1-x,3),
+    spr=(ts,resp,z)=>{if(ts<=0)return 0;const w=2*Math.PI/resp,wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*ts)*(Math.cos(wd*ts)+z*w/wd*Math.sin(wd*ts))};
+  stp.classList.add('mv');A.classList.add('was');[A,B].forEach(el=>{el.style.justifyContent='flex-start';el.style.paddingRight='0'});
+  const render=t=>{
+    const e=eio(sg(t,0,T.r)),wA=w0+(22-w0)*e,wB=22+(w1-22)*e,c=eio(sg(t,0,T.c)),wc=w0+(22-w0)*c,sE=spr((t-T.e0)/1000,.4,.72),ext=(wB-22)*sE;
+    A.style.width=wA.toFixed(2)+'px';B.style.width=wB.toFixed(2)+'px';
+    A.style.paddingLeft=(PL+(pa-PL)*c).toFixed(2)+'px';B.style.paddingLeft=(pb+(PL-pb)*cl(sE)).toFixed(2)+'px';
+    const aL=A.offsetLeft,bL=B.offsetLeft,an=aL+R,far=aL+wc-R,cB=bL+R,eP=eio(sg(t,T.p0,T.p1)),eQ=eio(sg(t,T.q0,T.q1)),s=cl((eP-eQ)/.5);
+    const xP=dir>0?far+(cB+ext-far)*eP:an+(cB-an)*eP,xQ=dir>0?an+(cB-an)*eQ:far+(cB+ext-far)*eQ,rP=R-.8*s,rQ=R-6.4*s;
+    const x1=dir>0?xQ:xP,r1=dir>0?rQ:rP,x2=dir>0?xP:xQ,r2=dir>0?rP:rQ,d=x2-x1,bl=x1-r1,br=x2+r2;
+    spbP.setAttribute('d',spBlob(x1,r1,x2,r2));
+    const cap=(x,c,r)=>{const dx=Math.abs(x-c);return dx<r?Math.sqrt(r*r-dx*dx):0},hAt=x=>Math.max(cap(x,x1,r1),cap(x,x2,r2),d>.5&&x>x1&&x<x2?spH((x-x1)/d,r1,r2):0);
+    sps.forEach(b=>{const n=b.firstChild;b.classList.toggle('cv',hAt(b.offsetLeft+n.offsetLeft+n.offsetWidth/2)>=5.2)});
+    const lab=(el,box,o,tx)=>{const l=box+el.offsetLeft+tx,w=el.offsetWidth;el.style.opacity=o.toFixed(3);el.style.transform=`translateX(${tx.toFixed(2)}px)`;
+      el.style.clipPath=`inset(-4px ${Math.max(0,l+w-br+9).toFixed(2)}px -4px ${Math.max(0,bl+9-l).toFixed(2)}px)`};
+    lab(Al,aL,1-sg(t,0,130),0);lab(Bl,bL,eo(sg(t,T.e0+50,T.e0+250)),-6*(1-eo(sg(t,T.e0+50,T.e0+300))))};
+  const a=spAnim={raf:0};render(0);
+  if(SPDBG){window.__sp={T,seek:render,finish:spStop};return}
+  const t0=performance.now(),tick=now=>{if(spAnim!==a)return;const t=now-t0;if(t>=T.end)return spStop();render(t);a.raf=requestAnimationFrame(tick)};a.raf=requestAnimationFrame(tick)}
 
 /* ── home hero: cursor-reactive cards ── */
 function start(){setFlow('e');resetState();go('design')}
