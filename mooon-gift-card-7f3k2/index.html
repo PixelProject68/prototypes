@@ -218,10 +218,16 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .more{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
 .more>*{opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .45s var(--ease),transform .55s var(--spring)}
 .more.on>*{opacity:1;transform:none;pointer-events:auto}
-.cons{position:absolute;left:692px;top:624px;width:490px;height:72px;border-radius:16px;background:var(--field);border:1px solid var(--field-line);display:flex;align-items:center;gap:16px;padding:0 19px;cursor:pointer;text-align:left;transition:background .3s}
+.cons{position:absolute;left:692px;top:434px;width:490px;height:72px;border-radius:16px;background:var(--field);border:1px solid var(--field-line);display:flex;align-items:center;gap:16px;padding:0 19px;cursor:pointer;text-align:left;transition:background .3s}
 .cons b{display:block;font-size:16px;line-height:18px;font-weight:600;letter-spacing:-.01em}
 .cons u{display:block;font-size:14px;color:var(--sec);margin-top:3px;text-underline-offset:2px}
-.cons2{top:708px}
+.cons2{top:518px}
+/* «себе» (PDF на почту): телефон, «от кого» и «Сюрприз» не нужны – прячем, тумблер встаёт на их место (17.11) */
+.scr[data-s="recipient"] .pdf{transition:background .3s,top .55s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
+.scr[data-s="recipient"].self .pdf{top:242px}
+.scr.self .nself,.scr.in.self .nself{opacity:0;transform:translateY(-8px);pointer-events:none;transition-delay:0s}
+.app.m .scr.self .nself{display:none}
+.app.m .scr[data-s="recipient"].self .pdf{top:auto;margin-top:0}
 
 /* ── time step ── */
 .desc{position:absolute;left:692px;top:229px;width:480px;font-size:18px;line-height:24px;color:var(--sec);letter-spacing:-.01em}
@@ -1270,16 +1276,16 @@ body.demo #demo{display:block}
     <!-- 3 RECIPIENT -->
     <section class="scr" data-s="recipient" aria-label="Шаг 3. Получатель">
       <h1 class="ttl r" data-a>Кому отправляем?</h1>
-      <div class="lab" style="left:692px;top:242px" data-a>ссылка на подарочную карту придёт в SMS</div>
-      <div class="fld" style="left:692px;top:268px;width:490px" id="fPhone" data-a><input id="phone" type="tel" inputmode="tel" placeholder="+375 29 314-52-08" autocomplete="off"><button class="ic" id="contact" aria-label="Выбрать из контактов"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.5 17c.6-3.4 3.2-5.2 6.5-5.2s5.9 1.8 6.5 5.2"/></svg></button></div>
-      <div class="lab" style="left:692px;top:338px" data-a>от кого</div>
-      <div class="fld" style="left:692px;top:364px;width:191px" id="fFrom" data-a><input id="from" placeholder="ваше имя" maxlength="30" autocomplete="off"></div>
-      <div class="lab" style="left:899px;top:338px" data-a>получатель не увидит, от кого подарок</div>
-      <button class="sur" id="sur" role="checkbox" aria-checked="false" data-a><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span>Сюрприз</button>
+      <div class="lab nself" style="left:692px;top:242px" data-a>ссылка на подарочную карту придёт в SMS</div>
+      <div class="fld nself" style="left:692px;top:268px;width:490px" id="fPhone" data-a><input id="phone" type="tel" inputmode="tel" placeholder="+375 29 314-52-08" autocomplete="off"><button class="ic" id="contact" aria-label="Выбрать из контактов"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.5 17c.6-3.4 3.2-5.2 6.5-5.2s5.9 1.8 6.5 5.2"/></svg></button></div>
+      <div class="lab nself" style="left:692px;top:338px" data-a>от кого</div>
+      <div class="fld nself" style="left:692px;top:364px;width:191px" id="fFrom" data-a><input id="from" placeholder="ваше имя" maxlength="30" autocomplete="off"></div>
+      <div class="lab nself" style="left:899px;top:338px" data-a>получатель не увидит, от кого подарок</div>
+      <button class="sur nself" id="sur" role="checkbox" aria-checked="false" data-a><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span>Сюрприз</button>
       <button class="pdf" id="pdf" role="switch" aria-checked="false" data-a><span><b>прислать PDF на почту</b><small>если хотите подарить лично</small></span><span class="tg"></span></button>
       <div class="more" id="more">
-        <div class="lab" style="left:692px;top:530px">ваш email</div>
-        <div class="fld" style="left:692px;top:556px;width:490px" id="fMail"><input id="email" type="email" placeholder="you@mail.by" autocomplete="off"></div>
+        <div class="lab" style="left:692px;top:340px">ваш email</div>
+        <div class="fld" style="left:692px;top:366px;width:490px" id="fMail"><input id="email" type="email" placeholder="you@mail.by" autocomplete="off"></div>
         <button class="cons" id="cons" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span><b>Согласен(а) на обработку персональных данных</b><u>Политика конфиденциальности mooon</u></span></button>
         <button class="cons cons2" id="cons2" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span><b>Согласен(а) на получение рекламно-информационных материалов</b></span></button>
       </div>
@@ -1798,13 +1804,13 @@ function syncRecipient(){
   $('#sur').classList.toggle('on',S.surprise);$('#sur').setAttribute('aria-checked',S.surprise);
   const fr=$('#from');fr.disabled=S.surprise;fr.placeholder=S.surprise?'подпись скрыта':'ваше имя';$('#fFrom').classList.toggle('dis',S.surprise);
   $('#pdf').classList.toggle('on',S.pdf);$('#pdf').setAttribute('aria-checked',S.pdf);
-  $('#more').classList.toggle('on',S.pdf);$('#cons').classList.toggle('on',S.consent);$('#cons').setAttribute('aria-checked',S.consent);$('#cons2').classList.toggle('on',S.ads);$('#cons2').setAttribute('aria-checked',S.ads);
+  $('#more').classList.toggle('on',S.pdf);$('.scr[data-s="recipient"]').classList.toggle('self',S.pdf);$$('.nself input,button.nself').forEach(x=>x.tabIndex=S.pdf?-1:0);$('#cons').classList.toggle('on',S.consent);$('#cons').setAttribute('aria-checked',S.consent);$('#cons2').classList.toggle('on',S.ads);$('#cons2').setAttribute('aria-checked',S.ads);
   $$('#more input,#more button').forEach(x=>x.tabIndex=S.pdf?0:-1)}
-const recOk=()=>(S.pdf?(mailOk(S.email)&&S.consent):phoneOk())&&(S.surprise||S.from.trim().length>0);
+const recOk=()=>S.pdf?(mailOk(S.email)&&S.consent):(phoneOk()&&(S.surprise||S.from.trim().length>0));
 function recHint(){ // show what is wrong after a failed attempt
   if(!S.pdf&&!phoneOk())$('#fPhone').classList.add('bad');
   if(S.pdf&&!mailOk(S.email))$('#fMail').classList.add('bad');
-  if(!S.surprise&&!S.from.trim())$('#fFrom').classList.add('bad')}
+  if(!S.pdf&&!S.surprise&&!S.from.trim())$('#fFrom').classList.add('bad')}
 $('#from').addEventListener('input',()=>$('#fFrom').classList.remove('bad'));
 
 /* ── time ── */
@@ -1860,7 +1866,7 @@ function fillReceipt(){
   const n=new Date();$('#rcDate').textContent=`${pad(n.getDate())}.${pad(n.getMonth()+1)}.${n.getFullYear()}  ${pad(n.getHours())}:${pad(n.getMinutes())}`;
   $('#r0').textContent=`Подарочная карта mooon на ${money()}\u00A0BYN`;
   $('#r1').textContent=S.pdf?S.email:S.phone;
-  $('#r2').textContent=S.surprise?'Сюрприз':S.from.trim();
+  $('#r2').textContent=S.surprise?'Сюрприз':S.from.trim();$('#r2').closest('.rr').style.display=S.pdf?'none':'';
   $('#r3').textContent=S.when?whenLong():'Сразу после оплаты';
   $('#r4').textContent=S.wish.trim()?S.wish.trim().replace(/\s+/g,' '):'–';
   $('#rTot').textContent=money()+' BYN';
