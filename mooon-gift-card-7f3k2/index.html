@@ -1740,45 +1740,58 @@ function occ(){const n=OCC.length,cw=M?CWM:CW,ch=M?CHM:CH,cf=M?CFM:CF,co=M?COM:C
 
 /* ── stepper ── */
 const stp=$('#stepper');
-let sps=[],spbP=null,spPrev=-1,spAnim=null;
-function buildSteps(){spStop();spPrev=-1;stp.innerHTML='<svg class="spb" aria-hidden="true"><path/></svg>';spbP=$('path',stp);
+let sps=[],spbP=null,spbA=null,spPrev=-1,spAnim=null;
+function buildSteps(){spStop();spPrev=-1;stp.innerHTML='<svg class="spb" aria-hidden="true"><path/><path/></svg>';spbP=$('path',stp);spbA=spbP.nextSibling;
   sps=FLOW.map((f,i)=>{const b=document.createElement('button');b.className='sp';b.innerHTML=`<span class="n">${i+1}</span><span class="lb">${TITLES[i]}</span>`;b.title=TITLES[i];b.onclick=()=>{if(b.classList.contains('done')&&!S.busy)go(f)};stp.appendChild(b);return b})}buildSteps();
 function updStep(){const i=stepOf(S.screen),p=spPrev,mv=!M&&!RM&&p>=0&&i>=0&&p!==i;
   if(p!==i||M)spStop();const w0=mv?sps[p].offsetWidth:0;
   sps.forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'');
   spPrev=i;if(mv)spPlay(p,i,w0)}
-/* ── смена шага: активная пилюля собирается в каплю на своей цифре, капля перелетает на цифру нового шага и раскрывается там в пилюлю.
-   Ряд при этом не «дышит»: старый шаг сужается, новый расширяется одним ходом (ширина ряда почти постоянна), а фиолетовое пятно живёт поверх
-   своей жизнью. Пятно = два круга и плавная перемычка между ними (SVG-путь, считается каждый кадр): ведущий круг и хвост, хвост в полёте тоньше.
-   Цифра белеет, пока пятно под ней толще 5px; подписи режутся кромкой пятна. ?tl – ручной режим: __sp.seek(мс), __sp.finish() */
+/* ── смена шага: активная пилюля собирается в круг на своей цифре, от него отрывается капля, перелетает на цифру нового шага и раскрывается там в пилюлю.
+   Ряд не «дышит»: старый шаг сужается, новый расширяется одним ходом, а фиолетовое пятно живёт поверх своей жизнью.
+   Пятно – SVG-путь, считается каждый кадр из профиля h(x) (полувысота по оси ряда): остаток на старой цифре + голова капли, у каждого хвост навстречу другому.
+   Пока хвосты перекрываются, между ними перемычка; она истончается и рвётся ближе к остатку (35% пути), хвосты втягиваются, остаток гаснет вторым путём.
+   Посадка: круг раздаётся до ~12,5 и из отдачи пружиной выстреливает пилюля. Цифра белеет, пока пятно под ней толще 5px; подписи режутся кромкой пятна.
+   ?tl – ручной режим: __sp.seek(мс), __sp.finish() */
 const SPDBG=/[?&]tl\b/.test(location.search);
-const spH=(u,r1,r2)=>{const v=Math.pow(r1<=r2?u:1-u,1.5);return Math.min(r1,r2)+Math.abs(r2-r1)*v*v*(3-2*v)};   // полувысота перемычки: у хвоста тонко, к голове плавно толстеет
-function spBlob(x1,r1,x2,r2){const y=11,d=x2-x1,f=v=>v.toFixed(2),ci=(x,r)=>`M${f(x-r)},${y}a${f(r)},${f(r)} 0 1 1 ${f(2*r)},0a${f(r)},${f(r)} 0 1 1 ${f(-2*r)},0Z`;
-  let p=ci(x1,r1)+ci(x2,r2);if(d<.5)return p;const N=Math.max(2,Math.ceil(d/2.5)),top=[],bot=[];
-  for(let i=0;i<=N;i++){const u=i/N,h=spH(u,r1,r2),x=f(x1+u*d);top.push(x+','+f(y-h));bot.unshift(x+','+f(y+h))}
-  return p+'M'+top.join('L')+'L'+bot.join('L')+'Z'}
+function spPath(cs,xa,xb,h){const y=11,f=v=>v.toFixed(2);let p='',top=[],bot=[];
+  cs.forEach(([x,r])=>{if(r>.2)p+=`M${f(x-r)},${y}a${f(r)},${f(r)} 0 1 1 ${f(2*r)},0a${f(r)},${f(r)} 0 1 1 ${f(-2*r)},0Z`});
+  const fl=()=>{if(top.length>1)p+='M'+top.join('L')+'L'+bot.reverse().join('L')+'Z';top=[];bot=[]},n=Math.max(1,Math.ceil(xb-xa));
+  for(let i=0;i<=n;i++){const x=xa+(xb-xa)*i/n,v=h(x);if(v<.05){fl();continue}top.push(f(x)+','+f(y-v));bot.push(f(x)+','+f(y+v))}
+  fl();return p}
 function spStop(){const a=spAnim;if(!a)return;spAnim=null;cancelAnimationFrame(a.raf);stp.classList.remove('mv');
-  sps.forEach(b=>{b.classList.remove('was','cv');b.style.cssText='';b.lastChild.style.cssText=''})}
+  sps.forEach(b=>{b.classList.remove('was','cv');b.style.cssText='';b.lastChild.style.cssText=''});spbA.setAttribute('d','')}
 function spPlay(ai,bi,w0){
   const A=sps[ai],B=sps[bi],Al=A.lastChild,Bl=B.lastChild,R=11,PL=13.2,w1=B.offsetWidth,
-    pa=(22-A.firstChild.offsetWidth)/2,pb=(22-B.firstChild.offsetWidth)/2,dir=bi>ai?1:-1,fl=240+Math.min(3,Math.abs(bi-ai)-1)*45,
-    T={c:220,p0:150,p1:150+fl,q0:200,q1:225+fl,e0:80+fl,r:270+fl,end:640+fl};
+    pa=(22-A.firstChild.offsetWidth)/2,pb=(22-B.firstChild.offsetWidth)/2,dir=bi>ai?1:-1,fl=190+Math.min(3,Math.abs(bi-ai)-1)*35,
+    T={c:170,p0:90,p1:90+fl,ts:90+.76*fl,e0:120+fl,r:190+fl,end:570+fl};
   const cl=x=>x<0?0:x>1?1:x,sg=(t,a,b)=>cl((t-a)/(b-a)),eio=x=>x<.5?4*x*x*x:1-Math.pow(2-2*x,3)/2,eo=x=>1-Math.pow(1-x,3),
-    spr=(ts,resp,z)=>{if(ts<=0)return 0;const w=2*Math.PI/resp,wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*ts)*(Math.cos(wd*ts)+z*w/wd*Math.sin(wd*ts))};
+    spr=(ts,resp,z)=>{if(ts<=0)return 0;const w=2*Math.PI/resp,wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*ts)*(Math.cos(wd*ts)+z*w/wd*Math.sin(wd*ts))},
+    f3=v=>v>=1?0:Math.pow(1-Math.pow(v,1.2),2.6),cap=(dx,r)=>dx<r?Math.sqrt(r*r-dx*dx):0;
   stp.classList.add('mv');A.classList.add('was');[A,B].forEach(el=>{el.style.justifyContent='flex-start';el.style.paddingRight='0'});
   const render=t=>{
-    const e=eio(sg(t,0,T.r)),wA=w0+(22-w0)*e,wB=22+(w1-22)*e,c=eio(sg(t,0,T.c)),wc=w0+(22-w0)*c,sE=spr((t-T.e0)/1000,.4,.72),ext=(wB-22)*sE;
+    const e=eio(sg(t,0,T.r)),wA=w0+(22-w0)*e,wB=22+(w1-22)*e,c=eio(sg(t,0,T.c)),wc=w0+(22-w0)*c,sE=spr((t-T.e0)/1000,.34,.75),ext=(wB-22)*sE,on=t>=T.e0;
     A.style.width=wA.toFixed(2)+'px';B.style.width=wB.toFixed(2)+'px';
     A.style.paddingLeft=(PL+(pa-PL)*c).toFixed(2)+'px';B.style.paddingLeft=(pb+(PL-pb)*cl(sE)).toFixed(2)+'px';
-    const aL=A.offsetLeft,bL=B.offsetLeft,an=aL+R,far=aL+wc-R,cB=bL+R,eP=eio(sg(t,T.p0,T.p1)),eQ=eio(sg(t,T.q0,T.q1)),s=cl((eP-eQ)/.5);
-    const xP=dir>0?far+(cB+ext-far)*eP:an+(cB-an)*eP,xQ=dir>0?an+(cB-an)*eQ:far+(cB+ext-far)*eQ,rP=R-.8*s,rQ=R-6.4*s;
-    const x1=dir>0?xQ:xP,r1=dir>0?rQ:rP,x2=dir>0?xP:xQ,r2=dir>0?rP:rQ,d=x2-x1,bl=x1-r1,br=x2+r2;
-    spbP.setAttribute('d',spBlob(x1,r1,x2,r2));
-    const cap=(x,c,r)=>{const dx=Math.abs(x-c);return dx<r?Math.sqrt(r*r-dx*dx):0},hAt=x=>Math.max(cap(x,x1,r1),cap(x,x2,r2),d>.5&&x>x1&&x<x2?spH((x-x1)/d,r1,r2):0);
-    sps.forEach(b=>{const n=b.firstChild;b.classList.toggle('cv',hAt(b.offsetLeft+n.offsetLeft+n.offsetWidth/2)>=5.2)});
-    const lab=(el,box,o,tx)=>{const l=box+el.offsetLeft+tx,w=el.offsetWidth;el.style.opacity=o.toFixed(3);el.style.transform=`translateX(${tx.toFixed(2)}px)`;
+    const aL=A.offsetLeft,bL=B.offsetLeft,an=aL+R,far=aL+wc-R,cB=bL+R,cA=dir>0?far:an,cP=cA+(cB-cA)*eio(sg(t,T.p0,T.p1)),d=Math.abs(cP-cA),xe=cB+ext;
+    // остаток на старой цифре: отдаёт массу голове (11 → 7,8); после разрыва – отдельный путь, который гаснет (впитывается), а не сжимается в точку под цифрой
+    const gone=sg(t,T.ts,T.ts+110),rA=R-3.2*eio(sg(t,T.p0+25,T.ts))-1.6*gone;
+    // голова: в полёте 10, на посадке раздаётся до ~12,5 и возвращается к 11 с малой отдачей
+    const tau=t-(T.p1-15),bump=tau>0&&tau<140?Math.sin(Math.PI*tau/140):tau>=140&&tau<260?-.2*Math.sin(Math.PI*(tau-140)/120):0,
+      rP=R-Math.min(sg(t,T.p0,T.p0+70),1-sg(tau,0,140))+2*bump;
+    // хвосты: до разрыва перекрываются (перемычка), в момент разрыва сходятся остриями на 35% пути от остатка, потом втягиваются
+    const k=1-Math.pow(sg(t,T.p0+40,T.ts),2),cut=t>=T.ts,La=cut?d*.35*(1-eo(sg(t,T.ts,T.ts+80))):d*(.35+.65*k),Lp=cut?d*.65*(1-eo(sg(t,T.ts,T.ts+130))):d*(.65+.35*k);
+    const lo=Math.min(an,far),hi=Math.max(an,far),
+      hA=x=>{if(rA<.2)return 0;const s=dir*(x-cA);return s>0?Math.max(cap(s,rA),La>.01?rA*f3(s/La):0):x<lo?cap(lo-x,rA):x>hi?cap(x-hi,rA):rA},
+      hP=x=>{const s=dir*(cP-x);return s>0?Math.max(cap(s,rP),Lp>.01?rP*f3(s/Lp):0):cap(-s,rP)},
+      hE=x=>!on||x<cB?0:x>xe?cap(x-xe,R):R+(Math.max(rP,R)-R)*Math.pow(Math.max(0,1-(x-cB)/24),2),
+      h=x=>{const a=cut?0:hA(x),q=hP(x);return Math.max(Math.min(Math.max(rA,rP),Math.cbrt(a*a*a+q*q*q)),hE(x))};
+    spbP.setAttribute('d',spPath(cut?[[cP,rP],[xe,on?R:0]]:[[an,rA],[far,rA],[cP,rP]],cut?Math.min(cP,cP-dir*Lp):Math.min(lo,cP),cut?Math.max(cP,cP-dir*Lp,on?xe:cP):Math.max(hi,cP),h));
+    spbA.setAttribute('d',cut&&gone<1?spPath([[an,rA],[far,rA]],Math.min(lo,cA+dir*La),Math.max(hi,cA+dir*La),hA):'');spbA.style.opacity=(1-gone).toFixed(3);
+    sps.forEach(b=>{const n=b.firstChild,x=b.offsetLeft+n.offsetLeft+n.offsetWidth/2;b.classList.toggle('cv',h(x)>=5.2||cut&&gone<.4&&hA(x)>=5.2)});
+    const lab=(el,box,o,tx,bl,br)=>{const l=box+el.offsetLeft+tx,w=el.offsetWidth;el.style.opacity=o.toFixed(3);el.style.transform=`translateX(${tx.toFixed(2)}px)`;
       el.style.clipPath=`inset(-4px ${Math.max(0,l+w-br+9).toFixed(2)}px -4px ${Math.max(0,bl+9-l).toFixed(2)}px)`};
-    lab(Al,aL,1-sg(t,0,130),0);lab(Bl,bL,eo(sg(t,T.e0+50,T.e0+250)),-6*(1-eo(sg(t,T.e0+50,T.e0+300))))};
+    lab(Al,aL,1-sg(t,0,110),0,lo-rA,hi+rA);lab(Bl,bL,eo(sg(t,T.e0+30,T.e0+200)),-6*(1-eo(sg(t,T.e0+30,T.e0+240))),cB-R,on?xe+R:cB-R)};
   const a=spAnim={raf:0};render(0);
   if(SPDBG){window.__sp={T,seek:render,finish:spStop};return}
   const t0=performance.now(),tick=now=>{if(spAnim!==a)return;const t=now-t0;if(t>=T.end)return spStop();render(t);a.raf=requestAnimationFrame(tick)};a.raf=requestAnimationFrame(tick)}
