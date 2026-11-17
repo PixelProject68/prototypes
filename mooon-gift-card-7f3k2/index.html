@@ -607,45 +607,41 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .scr.err .stat{opacity:0}
 .next.err{background:var(--violet)}
 
-/* ── упаковка: общий конверт (520×340, масштабируется) ── */
+/* ── конверт: общий для упаковки и получателя (520×340, масштабируется) ──
+   Задник, перед и клапан – из одного контура EC_PATH (верх – линия сгиба, низ – радиус 18).
+   Фактура бумаги, подкладка «луны», тени складок – внутри SVG. Движение ведёт JS-таймлайн: только transform и opacity. */
 .ec{position:absolute;left:50%;margin-left:-260px;width:520px;height:340px;transform-origin:50% 0;transform:scale(var(--es,1));perspective:1500px;perspective-origin:50% 0}
-.ec .shadow{position:absolute;left:60px;top:322px;width:400px;height:44px;border-radius:50%;background:rgba(40,16,100,.55);filter:blur(20px);opacity:.9;transition:opacity .8s,transform .8s var(--out)}
-.ec .bk{position:absolute;inset:0;border-radius:18px;background:linear-gradient(180deg,#2c1a70,#1c0f4d);box-shadow:inset 0 14px 30px rgba(0,0,0,.25)}
-.ec .cw{position:absolute;left:0;top:-700px;width:520px;height:1040px;overflow:hidden;z-index:2}
-.ec .card{position:absolute;left:105px;top:530px;width:310px;height:310px;border-radius:50%;overflow:hidden;box-shadow:0 26px 50px -12px rgba(232,57,122,.5),0 0 0 1px rgba(255,255,255,.2);transform:translateY(0);transition:transform 1.1s cubic-bezier(.5,0,.2,1),opacity .5s}
-.ec .card img{width:100%;height:100%;display:block;object-fit:cover}
-.ec .front{position:absolute;inset:0;filter:drop-shadow(0 -4px 10px rgba(20,8,60,.32));pointer-events:none}
-.ec .front svg,.ec .fl svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.ec .fl{position:absolute;left:0;top:0;width:520px;height:198px;transform-origin:50% 0;transform-style:preserve-3d;transform:rotateX(0deg);z-index:5;transition:transform .95s cubic-bezier(.55,0,.25,1),z-index 0s .47s}
+.ec.anim,.ec.anim .card,.ec.anim .fl,.ec.anim .seal{will-change:transform}
+.ec svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ec .shadow{position:absolute;left:56px;top:320px;width:408px;height:46px;border-radius:50%;background:rgba(40,16,100,.5);filter:blur(22px)}
+.ec .bk{position:absolute;inset:0}
+.ec .cw{position:absolute;left:0;top:-700px;width:520px;height:1034px;overflow:hidden;z-index:2;pointer-events:none} /* карман обрезает карту на 6 px выше нижней кромки: край карты не проступает по сглаживанию */
+.ec .card{position:absolute;left:105px;top:530px;width:310px;height:310px;transform:translateY(380px)}
+.ec .card .csh,.ec .card .crg{position:absolute;inset:0;border-radius:50%}
+.ec .card .csh{box-shadow:0 26px 50px -12px rgba(232,57,122,.5),0 0 0 1px rgba(255,255,255,.2)}
+.ec .card .crg{box-shadow:0 0 0 1.22px rgba(255,255,255,.55);opacity:0}
+.ec .card img{position:relative;width:100%;height:100%;display:block;object-fit:cover;border-radius:50%}
+.ec .front{position:absolute;inset:0;z-index:3;filter:drop-shadow(0 -6px 14px rgba(20,8,60,.42));pointer-events:none}
+.ec .fl{position:absolute;left:0;top:0;width:520px;height:202px;transform-origin:50% 0;transform-style:preserve-3d;z-index:5;pointer-events:none}
 .ec .fl .ff,.ec .fl .fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .ec .fl .fb{transform:rotateY(180deg)}
-.ec .elogo{position:absolute;left:334px;top:36px;width:104px;height:19.6px;color:#F6EFE0;pointer-events:none;transition:opacity .4s}
-.ec[data-st=open] .elogo{opacity:0}
-.ec .seal{position:absolute;left:225px;top:165px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#fffdf6,#f3ebd7 55%,#d9ccae);box-shadow:0 8px 16px rgba(15,5,45,.5),inset 0 0 0 6px rgba(255,255,255,.35),inset 0 0 0 7px rgba(150,130,90,.35);transition:transform .35s var(--spring),opacity .3s;z-index:3}
-.ec[data-st=open] .fl{transform:rotateX(-180deg)}
-.ec[data-st=open] .seal{opacity:0;transform:translateY(-14px) scale(.7)}
-.ec .seal{z-index:6}
-.ec[data-st=open] .fl{z-index:1}
-.ec .front{z-index:3}
-.ec.noseal .seal{opacity:0}
-.ec.sunk .card{transform:translateY(380px)}
-.ec .card.rise{transform:translateY(-65px)}
-.ec .fx{position:absolute;left:0;top:0;width:520px;height:340px;pointer-events:none;z-index:7}
-.ec .fx i{position:absolute;left:255px;top:90px;width:8px;height:12px;border-radius:2px;background:var(--c);opacity:0}
-.ec .fx i.dot{width:9px;height:9px;border-radius:50%}
-.ec .fx.go i{animation:pop 1.5s cubic-bezier(.12,.7,.3,1) var(--d) forwards}
-@keyframes pop{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.4)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 150px)) rotate(var(--r)) scale(1)}}
-.ec.press .seal{transform:scale(1.55);opacity:0}
-.ec.stamp .seal{animation:stamp .5s var(--spring) both}
-@keyframes stamp{0%{transform:scale(1.5);opacity:0}55%{transform:scale(.92);opacity:1}100%{transform:scale(1);opacity:1}}
-.ec.idle .seal{animation:breathe 2.4s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.ec .fl .shd{opacity:0}
+.ec .elogo{position:absolute;left:208px;top:52.2px;width:104px;height:19.6px;filter:drop-shadow(0 1px 0 rgba(18,6,58,.5))}
+.ec .elogo .gl{position:absolute;inset:0;overflow:hidden;-webkit-mask:var(--lm) 0 0/100% 100% no-repeat;mask:var(--lm) 0 0/100% 100% no-repeat}
+.ec .elogo .gl i{position:absolute;top:-8px;bottom:-8px;left:0;width:30px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.95) 50%,rgba(255,255,255,0));transform:translateX(-50px) skewX(-18deg)}
+.ec.idle .elogo .gl i{animation:ecGlint 5.2s 1.6s var(--ease) infinite}
+.ec.shine .elogo .gl i{animation:ecGlint1 .9s .25s var(--ease) both}
+@keyframes ecGlint{0%{transform:translateX(-50px) skewX(-18deg)}22%,100%{transform:translateX(130px) skewX(-18deg)}}
+@keyframes ecGlint1{0%{transform:translateX(-50px) skewX(-18deg)}100%{transform:translateX(130px) skewX(-18deg)}}
+.ec .seal{position:absolute;left:228px;top:168px;width:64px;height:64px;border-radius:50%;background:#F6EFE0;box-shadow:0 0 0 1px rgba(255,255,255,.5),0 8px 18px -6px rgba(15,5,45,.45);z-index:6;pointer-events:none}
+.ec .seal::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--paper) 0 0/64px 64px;opacity:.5}
 .ec.idle{cursor:pointer}
-.ec.idle:hover .seal{animation:none;transform:scale(1.12)}
+.ec.idle .seal{animation:sealBreathe 2.4s ease-in-out infinite}
+@keyframes sealBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.ec.idle:hover .seal{animation:none;transform:scale(1.08);transition:transform .35s var(--spring)}
+.ec.idle:active .seal{animation:none;transform:scale(.92);transition:transform .12s var(--out)}
 
-.scr[data-s=pack] .ec{top:calc(var(--hc,450px) - 180px);--es:.8077;opacity:0;translate:0 56px;transition:opacity .7s var(--out),translate .9s var(--out)}
-.scr[data-s=pack].in .ec{opacity:1;translate:0 0}
-.scr[data-s=pack] .ec.fly{opacity:0;translate:0 -150px;transition:opacity .75s var(--ease),translate .9s cubic-bezier(.5,0,.9,.4)}
+.scr[data-s=pack] .ec{top:calc(var(--hc,450px) - 180px);--es:.8077;opacity:0}
 .pkTxt{position:absolute;left:0;right:0;top:calc(var(--hc,450px) + 170px);height:30px;text-align:center;font-size:20px;line-height:30px;letter-spacing:-.01em}
 .pkTxt span{position:absolute;left:0;right:0;transition:opacity .45s,transform .6s var(--out)}
 .pkTxt .t2{opacity:0;transform:translateY(10px)}
@@ -675,11 +671,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .pill .chk{display:none}.pill.done .chk{display:block}.pill.done .dli{display:none}
 
 /* ── путь получателя ── */
-.scr[data-s=open] .ec{top:calc(var(--hc,450px) - 140px);--es:1;opacity:0;transition:opacity .8s var(--out),translate 1s var(--out)}
-.scr[data-s=open].in .ec{opacity:1}
-.scr[data-s=open] .ec.drop{translate:0 90px;transition:translate 1.3s var(--ease)}
-.scr[data-s=open] .ec.out{translate:0 90px}
-.scr[data-s=open] .ec.out .bk,.scr[data-s=open] .ec.out .front,.scr[data-s=open] .ec.out .fl,.scr[data-s=open] .ec.out .shadow{opacity:0;transition:opacity .5s}
+.scr[data-s=open] .ec{top:calc(var(--hc,450px) - 140px);--es:1;opacity:0}
 .mbadge{display:none}
 .slot{display:none}
 .app.m .slot{display:block}
@@ -907,10 +899,6 @@ body.demo #demo{display:block}
 }
 .slar:active{transform:scale(.95)}
 .bgo:not(.off):active{transform:scale(.96)}
-/* 07 · открытие: движение ведёт JS-пружина (только transform и opacity) */
-.ec.js .card,.ec.js .fl,.ec.js .seal{transition:none}
-.ec.js.idle .seal{transition:transform .35s var(--spring)}
-.scr[data-s=open] .ec.js{transition:opacity .6s var(--out)}
 #cfx{position:absolute;left:0;top:0;pointer-events:none;z-index:45}
 /* 07 · «Woow»: заголовок по словам (70 мс), сумма +180, «открыть» +380 – пружиной */
 .woh .ww{display:inline-block;opacity:0;transform:translateY(16px);transition:opacity .45s var(--out),transform .75s var(--spring);transition-delay:calc(var(--wi)*70ms)}
@@ -1693,7 +1681,7 @@ const ptr={x:-999,y:-999};
 frame.addEventListener('pointermove',e=>{ptr.x=e.clientX;ptr.y=e.clientY});frame.addEventListener('pointerleave',()=>{ptr.x=ptr.y=-9999});
 const tl=items.map(()=>({rx:0,ry:0,go:0,gx:50,gy:30}));let mg={x:0,y:0};
 (function tilt(){
-  const sc=S.screen,live=sc!=='home';
+  const sc=S.screen,live=sc!=='home'&&sc!=='open'; // на «открытии» диск скрыт: наклон не копим, на «Woow» он плавно начнётся с нуля
   items.forEach((it,i)=>{const T=tl[i],tw=it.el.firstElementChild,face=tw.querySelector('.face');
     let trx=0,try_=0,tgo=0,gx=T.gx,gy=T.gy;
     if(live&&it.el.classList.contains('cur')){const r=face.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,R=r.width/2;
@@ -1963,37 +1951,124 @@ function sfx(k){if(!DEMO.sound)return;try{AC=AC||new (window.AudioContext||windo
   if(k==='tick')tone(520,0,.14,.08);else if(k==='chime')[659,880,1319].forEach((f,i)=>tone(f,i*.09,.95,.06));else if(k==='ok')tone(880,0,.18,.05)}catch(_){}}
 const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(_){}};
 
-/* ── конверт (общий для упаковки и получателя) ── */
-const ENV=`<div class="shadow"></div><div class="bk"></div>
-<div class="cw"><div class="card"><img alt="" src=""></div></div>
-<div class="front"><svg viewBox="0 0 520 340" preserveAspectRatio="none"><defs><linearGradient id="pkg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f2a88"/><stop offset="1" stop-color="#22135a"/></linearGradient></defs>
-<path d="M0 0 L260 198 L520 0 V322 Q520 340 502 340 H18 Q0 340 0 322 Z" fill="url(#pkg)"/><path d="M0 0 L260 198 L0 322 Z" fill="#fff" fill-opacity=".05"/><path d="M520 0 L260 198 L520 322 Z" fill="#000" fill-opacity=".12"/><path d="M0 340 L260 198 L520 340 Z" fill="#fff" fill-opacity=".05"/></svg></div>
-<div class="fl"><div class="ff"><svg viewBox="0 0 520 198" preserveAspectRatio="none"><defs><linearGradient id="flg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3bb8"/><stop offset="1" stop-color="#3b2582"/></linearGradient></defs><polygon points="0,0 520,0 260,198" fill="url(#flg)" stroke="#fff" stroke-opacity=".22" stroke-width="1.2"/></svg><span class="elogo" aria-hidden="true"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></span></div>
-<div class="fb"><svg viewBox="0 0 520 198" preserveAspectRatio="none"><defs><linearGradient id="fbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff63a0"/><stop offset="1" stop-color="#d93573"/></linearGradient></defs><polygon points="0,0 520,0 260,198" fill="url(#fbg)"/></svg></div></div>
-<div class="seal"></div><div class="fx"></div>`;
-['#ecP','#ecO'].forEach(s=>{$(s).innerHTML=ENV});
+/* ── конверт (общий для упаковки и получателя) ──
+   Один контур: задник, перед и клапан строятся из EC_PATH (верхние углы – линия сгиба, нижние – радиус 18).
+   Сгибы сходятся точно в нижние углы, клапан перекрывает V-вырез на 1,5 px по нормали, обводок по кромке нет.
+   Фактура: бумажное зерно и волокна (генерируются один раз), подкладка – сетка лун (круги из брендбука), тени складок. */
+const LOGO_D='M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z';
+const EC_PATH='M0 0H520V322A18 18 0 0 1 502 340H18A18 18 0 0 1 0 322Z';
+const EC_POCKET='M0 0L260 198L520 0V322A18 18 0 0 1 502 340H18A18 18 0 0 1 0 322Z';
+const EC_FLAP='0,0 520,0 520,1.89 260,199.89 0,1.89';
+const MOON='M2-3.46A4 4 0 1 0 2 3.46A3.6 3.6 0 0 1 2-3.46Z';
+const PAPER=(()=>{const n=256,c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d'),d=x.createImageData(n,n);
+  for(let i=0;i<d.data.length;i+=4){const v=Math.random(),w=v>.5;d.data[i]=d.data[i+1]=d.data[i+2]=w?255:0;d.data[i+3]=Math.round(Math.pow(Math.abs(v-.5)*2,2.4)*(w?70:60))}
+  x.putImageData(d,0,0);x.lineCap='round';
+  for(let k=0;k<70;k++){const x0=Math.random()*n,y0=Math.random()*n,L=14+Math.random()*46,a=Math.random()*6.283,b=(Math.random()-.5)*22;
+    const x1=x0+Math.cos(a)*L,y1=y0+Math.sin(a)*L,mx=(x0+x1)/2-Math.sin(a)*b,my=(y0+y1)/2+Math.cos(a)*b;
+    x.strokeStyle=Math.random()<.6?`rgba(255,255,255,${(.07+Math.random()*.1).toFixed(3)})`:`rgba(0,0,0,${(.06+Math.random()*.08).toFixed(3)})`;x.lineWidth=.5+Math.random()*.7;
+    for(const ox of[-n,0,n])for(const oy of[-n,0,n]){x.beginPath();x.moveTo(x0+ox,y0+oy);x.quadraticCurveTo(mx+ox,my+oy,x1+ox,y1+oy);x.stroke()}}
+  return c.toDataURL('image/png')})();
+document.documentElement.style.setProperty('--paper',`url(${PAPER})`);
+const LOGO_MASK=`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117 22"><path d="${LOGO_D}"/></svg>`)}")`;
+// полоса-градиент от кромки внутрь фигуры: тени складок и блики по кромке (вместо обводок)
+const strip=(id,mx,my,nx,ny,len,col,a)=>`<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${mx}" y1="${my}" x2="${(mx+nx*len).toFixed(2)}" y2="${(my+ny*len).toFixed(2)}"><stop offset="0" stop-color="${col}" stop-opacity="${a}"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient>`;
+const LT='M0 0L260 198L0 340Z',RT='M520 0L260 198L520 340Z',BT='M0 340L260 198L520 340Z';
+const ENV=p=>`<div class="shadow"></div>
+<div class="bk"><svg viewBox="0 0 520 340" aria-hidden="true"><defs>
+<linearGradient id="${p}bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c1a70"/><stop offset="1" stop-color="#1c0f4d"/></linearGradient>
+<linearGradient id="${p}bi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".32"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+<pattern id="${p}ml" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="3.2" fill="#fff"/><path transform="translate(27 27) rotate(-35)" d="${MOON}" fill="#fff"/></pattern>
+<pattern id="${p}pp" width="128" height="128" patternUnits="userSpaceOnUse"><image href="${PAPER}" width="128" height="128"/></pattern>
+</defs><path d="${EC_PATH}" fill="url(#${p}bg)"/><path d="${EC_PATH}" fill="url(#${p}ml)" opacity=".07"/><path d="${EC_PATH}" fill="url(#${p}pp)" opacity=".6"/><rect width="520" height="46" fill="url(#${p}bi)"/></svg></div>
+<div class="cw"><div class="card"><i class="csh"></i><img alt="" src=""><i class="crg"></i></div></div>
+<div class="front"><svg viewBox="0 0 520 340" aria-hidden="true"><defs>
+<clipPath id="${p}pk"><path d="${EC_POCKET}"/></clipPath>
+<linearGradient id="${p}fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#40298c"/><stop offset="1" stop-color="#22135a"/></linearGradient>
+<radialGradient id="${p}fv" cx="50%" cy="38%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></radialGradient>
+${strip(p+'sl',130,269,-.479,-.878,18,'#0c0330',.42)}${strip(p+'sr',390,269,.479,-.878,18,'#0c0330',.42)}
+${strip(p+'hl',130,269,.479,.878,4,'#fff',.2)}${strip(p+'hr',390,269,-.479,.878,4,'#fff',.2)}
+${strip(p+'vl',130,99,-.606,.796,3,'#fff',.16)}${strip(p+'vr',390,99,.606,.796,3,'#fff',.12)}
+${strip(p+'cl',130,99,-.606,.796,24,'#0c0330',.5)}${strip(p+'cr',390,99,.606,.796,24,'#0c0330',.5)}
+</defs><g clip-path="url(#${p}pk)">
+<rect width="520" height="340" fill="url(#${p}fg)"/>
+<path d="${LT}" fill="#fff" fill-opacity=".06"/><path d="${RT}" fill="#000" fill-opacity=".14"/>
+<path d="${LT}" fill="url(#${p}sl)"/><path d="${RT}" fill="url(#${p}sr)"/>
+<path d="${BT}" fill="#fff" fill-opacity=".05"/><path d="${BT}" fill="url(#${p}hl)"/><path d="${BT}" fill="url(#${p}hr)"/>
+<path d="${LT}" fill="url(#${p}vl)"/><path d="${RT}" fill="url(#${p}vr)"/>
+<g class="fsh"><path d="${LT}" fill="url(#${p}cl)"/><path d="${RT}" fill="url(#${p}cr)"/></g>
+<rect width="520" height="340" fill="url(#${p}pp)" opacity=".7"/><rect width="520" height="340" fill="url(#${p}fv)"/>
+</g></svg></div>
+<div class="fl"><div class="ff"><svg viewBox="0 0 520 202" aria-hidden="true"><defs>
+<linearGradient id="${p}flg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3bb8"/><stop offset="1" stop-color="#3b2582"/></linearGradient>
+<radialGradient id="${p}fls" cx="28%" cy="0%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".13"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.606,-.796,7,'#fff',.16)}
+<linearGradient id="${p}lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFBF2"/><stop offset=".5" stop-color="#EADBBF"/><stop offset="1" stop-color="#F6EFE0"/></linearGradient>
+</defs><polygon points="${EC_FLAP}" fill="url(#${p}flg)"/><polygon points="${EC_FLAP}" fill="url(#${p}fls)"/>
+<polygon points="0,0 260,0 260,199.89 0,1.89" fill="url(#${p}el)"/><polygon points="260,0 520,0 520,1.89 260,199.89" fill="url(#${p}er)"/>
+<polygon points="${EC_FLAP}" fill="url(#${p}pp)" opacity=".7"/></svg>
+<span class="elogo" aria-hidden="true"><svg viewBox="0 0 117 22"><path d="${LOGO_D}" fill="url(#${p}lg)"/></svg><span class="gl"><i></i></span></span>
+<svg class="shd" viewBox="0 0 520 202" aria-hidden="true"><polygon points="${EC_FLAP}" fill="#000"/></svg></div>
+<div class="fb"><svg viewBox="0 0 520 202" aria-hidden="true"><defs><linearGradient id="${p}fbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff63a0"/><stop offset="1" stop-color="#d93573"/></linearGradient></defs>
+<polygon points="${EC_FLAP}" fill="url(#${p}fbg)"/><polygon points="${EC_FLAP}" fill="url(#${p}ml)" opacity=".2"/><polygon points="${EC_FLAP}" fill="url(#${p}pp)" opacity=".55"/></svg>
+<svg class="shd" viewBox="0 0 520 202" aria-hidden="true"><polygon points="${EC_FLAP}" fill="#000"/></svg></div></div>
+<div class="seal"></div>`;
+['#ecP','#ecO'].forEach((s,i)=>{const ec=$(s);ec.innerHTML=ENV('e'+i);ec.style.setProperty('--lm',LOGO_MASK)});
 const designSrc=()=>IMG[S.design]||IMG[2];
-function envReset(ec,{open,sunk,seal}){ec.className='ec';ec.dataset.st=open?'open':'closed';if(sunk)ec.classList.add('sunk');if(!seal)ec.classList.add('noseal');$('.card img',ec).src=designSrc();$('.fx',ec).className='fx';$('.fx',ec).innerHTML=''}
-function confetti(ec){const fx=$('.fx',ec);fx.innerHTML='';fx.className='fx';const cols=['#E8397A','#6B52C9','#F6F1E7','#FF8FB8','#9A82F0'];
-  for(let i=0;i<26;i++){const p=document.createElement('i');if(i%3===0)p.className='dot';const a=(-90+(Math.random()*150-75))*Math.PI/180,d=140+Math.random()*190;
-    p.style.setProperty('--dx',Math.round(Math.cos(a)*d*1.1)+'px');p.style.setProperty('--dy',Math.round(Math.sin(a)*d)+'px');p.style.setProperty('--r',Math.round(Math.random()*540-270)+'deg');
-    p.style.setProperty('--c',cols[i%cols.length]);p.style.setProperty('--d',(.02+Math.random()*.2).toFixed(2)+'s');fx.appendChild(p)}
-  void fx.offsetWidth;fx.classList.add('go')}
 
-/* ── 05 · упаковка: конверт въезжает, карта опускается, клапан закрывается, печать, улетает ── */
+/* ── один таймлайн на JS: аналитические пружины (response, ζ) и кривые; кадр = функция времени, без накопления ошибок ── */
+const lerp=(a,b,p)=>a+(b-a)*p;
+const EZ={out:t=>1-Math.pow(1-t,3),inOut:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,in:t=>t*t*t,sine:t=>.5-.5*Math.cos(Math.PI*t)};
+function springAt(response,zeta,t){if(t<=0)return 0;const w=2*Math.PI/response;
+  if(zeta<1){const wd=w*Math.sqrt(1-zeta*zeta);return 1-Math.exp(-zeta*w*t)*(Math.cos(wd*t)+zeta*w/wd*Math.sin(wd*t))}
+  return 1-Math.exp(-w*t)*(1+w*t)}
+const tSp=(t,t0,r,z)=>springAt(r,z,(t-t0)/1000);
+const tSeg=(t,t0,d,e)=>{const p=Math.min(1,Math.max(0,(t-t0)/d));return e?e(p):p};
+function runTL(render,alive){return new Promise(res=>{let t0=null;
+  const f=now=>{if(!alive())return res(false);if(t0===null)t0=now;if(render(now-t0))return res(true);requestAnimationFrame(f)};requestAnimationFrame(f)})}
+
+/* ── состояние конверта ── */
+function envOf(ec){const cs=getComputedStyle(ec);return {ec,top:parseFloat(cs.top)||0,es:parseFloat(cs.getPropertyValue('--es'))||1,
+  card:$('.card',ec),csh:$('.csh',ec),crg:$('.crg',ec),seal:$('.seal',ec),fl:$('.fl',ec),ff:$('.ff',ec),fb:$('.fb',ec),
+  shd:$$('.shd',ec),fsh:$('.fsh',ec),bk:$('.bk',ec),front:$('.front',ec),shadow:$('.shadow',ec),cx:0,cy:380,cs:1,cur:null}}
+// x, y – сдвиг в px кадра; k – масштаб вокруг центра конверта поверх базового --es; r – поворот
+function envSet(E,{x=0,y=0,k=1,r=0}={}){const s=E.es*k,ty=y+170*E.es*(1-k);
+  E.ec.style.transform=`translate3d(${x.toFixed(2)}px,${ty.toFixed(2)}px,0) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(5)})`;E.cur={x,y:ty,s}}
+// a: 0 – закрыт, 180 – открыт. Слой меняется строго на 90° (клапан ребром); затемнение к 90° до яркости .75 и обратно
+function envFlap(E,a){E.fl.style.transform=`rotateX(${(-a).toFixed(3)}deg)`;E.fl.style.zIndex=a>90?'1':'5';
+  const d=(.25*Math.sin(Math.max(0,Math.min(180,a))*Math.PI/180)).toFixed(3);E.shd.forEach(e=>e.style.opacity=d);E.fsh.style.opacity=Math.max(0,1-a/40).toFixed(3)}
+function envCard(E,ty,sc=1,tx=0){E.card.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${sc.toFixed(5)})`;E.cx=tx;E.cy=ty;E.cs=sc}
+function envReset(ec,{open,sunk,seal}){
+  ec.className='ec';ec.style.transform='';ec.style.opacity='';ec.style.translate='';ec.style.scale='';$('.card img',ec).src=designSrc();
+  const E=envOf(ec);[E.bk,E.front,E.ff,E.fb,E.shadow,E.seal,E.card,E.csh,E.crg].forEach(e=>{e.style.opacity='';e.style.transform=''});
+  envFlap(E,open?180:0);envCard(E,sunk?380:0);if(!seal)E.seal.style.opacity='0';return E}
+// доля карты, вышедшая из кармана (0…1): сетка точек внутри круга карты против V-кромки переда
+function cardOut(E){const r=155*E.cs,cx=260+E.cx,cy=-15+E.cy;let tot=0,cov=0;
+  for(let i=0;i<14;i++)for(let j=0;j<14;j++){const x=cx-r+(i+.5)*r/7,y=cy-r+(j+.5)*r/7;if((x-cx)**2+(y-cy)**2>r*r)continue;tot++;
+    if(y>=340||(x>0&&x<520&&y>198-Math.abs(x-260)*198/260))cov++}
+  return tot?1-cov/tot:1}
+
+/* ── 05 · упаковка: конверт въезжает, карта уходит в карман, клапан закрывается, печать прилипает, конверт улетает по дуге ── */
 async function runPack(){
-  const tok=++packTok,ec=$('#ecP'),txt=$('#pkTxt');
-  envReset(ec,{open:true,sunk:false,seal:false});txt.classList.remove('two');
-  await sleep(1000);if(tok!==packTok)return;
-  ec.classList.add('sunk');                       // карта уходит в конверт
-  await sleep(1400);if(tok!==packTok)return;
-  ec.dataset.st='closed';                         // клапан закрывается
-  await sleep(950);if(tok!==packTok)return;
-  ec.classList.add('stamp');txt.classList.add('two'); // печать «прилипает», подпись меняется
-  await sleep(1200);if(tok!==packTok)return;
-  ec.classList.add('fly');                        // конверт улетает
-  await sleep(850);if(tok!==packTok)return;
-  S.fresh=true;go('done')}
+  const tok=++packTok,ec=$('#ecP'),txt=$('#pkTxt'),alive=()=>tok===packTok&&S.screen==='pack';
+  const E=envReset(ec,{open:true,sunk:false,seal:false});txt.classList.remove('two');
+  if(RM){envFlap(E,0);envCard(E,380);E.seal.style.opacity='';ec.style.opacity='1';txt.classList.add('two');
+    await new Promise(r=>setTimeout(r,900));if(!alive())return;S.fresh=true;return go('done')}
+  ec.classList.add('anim');
+  const T1=1000,T2=2250,T3=3300,T4=4500,u=E.es/.8077;let stamped=false;
+  const ok=await runTL(t=>{
+    const pin=tSp(t,0,.9,.86);                                   // вход снизу
+    envCard(E,lerp(0,380,tSeg(t,T1,1150,EZ.inOut)));             // карта в карман
+    envFlap(E,180*(1-tSp(t,T2,1,.9)));                           // клапан закрывается
+    let k=1,x=0,y=lerp(56,0,pin)*u,r=0,op=tSeg(t,0,650,EZ.out);
+    if(t>=T3){if(!stamped){stamped=true;txt.classList.add('two');ec.classList.add('shine')}
+      E.seal.style.opacity=tSeg(t,T3,120).toFixed(3);E.seal.style.transform=`scale(${lerp(1.6,1,tSp(t,T3,.42,.55)).toFixed(4)})`;
+      const hit=T3+110;k=1-.02*(tSeg(t,hit,80,EZ.out)-tSp(t,hit+80,.45,.6))}   // печать прилипла: проседание .98 и возврат
+    const ant=tSeg(t,T4,140,EZ.out)-tSeg(t,T4+140,200,EZ.inOut);y+=8*u*ant;k*=1-.012*ant;   // замах
+    const f=tSeg(t,T4+140,900);
+    if(f>0){x=70*u*EZ.out(f);y-=(380*f*f+40*f)*u;r=-4.5*EZ.out(f);k*=1-.34*EZ.in(f);op*=1-tSeg(t,T4+140+400,500,EZ.inOut)}  // улёт по дуге
+    envSet(E,{x,y,k,r});ec.style.opacity=op.toFixed(3);
+    return t>=T4+140+940},alive);
+  if(!ok)return;S.fresh=true;go('done')}
 $('#skip').onclick=()=>{packTok++;S.fresh=true;go('done')};
 
 /* ── успех: 5 статусов ── */
@@ -2047,85 +2122,92 @@ const gen=n=>{n=n.trim();if(!n)return n;const l=n.slice(-1).toLowerCase(),p=n.sl
   if('бвгджзклмнпрстфхцчшщ'.includes(l))return n+'а';if(l==='ь'||l==='й')return p+'я';if(l==='а')return p+(/[гкхжчшщ]$/i.test(p)?'и':'ы');if(l==='я')return p+'и';return n};
 const slotOf=sc=>{const el=$(sc==='woow'?'#slotW':sc==='msg'?'#slotM':'#slotC');if(!el)return null;const r=el.getBoundingClientRect(),f=frame.getBoundingClientRect(),k=f.width/W;
   if(!r.width)return null;return {cx:(r.left-f.left+r.width/2)/k,cy:(r.top-f.top+r.height/2)/k,d:r.width/k}};
-/* ── пружины (моушн-спека Figma «Открытие подарка»): response (с) + damping ratio ζ, масса 1.
-   stiffness=(2π/response)², damping=2ζ√stiffness. Прогресс 0→1, v0 – начальная скорость в долях пути/с. ── */
-function spring(response,zeta,cb,{v0=0,alive=()=>true}={}){
-  return new Promise(res=>{
-    if(RM){cb(1);return res()}
-    const k=Math.pow(2*Math.PI/response,2),c=2*zeta*Math.sqrt(k);let x=0,v=v0,last=performance.now();
-    const f=t=>{if(!alive())return res();const dt=Math.min(.034,(t-last)/1000);last=t;
-      for(let i=0;i<4;i++){const h=dt/4,a=-k*(x-1)-c*v;v+=a*h;x+=v*h}
-      if(Math.abs(1-x)<.001&&Math.abs(v)<.02){cb(1);return res()}
-      cb(x);requestAnimationFrame(f)};
-    requestAnimationFrame(f)})}
-const lerp=(a,b,p)=>a+(b-a)*p;
-
-/* ── конфетти: один burst на canvas поверх сцены (120 десктоп / 70 мобилка), физика из спеки ── */
+/* ── конфетти: canvas поверх сцены. Три формы (бумажки, «луны», серпантин), две волны, глубина (мелкие дальше и медленнее),
+   переворот с бликом, парение: сопротивление воздуха, предельная скорость падения, раскачивание. ── */
 const cfx=document.createElement('canvas');cfx.id='cfx';frame.appendChild(cfx);
 let cfP=[],cfRaf=0;
-const CF_COLS=['#E8397A','#FF8FB5','#6B52C9','#A592F0','#F4ECE2','#FFD27A'];
-function confettiBurst(x,y){
-  if(RM)return;const s=parseFloat(frame.style.getPropertyValue('--s'))||1,dpr=Math.min(2,devicePixelRatio||1),k=M?.62:1;
+const CFC=[['#E8397A','#A8164F'],['#FF8FB5','#D45F88'],['#6B52C9','#3E2A86'],['#A592F0','#6F5BC4'],['#F6EFE0','#CBBB98'],['#FFD27A','#D39A2E']];
+function cfSpawn(x,y,R,k,pw,n){for(let i=0;i<n;i++){
+  const kind=Math.random()<.2?'rib':Math.random()<.3?'disc':'rect',z=.6+Math.random()*.75;
+  const th=(-90+(Math.random()*2-1)*75)*Math.PI/180,rr=R*(.35+Math.random()*.55),dir=th+(Math.random()*2-1)*.35,v=(560+Math.random()*980)*pw*k*(.7+.3*z);
+  cfP.push({kind,z,k,x:x+Math.cos(th)*rr,y:y+Math.sin(th)*rr*.8,vx:Math.cos(dir)*v,vy:Math.sin(dir)*v,
+    rot:Math.random()*6.283,vrot:(Math.random()*2-1)*6,flip:Math.random()*6.283,vflip:4+Math.random()*9,sw:Math.random()*6.283,vsw:1.8+Math.random()*2.4,amp:(14+Math.random()*26)*k,
+    w:(kind==='rib'?7:kind==='disc'?10+Math.random()*5:10+Math.random()*6)*k*z,h:(kind==='rib'?48+Math.random()*40:15+Math.random()*9)*k*z,
+    term:(kind==='rib'?90:kind==='disc'?175:125)*k*(.65+.35*z),c:CFC[(Math.random()*CFC.length)|0],t:0,life:3.8+Math.random()*1.8})}
+  cfP.sort((a,b)=>a.z-b.z)}
+function confettiBurst(x,y,R){
+  if(RM)return;const s=parseFloat(frame.style.getPropertyValue('--s'))||1,dpr=Math.min(2,devicePixelRatio||1),k=M?.8:1;
   cfx.width=Math.round(W*s*dpr);cfx.height=Math.round(H*s*dpr);cfx.style.width=W+'px';cfx.style.height=H+'px';
-  const n=M?70:120;
-  for(let i=0;i<n;i++){const a=(-90+(Math.random()*2-1)*68)*Math.PI/180,sp=(560+Math.random()*940)*k;
-    cfP.push({x:x+(Math.random()*2-1)*30*k,y:y+(Math.random()*2-1)*20*k,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:Math.random()*6.28,vr:(Math.random()*2-1)*9,
-      w:(Math.random()<.34?7:6)*k,h:(Math.random()<.34?7:11)*k,dot:Math.random()<.34,c:CF_COLS[i%CF_COLS.length],t:0,life:2.6+Math.random(),fl:Math.random()*6.28})}
-  if(!cfRaf){let last=performance.now();const ctx=cfx.getContext('2d');
-    const f=t=>{const dt=Math.min(.034,(t-last)/1000);last=t;const keep=['open','woow','msg','card'].includes(S.screen);
-      ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cfx.width,cfx.height);ctx.setTransform(s*dpr,0,0,s*dpr,0,0);
-      const dr=Math.exp(-2.1*dt);
-      cfP=cfP.filter(p=>{p.t+=dt;if(p.t>p.life||!keep)return false;p.vx*=dr;p.vy=p.vy*dr+750*k*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=p.vr*dt;p.fl+=dt*8;
-        const o=Math.min(1,(p.life-p.t)/.6);ctx.globalAlpha=o;ctx.fillStyle=p.c;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
-        if(p.dot){ctx.beginPath();ctx.arc(0,0,p.w/2,0,6.283);ctx.fill()}else{ctx.scale(1,Math.cos(p.fl));ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h)}
-        ctx.restore();return true});
-      if(cfP.length)cfRaf=requestAnimationFrame(f);else{cfRaf=0;ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cfx.width,cfx.height)}};
-    cfRaf=requestAnimationFrame(f)}}
+  cfSpawn(x,y,R,k,1,M?90:150);setTimeout(()=>cfSpawn(x,y,R,k,.62,M?40:70),130);
+  if(cfRaf)return;let last=performance.now();const ctx=cfx.getContext('2d');
+  const f=t=>{const dt=Math.min(.034,Math.max(0,(t-last)/1000));last=t;const keep=['open','woow','msg','card'].includes(S.screen);
+    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cfx.width,cfx.height);ctx.setTransform(s*dpr,0,0,s*dpr,0,0);
+    const dr=Math.exp(-2.4*dt);
+    cfP=cfP.filter(p=>{p.t+=dt;if(!keep||p.t>p.life||p.y>H+90)return false;
+      p.vx*=dr;p.vy=p.vy*dr+1150*p.k*dt;if(p.vy>p.term)p.vy=p.term+(p.vy-p.term)*Math.exp(-5*dt);
+      const fall=Math.max(0,Math.min(1,p.vy/p.term));p.sw+=p.vsw*dt;
+      p.x+=p.vx*dt+Math.cos(p.sw)*p.amp*p.vsw*dt*fall;p.y+=p.vy*dt;p.rot+=p.vrot*dt*(.35+.65*fall)+Math.cos(p.sw)*.7*dt*fall;p.flip+=p.vflip*dt;
+      const al=Math.min(1,p.t/.05)*Math.min(1,(p.life-p.t)/.9);ctx.globalAlpha=al;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+      if(p.kind==='rib'){const n=14,L=p.h,A=p.w*1.15;ctx.lineWidth=p.w*.62;ctx.lineCap='round';let px=Math.sin(p.flip)*A,py=-L/2;
+        for(let j=1;j<=n;j++){const ph=j*.5+p.flip,nx=Math.sin(ph)*A,ny=-L/2+j*L/n;ctx.strokeStyle=Math.cos(ph)>0?p.c[0]:p.c[1];ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(nx,ny);ctx.stroke();px=nx;py=ny}}
+      else{const cf=Math.cos(p.flip),g=Math.abs(cf);ctx.fillStyle=cf>0?p.c[0]:p.c[1];ctx.beginPath();
+        if(p.kind==='disc'){ctx.scale(Math.max(.08,g),1);ctx.arc(0,0,p.w/2,0,6.283)}
+        else{ctx.scale(1,Math.max(.06,g));if(ctx.roundRect)ctx.roundRect(-p.w/2,-p.h/2,p.w,p.h,1.6*p.k);else ctx.rect(-p.w/2,-p.h/2,p.w,p.h)}
+        ctx.fill();if(g>.8){ctx.globalAlpha=al*(g-.8)/.2*.55;ctx.fillStyle='#fff';ctx.fill()}}
+      ctx.restore();return true});
+    ctx.globalAlpha=1;
+    if(cfP.length)cfRaf=requestAnimationFrame(f);else{cfRaf=0;ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cfx.width,cfx.height)}};
+  cfRaf=requestAnimationFrame(f)}
 
-/* ── 07 · открытие (получатель): вход конверта пружиной; по клику: печать → клапан → карта → конверт уходит → «Woow» ── */
+/* ── 07 · открытие (получатель): вход конверта пружиной; по клику – печать → клапан → карта выходит из кармана → конверт уходит → «Woow» ── */
 let openTok=0;
-const ENV_PARTS=ec=>['.bk','.front','.fl','.shadow','.seal'].map(q=>$(q,ec));
-function envGeo(ec){return {top:parseFloat(getComputedStyle(ec).top)||0,es:parseFloat(getComputedStyle(ec).getPropertyValue('--es'))||1}}
+// место и размер диска на «Woow» (мобилка: экран скрыт до перехода – на мгновение включаем раскладку и меряем слот)
+function woowTarget(){const sw=$('.scr[data-s="woow"]'),had=sw.classList.contains('act');if(!had)sw.classList.add('act');
+  const t=target(S.design,'woow');if(!had)sw.classList.remove('act');return t}
 function initOpen(){
-  opened=false;const tok=++openTok,ec=$('#ecO');envReset(ec,{open:false,sunk:true,seal:true});ec.style.translate='';ec.style.scale='';ec.style.removeProperty('--es');ec.classList.add('idle','js');ec.style.pointerEvents='';
-  ENV_PARTS(ec).forEach(e=>{e.style.opacity='';e.style.transform='';e.style.zIndex=''});const card=$('.card',ec);card.style.transform='translateY(380px)';
-  const {es}=envGeo(ec);ec.style.setProperty('--es',es);ec.style.translate=`0 ${90*es}px`;ec.style.scale='.9';
-  spring(.95,.8,p=>{ec.style.translate=`0 ${lerp(90*es,0,p)}px`;ec.style.scale=String(lerp(.9,1,p))},{alive:()=>tok===openTok})}
+  opened=false;const tok=++openTok,ec=$('#ecO'),E=envReset(ec,{open:false,sunk:true,seal:true});ec.style.pointerEvents='';ec.classList.add('idle');
+  if(RM){ec.style.opacity='1';return}
+  ec.classList.add('anim');
+  runTL(t=>{const p=tSp(t,0,.95,.8);envSet(E,{y:lerp(90*E.es,0,p),k:lerp(.9,1,p)});ec.style.opacity=tSeg(t,0,500,EZ.out).toFixed(3);
+    if(t>1400){envSet(E);ec.classList.remove('anim');return true}},()=>tok===openTok&&S.screen==='open'&&!opened)}
 async function doOpen(){
   if(opened||S.screen!=='open')return;opened=true;const tok=openTok,alive=()=>tok===openTok&&S.screen==='open';
-  const ec=$('#ecO'),card=$('.card',ec),seal=$('.seal',ec),fl=$('.fl',ec);ec.classList.remove('idle');ec.style.pointerEvents='none';
-  ec.style.translate='';ec.style.scale='';ec.style.removeProperty('--es');
-  if(RM){ec.style.transition='opacity .2s';ec.style.opacity='0';await sleep(200);ec.style.transition='';ec.style.opacity='';return go('woow')}
-  const {top,es}=envGeo(ec);
-  // куда карта должна прилететь: диск «Woow» (десктоп 720,320 Ø300 / мобилка – слот #slotW)
-  // мобилка: экран «Woow» скрыт (display:none) до перехода – слот считаем из раскладки: отступ 197 + --vo, диск 196
-  const T=M?{cx:W/2,cy:197+Math.max(0,(H-844)/2)+98,d:196}:{cx:W/2,cy:320,d:300};
-  let p1=0,p2=0;const yc0=-15; // центр карты в координатах конверта, когда она «в кармане» без сдвига
-  const paint=()=>{const D=240*es*p2,S_=es*(1-.1*p2);
-    ec.style.translate=`0 ${D}px`;ec.style.setProperty('--es',S_);
-    const yc=(T.cy-top-D)/S_,cf=(T.d/310)/S_;            // держим карту на месте, пока конверт опускается и уменьшается
-    card.style.transform=`translateY(${lerp(380,yc-yc0,p1)}px) scale(${lerp(1,cf,p1)})`;
-    const op=String(Math.max(0,1-p2*2.4));['.bk','.front','.fl','.shadow'].forEach(q=>$(q,ec).style.opacity=op)};
-  // 0 · печать «щёлкает»
+  const ec=$('#ecO'),seal=$('.seal',ec);
+  const s0=new DOMMatrix(getComputedStyle(seal).transform).a||1;   // печать стартует с текущего масштаба (дыхание / наведение / нажатие)
+  ec.classList.remove('idle');ec.style.pointerEvents='none';
+  const E=envOf(ec);E.cx=0;E.cy=380;E.cs=1;
+  if(RM){ec.style.opacity='0';await sleep(200);return go('woow')}
+  ec.classList.add('anim');envSet(E);
+  const T=woowTarget(),TC=1420,u=E.es;
   sfx('pop');vib(8);
-  spring(.3,.5,p=>{seal.style.transform=`scale(${1+.5*p})`;seal.style.opacity=String(Math.max(0,1-p*1.4))},{v0:7,alive});
-  await sleep(120);if(!alive())return;
-  // +120 · клапан открывается назад (за карту, когда проходит 90°)
-  sfx('whoosh');
-  spring(1.05,.84,p=>{const a=-180*p;fl.style.transform=`rotateX(${a}deg)`;fl.style.zIndex=a<-90?'1':'5'},{alive});
-  await sleep(440);if(!alive())return;
-  // +560 · карта выезжает из кармана, лёгкий перелёт
-  sfx('slide');vib(14);
-  const pulled=spring(.85,.78,p=>{p1=p;paint()},{alive});
-  setTimeout(()=>{if(!alive())return;const r=card.getBoundingClientRect(),f=frame.getBoundingClientRect(),kk=f.width/W;confettiBurst((r.left-f.left+r.width/2)/kk,(r.top-f.top+r.height/2)/kk)},240);
-  await sleep(420);if(!alive())return;
-  // +980 · конверт опускается и гаснет быстрее, чем движется
-  spring(.95,1,p=>{p2=p;paint()},{alive});
-  await sleep(340);if(!alive())return;
-  // +1320 · готово: звон, «посадка»
-  sfx('chime');vib(12);
-  await Promise.all([sleep(180),pulled]);if(!alive())return;
-  go('woow')}
+  let tOut=null,tFull=null,snd=0,chimed=false,pc=0;
+  const frameCard=()=>{const c=E.cur;return {x:W/2+c.x+E.cx*c.s,y:E.top+c.y+(-15+E.cy)*c.s,r:155*E.cs*c.s}};
+  const ok=await runTL(t=>{
+    // 0–180 нажатие печати (.92), конверт проседает (.985); 180–480 печать отпускается (1.25) и гаснет
+    const sP=lerp(s0,.92,tSeg(t,0,180,EZ.out));seal.style.transform=`scale(${lerp(sP,1.25,tSeg(t,180,300,EZ.out)).toFixed(4)})`;
+    seal.style.opacity=(1-tSeg(t,210,270,EZ.inOut)).toFixed(3);
+    let k=1-.015*tSeg(t,0,180,EZ.out)+.015*tSp(t,180,.5,.7);
+    // 300–1300 клапан: пружина response 1.2 / ζ .9
+    if(t>=300&&snd<1){snd=1;sfx('whoosh')}
+    envFlap(E,180*tSp(t,300,1.2,.9));
+    // 1420… карта выходит из кармана (response 1.3 / ζ .82 – перелёт ≤ 6 px), конверт отвечает сдвигом вниз на 12 px
+    if(t>=TC&&snd<2){snd=2;sfx('slide');vib(14)}
+    pc=tSp(t,TC,1.3,.82);
+    let y=12*u*tSp(t,TC+60,.7,.75),op=1;
+    // конверт опускается и гаснет (600 мс) – только когда карта вышла на 70 %+, не раньше 2600
+    if(tOut!==null){const t0=Math.max(2600,tOut),f=tSeg(t,t0,600,EZ.inOut);y+=150*u*EZ.in(tSeg(t,t0,600));k*=1-.06*f;op=1-f}
+    envSet(E,{y,k});
+    // карта держит курс на диск «Woow» в координатах кадра, пока конверт под ней движется
+    const c=E.cur,ty=(T.cy-E.top-c.y)/c.s+15,tx=(T.cx-W/2-c.x)/c.s,sc=(T.d/310)/c.s;
+    envCard(E,lerp(380,ty,pc),lerp(1,sc,pc),lerp(0,tx,pc));
+    const land=tSeg(pc,.6,.4);E.csh.style.opacity=(1-land).toFixed(3);E.crg.style.opacity=land.toFixed(3);   // тень → кольцо диска «Woow»
+    [E.bk,E.front,E.ff,E.fb,E.shadow].forEach(e=>e.style.opacity=op.toFixed(3));
+    if(pc>0){const o=cardOut(E);if(tOut===null&&o>=.7)tOut=t;
+      if(tFull===null&&o>=.995){tFull=t;const fc=frameCard();confettiBurst(fc.x,fc.y,fc.r)}}   // конфетти – когда карта целиком вышла
+    if(!chimed&&pc>.96){chimed=true;sfx('chime');vib(12)}
+    if(tOut!==null&&t>=Math.max(2600,tOut)+600&&t>=TC+1750){envCard(E,ty,sc,tx);E.csh.style.opacity='0';E.crg.style.opacity='1';return true}
+  },alive);
+  if(!ok)return;E.card.style.opacity='0';go('woow')}   // подмена за один кадр: карта гаснет в том же тике, когда встаёт диск «Woow»
 $('#ecO').onclick=doOpen;$('#ecO').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();doOpen()}});
 const BD=()=>{const t=money()+' BYN';['#wBd','#mbW','#mbM','#mbC'].forEach(s=>$(s).textContent=t)};
 function fillWoow(){BD();const from=S.from.trim(),el=$('#w1');el.textContent=(S.surprise||!from)?'':`от ${gen(from)} – с теплом`;el.style.display=el.textContent?'':'none'}
@@ -2157,7 +2239,7 @@ function post(to,from){
   if(to==='chek'){S.chekShown=true;chekErr(false);syncChek();setTimeout(cPlaceNext,60)}
   if(to==='pack')runPack();
   if(to==='open')initOpen();
-  if(to==='woow'){fillWoow();const el=items[S.design]&&items[S.design].el;if(el){el.style.transition='opacity 0s';setTimeout(()=>el.style.transition='',700)}}
+  if(to==='woow'){fillWoow();const el=items[S.design]&&items[S.design].el;if(el){el.style.transition='opacity 0s';setTimeout(()=>el.style.transition='',700);if(from==='open'){const g=$('.glow',el);g.style.transition='none';g.style.opacity='0';void g.offsetWidth;g.style.transition='opacity 1s var(--ease) .15s';g.style.opacity='';setTimeout(()=>g.style.transition='',1300)}}}
   if(to==='msg')fillMsg();
   if(to==='card'){fillCard();$('#wlB').classList.remove('okk')}
   if(to==='about')aboutIn(from);
@@ -2186,6 +2268,7 @@ addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))retu
 if(Q.has('demo'))document.body.classList.add('demo');
 resetPost();syncDemo();
 if(Q.has('recipient'))setTimeout(()=>$('#dGo').click(),400);
+if(Q.has('debug'))window.__gc={go:t=>go(t),S}; // раскадровка: доступ для Playwright
 
 
 /* ── вход и регистрация ── */
