@@ -1999,7 +1999,7 @@ $('#skip').onclick=()=>{packTok++;S.fresh=true;go('done')};
 /* ── успех: 5 статусов ── */
 const ICON_REFRESH='<path d="M16.5 7.5A7 7 0 0 0 4 6.2M3.5 12.5A7 7 0 0 0 16 13.8M4 3v3.4h3.4M16 17v-3.4h-3.4"/>';
 const ICON_SEND='<path d="M3 3.5l14 6.5-14 6.5 2.6-6.5L3 3.5zM5.6 10H17"/>';
-const statusKey=()=>DEMO.force||(S.pdf?'d':(S.when&&!S.sentNow)?'b':'a');
+const statusKey=()=>DEMO.force||((S.when&&!S.sentNow)?'b':S.pdf?'d':'a');
 function doneCopy(k){
   const to=receiptTo()||USER_EMAIL,w=`${S.date.getDate()} ${MONG[S.date.getMonth()]} в ${pad(S.hh)}:${pad(S.mm)} по Минску`;
   switch(k){
@@ -2021,7 +2021,7 @@ function showDone(){
   if(k==='a'&&S.fresh&&!DEMO.force){S.fresh=false;renderDone('g');setTimeout(()=>{if(S.screen==='done')renderDone('a',true)},RM?100:2400)}
   else{S.fresh=false;renderDone(k)}}
 $('#lnk').onclick=async()=>{const b=$('#lnk');if(b.classList.contains('dis'))return;b.classList.add('go');setTimeout(()=>b.classList.remove('go'),700);
-  if(!S.pdf&&S.when&&!S.sentNow){S.sentNow=true;await sleep(450);renderDone(DEMO.force||'a',true)}}
+  if(S.when&&!S.sentNow){S.sentNow=true;await sleep(450);renderDone(statusKey(),true)}}
 $('#cpL').onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText(LINK_SAMPLE)}catch(_){}
   const b=$('#cpL');b.classList.add('ok');b.innerHTML='<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.8 3.8L16 6.5"/></svg>';sfx('ok');
   setTimeout(()=>{b.classList.remove('ok');b.innerHTML=ICON_COPY},1800)};
