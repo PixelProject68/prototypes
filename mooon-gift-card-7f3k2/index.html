@@ -621,7 +621,9 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ec .shadow{position:absolute;left:60px;top:322px;width:400px;height:44px;border-radius:50%;background:rgba(40,16,100,.55);filter:blur(20px);opacity:.9}
 .ec .fl{position:absolute;left:0;top:0;width:520px;height:200px;transform-origin:50% 0;pointer-events:none}
 .ec .fli{top:-2px;height:202px;transform-origin:50% 2px;opacity:0}
-.ec .fl .sd{opacity:0}
+.ec .sd{opacity:0}
+.ec .fc{position:absolute;left:0;top:0;width:520px;height:19px;background:#ff63a0;opacity:0;pointer-events:none}
+.ec .fc .sd{position:absolute;inset:0;background:#000}
 .ec .cw{position:absolute;left:0;top:-700px;width:520px;height:1040px;pointer-events:none;z-index:2;clip-path:polygon(-300px 0,-300px 700px,0 700px,260px 898px,520px 700px,820px 700px,820px 0)}
 .ec .cw.free{clip-path:none}
 .ec .card{position:absolute;left:105px;top:530px;width:310px;height:310px}
@@ -632,12 +634,12 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ec .card .csr{box-shadow:0 0 0 1.224px rgba(255,255,255,.55)}
 .ec .card .ci{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;border-radius:50%}
 .ec .lip{z-index:3}
-.ec .flo{z-index:4}
+.ec .flw{position:absolute;inset:0;z-index:4;pointer-events:none;clip-path:inset(0 round 18px);perspective:1500px;perspective-origin:50% 0}
 .ec .elogo{position:absolute;left:208px;top:52.2px;width:104px;height:19.6px;color:#F6EFE0;pointer-events:none}
 .ec .elogo svg{display:block;width:100%;height:100%}
 .ec .seal{position:absolute;left:228px;top:168px;width:64px;height:64px;border-radius:50%;background:#F6EFE0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 8px 18px -6px rgba(15,5,45,.45);opacity:0;z-index:5}
 .ec.idle{cursor:pointer}
-.ec.anim .ew,.ec.anim .eg,.ec.anim .shadow,.ec.anim .fl,.ec.anim .sd,.ec.anim .card,.ec.anim .cs,.ec.anim .lip,.ec.anim .seal{will-change:transform,opacity}
+.ec.anim .ew,.ec.anim .eg,.ec.anim .shadow,.ec.anim .fl,.ec.anim .fc,.ec.anim .sd,.ec.anim .card,.ec.anim .cs,.ec.anim .lip,.ec.anim .seal{will-change:transform,opacity}
 
 .scr[data-s=pack] .ec{top:calc(var(--hc,450px) - 180px);--es:.8077}
 .pkTxt{position:absolute;left:0;right:0;top:calc(var(--hc,450px) + 170px);height:30px;text-align:center;font-size:20px;line-height:30px;letter-spacing:-.01em}
@@ -1988,8 +1990,10 @@ const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(_){}};
 /* ── конверт (общий для упаковки и получателя) ──
    Один контур #envC (520×340, r18) обрезает задник, перед и клапан; сгибы переда идут точно в углы.
    Клапан – два слоя с одним поворотом: внешний (поверх карты) виден до 90°, внутренний (под задником) – после 90°.
-   Клапан шире V-выреза переда на 1,5px; внутренний слой заходит под задник на 2px, чтобы у сгиба не было щели. */
-const FLAP='-2.5,0 522.5,0 260,199.9';
+   Клапан шире V-выреза переда на 1,5px. Внешний слой обрезан контуром конверта (.flw) – при повороте не выступает за скруглённые углы.
+   Внутренний слой – с прямым основанием на всю ширину и заходит под задник на 2px; пока он виден (от 90°), углы за скруглением кармана
+   закрыты тем же листом (.fc), поэтому между клапаном и корпусом фон не виден ни при каком угле. */
+const FLAP='-2.5,0 522.5,0 260,199.9',FLAPI='0,0 520,0 260,199.9';
 document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <clipPath id="envC"><rect width="520" height="340" rx="18"/></clipPath>
 <clipPath id="envV"><polygon points="0,0 520,0 260,198"/></clipPath>
@@ -2003,13 +2007,14 @@ document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="p
 <filter id="lipB" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
 </defs></svg>`);
 const ENV=`<div class="ew"><div class="eg">
-<div class="fl fli"><svg class="es" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="18" y="-2" width="484" height="3" fill="#ff63a0"/><g clip-path="url(#envC)"><polygon points="${FLAP}" fill="url(#fbg)"/></g></svg><svg class="es sd" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="18" y="-2" width="484" height="3"/><g clip-path="url(#envC)"><polygon points="${FLAP}"/></g></svg></div>
+<div class="fl fli"><svg class="es" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="0" y="-2" width="520" height="3" fill="#ff63a0"/><polygon points="${FLAPI}" fill="url(#fbg)"/></svg><svg class="es sd" viewBox="0 -2 520 202" preserveAspectRatio="none"><rect x="0" y="-2" width="520" height="3"/><polygon points="${FLAPI}"/></svg></div>
+<div class="fc"><i class="sd"></i></div>
 <div class="shadow"></div>
 <svg class="es bk" viewBox="0 0 520 340" preserveAspectRatio="none"><g clip-path="url(#envC)"><rect width="520" height="340" fill="url(#eBk)"/><rect width="520" height="56" fill="url(#eBkS)"/></g></svg>
 <svg class="es front" viewBox="0 0 520 340" preserveAspectRatio="none"><g clip-path="url(#envC)"><path d="M0 0 L260 198 L520 0 V340 H0 Z" fill="url(#pkg)"/><path d="M0 0 L260 198 L0 340 Z" fill="#fff" fill-opacity=".07"/><path d="M520 0 L260 198 L520 340 Z" fill="#000" fill-opacity=".12"/><path d="M0 340 L260 198 L520 340 Z" fill="#fff" fill-opacity=".03"/></g></svg></div>
 <div class="cw"><div class="card"><i class="cs csb"><img alt="" src=""></i><i class="cs csa"></i><i class="cs csr"></i><img class="ci" alt="" src=""></div></div>
 <svg class="es lip" viewBox="0 0 520 340" preserveAspectRatio="none"><g clip-path="url(#envC)"><g clip-path="url(#envV)"><path d="M-40 -30.5 L260 198 L560 -30.5 V380 H-40 Z" transform="translate(0 -4)" fill="#14083c" fill-opacity=".34" filter="url(#lipB)"/></g></g></svg>
-<div class="fl flo"><svg class="es" viewBox="0 0 520 200" preserveAspectRatio="none"><g clip-path="url(#envC)"><polygon points="${FLAP}" fill="url(#flg)"/><polygon points="${FLAP}" fill="url(#flL)"/><polygon points="${FLAP}" fill="url(#flR)"/></g></svg><span class="elogo" aria-hidden="true"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></span><svg class="es sd" viewBox="0 0 520 200" preserveAspectRatio="none"><g clip-path="url(#envC)"><polygon points="${FLAP}"/></g></svg></div>
+<div class="flw"><div class="fl flo"><svg class="es" viewBox="0 0 520 200" preserveAspectRatio="none"><g clip-path="url(#envC)"><polygon points="${FLAP}" fill="url(#flg)"/><polygon points="${FLAP}" fill="url(#flL)"/><polygon points="${FLAP}" fill="url(#flR)"/></g></svg><span class="elogo" aria-hidden="true"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></span><svg class="es sd" viewBox="0 0 520 200" preserveAspectRatio="none"><g clip-path="url(#envC)"><polygon points="${FLAP}"/></g></svg></div></div>
 <div class="seal"></div></div>`;
 ['#ecP','#ecO'].forEach(s=>{$(s).innerHTML=ENV});
 const designSrc=()=>IMG[S.design]||IMG[2];
@@ -2034,12 +2039,12 @@ const SPRING_CSS='cubic-bezier(.22,1.12,.36,1)';
    cb – вид карты (0 – в конверте, 1 – как диск «Woow»); ss/so – печать */
 const ENV0={x:0,y:0,r:0,s:1,o:1,go:1,sh:1,flap:0,cy:365,cs:1,cb:0,ss:1,so:1,free:false};
 const envParts=ec=>ec._p||(ec._p={ew:$('.ew',ec),eg:$('.eg',ec),sh:$('.shadow',ec),lip:$('.lip',ec),cw:$('.cw',ec),card:$('.card',ec),csa:$('.csa',ec),csb:$('.csb',ec),csr:$('.csr',ec),
-  ci:$('.ci',ec),gi:$('.csb img',ec),flo:$('.flo',ec),fli:$('.fli',ec),sdo:$('.flo .sd',ec),sdi:$('.fli .sd',ec),seal:$('.seal',ec)});
+  ci:$('.ci',ec),gi:$('.csb img',ec),flo:$('.flo',ec),fli:$('.fli',ec),fc:$('.fc',ec),sdo:$('.flo .sd',ec),sdi:$('.fli .sd',ec),sdc:$('.fc .sd',ec),seal:$('.seal',ec)});
 function envSet(ec,st){ec._st=st;const p=envParts(ec),a=st.flap,tf=`rotateX(${a.toFixed(3)}deg)`,shd=(.25*Math.sin(a*Math.PI/180)).toFixed(3);
   p.ew.style.transform=`translate3d(${st.x.toFixed(2)}px,${st.y.toFixed(2)}px,0) rotate(${st.r.toFixed(3)}deg) scale(${st.s.toFixed(4)})`;p.ew.style.opacity=st.o.toFixed(3);
   p.eg.style.opacity=p.lip.style.opacity=st.go.toFixed(3);p.sh.style.opacity=(.9*st.sh).toFixed(3);
-  p.flo.style.transform=p.fli.style.transform=tf;p.flo.style.opacity=a<90?1:0;p.fli.style.opacity=a<90?0:1;   // смена слоя клапана строго на 90°
-  p.sdo.style.opacity=p.sdi.style.opacity=shd;                                                               // клапан темнеет к 90° (яркость до .75) и обратно
+  p.flo.style.transform=p.fli.style.transform=tf;p.flo.style.opacity=a<90?1:0;p.fli.style.opacity=p.fc.style.opacity=a<90?0:1;   // смена слоя клапана строго на 90°
+  p.sdo.style.opacity=p.sdi.style.opacity=p.sdc.style.opacity=shd;                                                               // клапан темнеет к 90° (яркость до .75) и обратно
   p.card.style.transform=`translate3d(0,${(st.cy+15).toFixed(2)}px,0) scale(${st.cs.toFixed(4)})`;
   p.csa.style.opacity=(1-st.cb).toFixed(3);p.csb.style.opacity=p.csr.style.opacity=st.cb.toFixed(3);p.cw.classList.toggle('free',!!st.free);
   p.seal.style.transform=`scale(${st.ss.toFixed(4)})`;p.seal.style.opacity=st.so.toFixed(3)}
