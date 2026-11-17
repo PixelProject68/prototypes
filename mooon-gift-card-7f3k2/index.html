@@ -638,7 +638,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ec .shadow{position:absolute;left:56px;top:320px;width:408px;height:46px;border-radius:50%;background:rgba(40,16,100,.5);filter:blur(22px)}
 .ec .bk{position:absolute;inset:0}
 .ec .cw{position:absolute;left:0;top:-700px;width:520px;height:1034px;overflow:hidden;z-index:2;pointer-events:none} /* карман обрезает карту на 6 px выше нижней кромки: край карты не проступает по сглаживанию */
-.ec .card{position:absolute;left:105px;top:530px;width:310px;height:310px;transform:translateY(380px)}
+.ec .card{position:absolute;left:110px;top:535px;width:300px;height:300px;transform:translateY(380px)}
 .ec .card .csh,.ec .card .crg{position:absolute;inset:0;border-radius:50%}
 .ec .card .csh{box-shadow:0 26px 50px -12px rgba(232,57,122,.5),0 0 0 1px rgba(255,255,255,.2)}
 .ec .card .crg{box-shadow:0 0 0 1.22px rgba(255,255,255,.55);opacity:0}
@@ -646,7 +646,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ec .front{position:absolute;inset:0;z-index:3;filter:drop-shadow(0 -6px 14px rgba(20,8,60,.42));pointer-events:none}
 .ec .fl{position:absolute;left:0;top:0;width:520px;height:202px;transform-origin:50% 0;transform-style:preserve-3d;z-index:5;pointer-events:none}
 .ec .fl .ff,.ec .fl .fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.ec .fl .fb{transform:rotateY(180deg)}
+.ec .fl .fb{transform:rotateY(180deg);visibility:hidden} /* сторону клапана переключает JS на 90° (envFlap): не полагаемся на backface-visibility – WebKit применяет её не во всех режимах отрисовки */
 .ec .fl .shd{opacity:0}
 .ec .elogo{position:absolute;left:208px;top:52.2px;width:104px;height:19.6px;filter:drop-shadow(0 1px 0 rgba(18,6,58,.5))}
 .ec .elogo .gl{position:absolute;inset:0;overflow:hidden;-webkit-mask:var(--lm) 0 0/100% 100% no-repeat;mask:var(--lm) 0 0/100% 100% no-repeat}
@@ -2143,7 +2143,8 @@ function envOf(ec){const cs=getComputedStyle(ec);return {ec,top:parseFloat(cs.to
 function envSet(E,{x=0,y=0,k=1,r=0}={}){const s=E.es*k,ty=y+170*E.es*(1-k);
   E.ec.style.transform=`translate3d(${x.toFixed(2)}px,${ty.toFixed(2)}px,0) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(5)})`;E.cur={x,y:ty,s}}
 // a: 0 – закрыт, 180 – открыт. Слой меняется строго на 90° (клапан ребром); затемнение к 90° до яркости .75 и обратно
-function envFlap(E,a){E.fl.style.transform=`rotateX(${(-a).toFixed(3)}deg)`;E.fl.style.zIndex=a>90?'1':'5';
+// сторона клапана (лицо / изнанка) переключается здесь же, явно: вместе со слоем, на 90°
+function envFlap(E,a){E.fl.style.transform=`rotateX(${(-a).toFixed(3)}deg)`;const bk=a>90;E.fl.style.zIndex=bk?'1':'5';E.ff.style.visibility=bk?'hidden':'inherit';E.fb.style.visibility=bk?'inherit':'hidden';
   const d=(.25*Math.sin(Math.max(0,Math.min(180,a))*Math.PI/180)).toFixed(3);E.shd.forEach(e=>e.style.opacity=d);E.fsh.style.opacity=Math.max(0,1-a/40).toFixed(3)}
 function envCard(E,ty,sc=1,tx=0){E.card.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${sc.toFixed(5)})`;E.cx=tx;E.cy=ty;E.cs=sc}
 function envReset(ec,{open,sunk,seal}){
@@ -2151,7 +2152,7 @@ function envReset(ec,{open,sunk,seal}){
   const E=envOf(ec);[E.bk,E.front,E.ff,E.fb,E.shadow,E.seal,E.card,E.csh,E.crg].forEach(e=>{e.style.opacity='';e.style.transform=''});
   envFlap(E,open?180:0);envCard(E,sunk?380:0);if(!seal)E.seal.style.opacity='0';return E}
 // доля карты, вышедшая из кармана (0…1): сетка точек внутри круга карты против V-кромки переда
-function cardOut(E){const r=155*E.cs,cx=260+E.cx,cy=-15+E.cy;let tot=0,cov=0;
+function cardOut(E){const r=150*E.cs,cx=260+E.cx,cy=-15+E.cy;let tot=0,cov=0;
   for(let i=0;i<14;i++)for(let j=0;j<14;j++){const x=cx-r+(i+.5)*r/7,y=cy-r+(j+.5)*r/7;if((x-cx)**2+(y-cy)**2>r*r)continue;tot++;
     if(y>=340||(x>0&&x<520&&y>198-Math.abs(x-260)*198/260))cov++}
   return tot?1-cov/tot:1}
@@ -2290,7 +2291,7 @@ async function doOpen(){
   const T=woowTarget(),TC=1420,u=E.es;
   sfx('pop');vib(8);
   let tOut=null,tFull=null,snd=0,chimed=false,pc=0;
-  const frameCard=()=>{const c=E.cur;return {x:W/2+c.x+E.cx*c.s,y:E.top+c.y+(-15+E.cy)*c.s,r:155*E.cs*c.s}};
+  const frameCard=()=>{const c=E.cur;return {x:W/2+c.x+E.cx*c.s,y:E.top+c.y+(-15+E.cy)*c.s,r:150*E.cs*c.s}};
   const ok=await runTL(t=>{
     // 0–180 нажатие печати (.92), конверт проседает (.985); 180–480 печать отпускается (1.25) и гаснет
     const sP=lerp(s0,.92,tSeg(t,0,180,EZ.out));seal.style.transform=`scale(${lerp(sP,1.25,tSeg(t,180,300,EZ.out)).toFixed(4)})`;
@@ -2307,7 +2308,7 @@ async function doOpen(){
     if(tOut!==null){const t0=Math.max(2600,tOut),f=tSeg(t,t0,600,EZ.inOut);y+=150*u*EZ.in(tSeg(t,t0,600));k*=1-.06*f;op=1-f}
     envSet(E,{y,k});
     // карта держит курс на диск «Woow» в координатах кадра, пока конверт под ней движется
-    const c=E.cur,ty=(T.cy-E.top-c.y)/c.s+15,tx=(T.cx-W/2-c.x)/c.s,sc=(T.d/310)/c.s;
+    const c=E.cur,ty=(T.cy-E.top-c.y)/c.s+15,tx=(T.cx-W/2-c.x)/c.s,sc=(T.d/300)/c.s;
     envCard(E,lerp(380,ty,pc),lerp(1,sc,pc),lerp(0,tx,pc));
     const land=tSeg(pc,.6,.4);E.csh.style.opacity=(1-land).toFixed(3);E.crg.style.opacity=land.toFixed(3);   // тень → кольцо диска «Woow»
     [E.bk,E.front,E.ff,E.fb,E.shadow].forEach(e=>e.style.opacity=op.toFixed(3));
