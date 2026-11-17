@@ -376,7 +376,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .back svg{width:14px;height:14px}
 .app.m .htl{display:block;position:absolute;left:60px;right:60px;top:19px;height:22px;text-align:center;font-size:16px;line-height:22px;font-weight:600;pointer-events:none;transition:opacity .4s}
 .app.m[data-s="home"] .back,.app.m[data-s="home"] .htl,.app.m[data-s="done"] .back{opacity:0;pointer-events:none}
-/* mobile stepper v2 (05.11): «Шаг · 1/6» в шапке + сегментный прогресс; пройденные сегменты кликабельны, зона нажатия 44px */
+/* mobile stepper v2 (05.11): «Шаг 1/6» в шапке + сегментный прогресс; пройденные сегменты кликабельны, зона нажатия 44px */
 .app.m .stepper{left:0;right:0;top:40px;height:44px;gap:4px;padding:0 16px;justify-content:stretch;align-items:stretch}
 .app.m .stepper::before,.app.m .stepper::after{content:none}
 .app.m .sp{flex:1;min-width:0;height:100%;border:0;border-radius:0;background:none;font-size:0;padding:0;display:block;position:relative}
@@ -1196,12 +1196,12 @@ body.demo #demo{display:block}
   <div class="bg" aria-hidden="true"><div class="blob k1"><i></i></div><div class="blob k2"><i></i></div><div class="blob k3"><i></i></div><div class="blob k4"><i></i></div><div class="blob k5"><i></i></div></div>
 
   <aside id="demo" aria-label="Демо-панель">
-  <b>Демо · клавиша D</b>
+  <b>Демо, клавиша D</b>
   <label><input type="checkbox" id="dFail"> Сбой оплаты (один раз)</label>
   <label><input type="checkbox" id="dKnown"> Контакт для чека известен</label>
   <label><input type="checkbox" id="dPh"> Чек по телефону (04д)</label>
   <span class="dh">Статус после оплаты</span>
-  <select id="dStat"><option value="">авто</option><option value="a">а · отправлено</option><option value="b">б · отложено</option><option value="v">в · ссылка</option><option value="g">г · отправляем</option><option value="d">д · PDF себе</option></select>
+  <select id="dStat"><option value="">авто</option><option value="a">а – отправлено</option><option value="b">б – отложено</option><option value="v">в – ссылка</option><option value="g">г – отправляем</option><option value="d">д – PDF себе</option></select>
   <hr>
   <span class="dh">Получатель</span>
   <select id="dRv"><option value="">как в флоу</option><option value="wish">с пожеланием</option><option value="nowish">без пожелания</option><option value="surp">сюрприз</option></select>
@@ -1492,7 +1492,7 @@ body.demo #demo{display:block}
       <div class="gm" id="gmF" role="dialog" aria-label="Файл загружен">
         <button class="x" data-close aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg></button>
         <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-        <h3>Файл загружен</h3><p>mooon-gift-card.pdf · 142 КБ</p>
+        <h3>Файл загружен</h3><p>mooon-gift-card.pdf, 142&nbsp;КБ</p>
         <button class="pillc" id="openF">Открыть</button>
       </div>
 
@@ -1714,7 +1714,7 @@ function occ(){const n=OCC.length,cw=M?CWM:CW,ch=M?CHM:CH,cf=M?CFM:CF,co=M?COM:C
 /* ── stepper ── */
 const stp=$('#stepper');
 function buildSteps(){stp.innerHTML='';FLOW.forEach((f,i)=>{const b=document.createElement('button');b.className='sp';b.innerHTML=`<span class="n">${i+1}</span><span class="lb">${TITLES[i]}</span>`;b.title=TITLES[i];b.onclick=()=>{if(b.classList.contains('done')&&!S.busy)go(f)};stp.appendChild(b)});}buildSteps();
-function updStep(){const i=stepOf(S.screen);[...stp.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} · ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'')}
+function updStep(){const i=stepOf(S.screen);[...stp.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-current',j===i?'step':'false')});stp.style.setProperty('--p',i+1);$('#hTitle').textContent=i>=0?`${TITLES[i]} ${i+1}/${FLOW.length}`:(S.screen==='done'?'Готово':'')}
 
 /* ── home hero: cursor-reactive cards ── */
 function start(){setFlow('e');resetState();go('design')}
@@ -1855,7 +1855,7 @@ $('#ai').onclick=()=>{const b=$('#ai');b.animate([{transform:'translateX(0)'},{t
 /* ── receipt ── */
 function fillReceipt(){
   const n=new Date();$('#rcDate').textContent=`${pad(n.getDate())}.${pad(n.getMonth()+1)}.${n.getFullYear()}  ${pad(n.getHours())}:${pad(n.getMinutes())}`;
-  $('#r0').textContent=`Подарочная карта mooon на ${money()} BYN`;
+  $('#r0').textContent=`Подарочная карта mooon на ${money()}\u00A0BYN`;
   $('#r1').textContent=S.pdf?S.email:S.phone;
   $('#r2').textContent=S.surprise?'Сюрприз':S.from.trim();
   $('#r3').textContent=S.when?whenLong():'Сразу после оплаты';
