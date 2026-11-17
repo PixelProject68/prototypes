@@ -223,7 +223,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .cons u{display:block;font-size:14px;color:var(--sec);margin-top:3px;text-underline-offset:2px}
 .cons2{top:518px}
 /* «себе» (PDF на почту): телефон, «от кого» и «Сюрприз» не нужны – прячем, тумблер встаёт на их место (17.11) */
-.scr[data-s="recipient"] .pdf{transition:background .3s,top .55s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
+.scr.swapping .nself,.scr.swapping .pdf,.scr.swapping #more>*{transition:none!important}
 .scr[data-s="recipient"].self .pdf{top:242px}
 .scr.self .nself,.scr.in.self .nself{opacity:0;transform:translateY(-8px);pointer-events:none;transition-delay:0s}
 .app.m .scr.self .nself{display:none}
@@ -1796,7 +1796,25 @@ const SAMPLES=['+375 29 314-52-08','+375 33 512-07-44','+375 44 700-18-92'];let 
 $('#contact').onclick=()=>{ph.value=SAMPLES[si++%SAMPLES.length];S.phone=ph.value;$('#fPhone').classList.remove('bad');upd()};
 $('#from').oninput=e=>{S.from=e.target.value;upd()};
 $('#sur').onclick=()=>{S.surprise=!S.surprise;syncRecipient();upd()};
-$('#pdf').onclick=()=>{S.pdf=!S.pdf;syncRecipient();upd()};
+$('#pdf').onclick=()=>{S.pdf=!S.pdf;selfSwap();upd()};
+/* «себе»: 1) лишние поля уходят (160 мс) 2) тумблер переезжает (480 мс) 3) новые поля появляются каскадом */
+let swapTok=0;
+function selfSwap(){
+  const sc=$('.scr[data-s="recipient"]'),pdf=$('#pdf'),on=S.pdf,tok=++swapTok;
+  pdf.classList.toggle('on',on);pdf.setAttribute('aria-checked',on);
+  sc.getAnimations({subtree:true}).filter(a=>a.id==='sw').forEach(a=>a.cancel());
+  if(RM||!sc.classList.contains('act')){syncRecipient();return}
+  const EIN='cubic-bezier(.4,0,1,1)',EOUT='cubic-bezier(.22,1,.36,1)',sw=a=>(a.id='sw',a);
+  const outEls=on?$$('.nself',sc):$$('#more>*',sc),inEls=on?$$('#more>*',sc):$$('.nself',sc);
+  sc.classList.add('swapping');
+  const outs=outEls.map(el=>sw(el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(-6px)'}],{duration:160,easing:EIN,fill:'forwards'})));
+  setTimeout(()=>{if(tok!==swapTok)return;
+    const f=pdf.getBoundingClientRect().top;
+    syncRecipient();outs.forEach(a=>a.cancel());
+    const k=frame.getBoundingClientRect().width/W,dy=(f-pdf.getBoundingClientRect().top)/k;
+    if(Math.abs(dy)>.5)sw(pdf.animate([{transform:`translateY(${dy}px)`},{transform:'none'}],{duration:480,easing:EOUT}));
+    inEls.forEach((el,i)=>sw(el.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:380,delay:200+i*50,easing:EOUT,fill:'backwards'})));
+    setTimeout(()=>{if(tok===swapTok)sc.classList.remove('swapping')},200+inEls.length*50+420)},170)}
 $('#cons').onclick=()=>{S.consent=!S.consent;syncRecipient();upd()};
 $('#cons2').onclick=()=>{S.ads=!S.ads;syncRecipient()};
 $('#email').oninput=e=>{S.email=e.target.value;$('#fMail').classList.remove('bad');upd()};
