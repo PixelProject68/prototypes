@@ -363,7 +363,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .back,.htl,.burger,.mmenu,.dhit,.buy .bm,.mfoot{display:none}
 .dial .rot{position:absolute;inset:0}
 .app.m .frame{left:0;top:0;width:var(--W);height:var(--H);transform:scale(var(--s,1));transform-origin:0 0}
-.app.m[data-s="design"] .frame{touch-action:none}
+.app.m[data-s="design"] .frame,.app.m[data-s="pdesign"] .frame{touch-action:none}
 /* living background – blob geometry from Figma glow layers */
 .app.m .blob{transform:none!important}
 .app.m .k1{width:470px;height:450px;left:-45px;top:20px;opacity:.95}
@@ -1115,12 +1115,16 @@ body.demo #demo{display:block}
 /* ═════ ПЛАСТИК · покупка онлайн (Figma 3287:2885), 17.11 ═════ */
 .app[data-s="pdesign"] .k1{transform:translate(14vw,2vh)} .app[data-s="pdesign"] .k2{transform:translate(-6vw,6vh)}
 .app[data-s="ppack"] .k2{transform:translate(-8vw,8vh)} .app[data-s="porder"] .k3{transform:translate(12vw,-6vh)} .app[data-s="prcpt"] .k2{transform:translate(-12vw,10vh)}
-.pcard{position:absolute;left:500px;top:350px;width:440px;height:278px;z-index:3;pointer-events:none;opacity:0;border-radius:18px;box-shadow:0 34px 60px -28px var(--shadow),0 6px 16px -8px rgba(0,0,0,.18);transition:left .9s var(--spring),top .9s var(--spring),width .9s var(--spring),height .9s var(--spring),border-radius .9s var(--spring),opacity .5s var(--ease)}
-.pcard .pcw{position:absolute;inset:0;border-radius:inherit;overflow:hidden;transform:translateZ(0)}
-.pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
-.pcard .pcl{position:absolute;left:6.5%;bottom:8%;width:22%;height:auto;display:block;transition:color .4s}
-.pcard.v .pcl{left:9%;bottom:6%;width:36%}
-.pcard .shn{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}
+.pring{position:absolute;left:0;top:0;width:0;height:0;z-index:3;pointer-events:none;opacity:0;transform:translate(720px,470px);transition:transform .9s var(--spring),opacity .5s var(--ease)}
+.pg{position:absolute;left:0;top:0;opacity:0;transform:scale(.9);transition:opacity .4s var(--ease),transform .7s var(--spring)}
+.pg.on{opacity:1;transform:none}
+.pc{position:absolute;border-radius:18px;box-shadow:0 34px 60px -28px var(--shadow),0 6px 16px -8px rgba(0,0,0,.18);will-change:transform,opacity;pointer-events:none;cursor:pointer;transition:scale .5s var(--spring)}
+.pc:not(.cur):hover{scale:1.06}.app.m .pc:hover{scale:1}
+.pc .pcw{position:absolute;inset:0;border-radius:inherit;overflow:hidden;transform:translateZ(0)}
+.pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
+.pc .pcl{position:absolute;left:6.5%;bottom:8%;width:22%;height:auto;display:block;transition:color .4s}
+.pg[data-f="v"] .pcl{left:9%;bottom:6%;width:36%}
+.pc .shn{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}
 .pfmt{position:absolute;left:671px;top:294px;width:98px;height:40px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-line);padding:4px;display:grid;grid-template-columns:1fr 1fr;z-index:6;transition:top .9s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
 .pfmt i{position:absolute;left:4px;top:4px;width:44px;height:30px;border-radius:10px;background:var(--violet);transition:transform .55s var(--spring)}
 .pfmt.v i{transform:translateX(44px)}
@@ -1242,8 +1246,9 @@ body.demo #demo{display:block}
 
     <!-- shared disc / carousel -->
     <div id="items"></div>
-    <!-- пластиковая карта: одна на весь флоу пластика -->
-    <div class="pcard" id="pcard" aria-hidden="true"><div class="pcw"><img id="pcImg" alt="" draggable="false"><svg class="pcl" id="pcLogo" viewBox="0 0 117 22" fill="currentColor"><path  d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></div><i class="shn"></i></div>
+    <!-- пластиковые карты: кольцо-карусель, одно на весь флоу пластика -->
+    <div class="pring" id="pring" aria-hidden="true"></div>
+    <template id="pcT"><div class="pcw"><img alt="" draggable="false"><svg class="pcl" viewBox="0 0 117 22" fill="currentColor"><path  d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></div><i class="shn"></i></template>
 
     <!-- HOME -->
     <section class="scr act in" data-s="home" aria-label="Главная">
@@ -2303,25 +2308,58 @@ const PCARDS={h:[{src:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRX
 const PR=540/856; // пропорция карты CR80
 function setFlow(m){S.flow=m;FLOW=m==='p'?FLOW_P:FLOW_E;TITLES=m==='p'?TITLES_P:TITLES_E;buildSteps();app.classList.toggle('plf',m==='p')}
 function pReset(){S.p={fmt:'h',i:{h:0,v:0},pk:1,no:false,rc:{name:'',phone:'',email:'',c1:false,c2:false},filled:false};
-  if(!PL)return;$('#prNi').value='';$('#prPi').value='';$('#prEi').value='';['#prN','#prP','#prE'].forEach(s=>$(s).classList.remove('bad'));pSyncRc();pSyncFmt(true);pSyncPack();pSum()}
+  if(!PL)return;['h','v'].forEach(f=>{const R=PRING[f];R.pos=R.tgt=R.vel=0});$('#prNi').value='';$('#prPi').value='';$('#prEi').value='';['#prN','#prP','#prE'].forEach(s=>$(s).classList.remove('bad'));pSyncRc();pSyncFmt(true);pSyncPack();pSum()}
 function startP(){resetState();setFlow('p');pReset();go('pdesign')}
 const pTotal=()=>(money()||0); // упаковка «00 BYN» – цена не задана
-const pCur=()=>PCARDS[S.p.fmt][S.p.i[S.p.fmt]];
 function pSum(){if(!PL)return;$('#oCard').textContent=(money()||0)+' BYN';$('#oTot').textContent=pTotal()+' BYN';$('#pkTot').textContent='Итого '+pTotal()+' BYN'}
 /* геометрия карты на экранах (центр, ширина, высота) – из кадров Figma */
-function pGeo(sc){const v=S.p&&S.p.fmt==='v',off={cx:M?W/2:720,cy:M?300:470,w:M?200:300,h:M?126:190,op:0};
-  if(S.flow!=='p')return off;
+function pGeo(sc,f,any){const v=(f||(S.p&&S.p.fmt))==='v',off={cx:M?W/2:720,cy:M?300:470,w:M?200:300,h:M?126:190,op:0};
+  if(S.flow!=='p'&&!any)return off;
   if(M){const cw=Math.min(358,W-32);
     if(sc==='pdesign'){const top=188;if(v){const h=Math.max(220,Math.min(358,H-top-150));return {cx:W/2,cy:top+h/2,w:h*PR,h,op:1}}return {cx:W/2,cy:top+cw*PR/2,w:cw,h:cw*PR,op:1}}
     if(sc==='nominal'){const cy=vy(264)-TOP;if(v){const h=190*K;return {cx:W/2,cy,w:h*PR,h,op:1}}return {cx:W/2,cy,w:278*K,h:278*K*PR,op:1}}
     return off}
-  if(sc==='pdesign')return v?{cx:720,cy:470,w:396*PR,h:396,op:1}:{cx:720,cy:489,w:440,h:440*PR,op:1};
+  if(sc==='pdesign')return v?{cx:720,cy:470,w:396*PR,h:396,op:1}:{cx:720,cy:470,w:440,h:440*PR,op:1};
   if(sc==='nominal')return v?{cx:720,cy:470,w:396*PR,h:396,op:1}:{cx:720,cy:470,w:440,h:440*PR,op:1};
   if(sc==='porder'||sc==='prcpt')return v?{cx:325,cy:415,w:396*PR,h:396,op:1}:{cx:325,cy:415,w:440,h:440*PR,op:1};
   return off}
-function pLayout(){if(!PL)return;const g=pGeo(S.screen),c=PL.card;
-  c.style.left=(g.cx-g.w/2)+'px';c.style.top=(g.cy-g.h/2)+'px';c.style.width=g.w+'px';c.style.height=g.h+'px';c.style.opacity=g.op;
-  c.style.borderRadius=(Math.min(g.w,g.h)*34/540).toFixed(1)+'px';c.classList.toggle('v',S.p&&S.p.fmt==='v');
+/* ── карусель карт: кольцо. Позиция – дробный номер слота, движение – пружина (стрелки, клик по боковой карте, свайп с ведением за пальцем).
+   Центральная карта не меняет место между «Дизайном» и «Номиналом»: боковые уходят за неё, вокруг встаёт шкала номиналов. ── */
+const PRING={h:null,v:null};let pVis=0,pVisT=0,pRaf=0,pLast=0,pDrag=null,pMoved=false;
+function pBuild(){const tpl=$('#pcT');
+  ['h','v'].forEach(f=>{const src=PCARDS[f],n=src.length;let list=src.map((c,j)=>({c,j}));while(n>1&&list.length<4)list=list.concat(src.map((c,j)=>({c,j}))); // 2–3 дизайна: повторяем, чтобы кольцо замыкалось
+    const g=document.createElement('div');g.className='pg';g.dataset.f=f;PL.ring.appendChild(g);
+    const R=PRING[f]={el:g,L:list.length,n,pos:0,tgt:0,vel:0,cards:null};
+    R.cards=list.map((x,k)=>{const el=document.createElement('div');el.className='pc';el.appendChild(tpl.content.cloneNode(true));
+      $('img',el).src=x.c.src;$('.pcl',el).style.color=x.c.ink;
+      el.onclick=()=>{if(pMoved||S.screen!=='pdesign'||S.p.fmt!==f)return;const o=pOff(R,k,R.tgt);if(Math.round(o))pRot(Math.round(o))};
+      g.appendChild(el);return {el,k}})})}
+const pSc=()=>parseFloat(frame.style.getPropertyValue('--s'))||1;
+const pOff=(R,k,at)=>{let o=((k-at)%R.L+R.L)%R.L;return o>R.L/2?o-R.L:o};
+/* размеры кольца: карта в центре, шаг до соседних, масштаб соседних, насколько соседние уходят за центр при переходе на «Номинал» */
+function pRingP(f){const b=pGeo('pdesign',f,true);
+  if(M)return f==='v'?{w:b.w,h:b.h,rx:b.w*.88,sn:.56,tuck:.7}:{w:b.w,h:b.h,rx:W/2+b.w*.4+12,sn:.8,tuck:1};
+  return f==='v'?{w:b.w,h:b.h,rx:280,sn:.48,tuck:.5}:{w:b.w,h:b.h,rx:370,sn:190/440,tuck:.5}}
+function pDraw(){['h','v'].forEach(f=>{const R=PRING[f],P=pRingP(f),act=f===S.p.fmt&&S.screen==='pdesign';
+  R.cards.forEach(c=>{const o=pOff(R,c.k,R.pos),a=Math.abs(o),side=Math.min(1,a),th=Math.max(-2,Math.min(2,o))*Math.PI/2,cs=Math.cos(th);
+    const s=(cs>=0?P.sn+(1-P.sn)*cs:P.sn*(1+.35*cs))*lerp(1,lerp(.8,1,pVis),side);
+    const x=P.rx*Math.sin(th)*lerp(1,lerp(P.tuck,1,pVis),side);
+    const op=(a<=1?1:Math.max(0,1-(a-1)/.5))*lerp(1,pVis,side);
+    const st=c.el.style;st.transform=`translate(${x.toFixed(2)}px,0) scale(${s.toFixed(4)})`;st.opacity=op.toFixed(3);st.zIndex=Math.round(cs*10)+10;
+    c.el.classList.toggle('cur',a<.5);st.pointerEvents=(act&&a>=.5&&op>.6)?'auto':'none'})})}
+function pTick(t){const R=PRING[S.p.fmt],dt=Math.min(.2,(t-pLast)/1000)||.016,n=Math.max(1,Math.ceil(dt/.008));pLast=t;let live=false;
+  if(RM){R.pos=R.tgt;R.vel=0;pVis=pVisT}
+  else{
+    if(!pDrag){const k=Math.pow(2*Math.PI/.62,2),c=2*.8*Math.sqrt(k);for(let i=0;i<n;i++){const h=dt/n,ac=-k*(R.pos-R.tgt)-c*R.vel;R.vel+=ac*h;R.pos+=R.vel*h}
+      if(Math.abs(R.pos-R.tgt)<.0015&&Math.abs(R.vel)<.02){R.pos=R.tgt=((R.tgt%R.L)+R.L)%R.L;R.vel=0}else live=true}else live=true;
+    pVis+=(pVisT-pVis)*(1-Math.exp(-dt*7.5));if(Math.abs(pVisT-pVis)<.002)pVis=pVisT;else live=true}
+  pDraw();pRaf=live?requestAnimationFrame(pTick):0}
+function pKick(){if(!pRaf){pLast=performance.now();pRaf=requestAnimationFrame(pTick)}}
+function pLayout(){if(!PL)return;const f=S.p.fmt,g=pGeo(S.screen),b=pGeo('pdesign',f,true);
+  ['h','v'].forEach(ff=>{const q=pGeo('pdesign',ff,true),R=PRING[ff];R.el.classList.toggle('on',ff===f);
+    R.cards.forEach(c=>{const st=c.el.style;st.width=q.w+'px';st.height=q.h+'px';st.left=(-q.w/2)+'px';st.top=(-q.h/2)+'px';st.borderRadius=(Math.min(q.w,q.h)*34/540).toFixed(1)+'px'})});
+  PL.ring.style.transform=`translate(${g.cx}px,${g.cy}px) scale(${(g.w/b.w).toFixed(4)})`;PL.ring.style.opacity=g.op;
+  pVisT=S.screen==='pdesign'?1:0;pDraw();pKick();
   if(S.screen==='pdesign'){const top=g.cy-g.h/2,bot=g.cy+g.h/2,one=PCARDS[S.p.fmt].length<2;
     $('#pFmt').style.top=(top-(M?52:56))+'px';
     $('#pAP').style.left=(g.cx-g.w/2-26)+'px';$('#pAN').style.left=(g.cx+g.w/2-26)+'px';$('#pAP').style.top=$('#pAN').style.top=(g.cy-26)+'px';
@@ -2329,11 +2367,9 @@ function pLayout(){if(!PL)return;const g=pGeo(S.screen),c=PL.card;
   pPlaceNext()}
 /* мобилка, «Получатель»: кнопка «Далее» – сразу под формой (как в Figma 3290:4033) */
 function pPlaceNext(){if(M&&S.screen==='prcpt'){const f=$('#prForm'),fr=frame.getBoundingClientRect(),s=fr.width/W,b=(f.getBoundingClientRect().bottom-fr.top)/s;next.style.top=Math.min(b+28,H-88)+'px';next.style.bottom='auto'}else{next.style.top='';next.style.bottom=''}}
-function pSetImg(dir){const c=pCur();PL.img.src=c.src;PL.logo.style.color=c.ink;
-  if(dir&&!RM)PL.img.parentNode.animate([{opacity:.0,transform:`translateX(${dir*28}px) scale(.98)`},{opacity:1,transform:'none'}],{duration:520,easing:'cubic-bezier(.16,1,.3,1)'})}
 function pDots(){const d=$('#pDots'),n=PCARDS[S.p.fmt].length;d.innerHTML='';for(let k=0;k<n;k++){const e=document.createElement('span');e.className='dot'+(k===S.p.i[S.p.fmt]?' on':'');d.appendChild(e)}}
-function pRot(d){const n=PCARDS[S.p.fmt].length;if(n<2)return;S.p.i[S.p.fmt]=((S.p.i[S.p.fmt]+d)%n+n)%n;pSetImg(d);pDots()}
-function pSyncFmt(silent){const f=S.p.fmt;$('#pFmt').classList.toggle('v',f==='v');$$('#pFmt button').forEach(b=>{const on=b.dataset.f===f;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});pSetImg(silent?0:0);pDots();pLayout()}
+function pRot(d){const f=S.p.fmt,R=PRING[f];if(R.n<2)return;R.tgt=Math.round(R.tgt)+d;S.p.i[f]=((R.tgt%R.n)+R.n)%R.n;pDots();pKick()}
+function pSyncFmt(silent){const f=S.p.fmt;$('#pFmt').classList.toggle('v',f==='v');$$('#pFmt button').forEach(b=>{const on=b.dataset.f===f;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});pDots();pLayout()}
 /* упаковка */
 function pSyncPack(){const sc=$('.scr[data-s="ppack"]');sc.classList.toggle('no',S.p.no);const ch=$('#pkNo');ch.classList.toggle('on',S.p.no);ch.setAttribute('aria-pressed',String(S.p.no));
   const d=$('#pkDots');if(!d.children.length)for(let k=0;k<3;k++)d.appendChild(Object.assign(document.createElement('span'),{className:'dot'}));[...d.children].forEach((x,k)=>x.classList.toggle('on',k===S.p.pk));pSum()}
@@ -2353,13 +2389,13 @@ function pRcHint(){const r=S.p.rc;if(!r.name.trim())$('#prN').classList.add('bad
   if(!r.c1){$('#prC1').classList.add('err');$('#prErr').classList.add('on');$('#prC1').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(5px)'},{transform:'none'}],{duration:380})}
   setTimeout(pPlaceNext,420)}
 function pOnGo(to,from){if(!PL)return;
-  if(to==='pdesign'){pDots();pSetImg(0)}
+  if(to==='pdesign')pDots();
   if(to==='ppack')pSyncPack();
   if(to==='porder')pSyncOrder();
   if(to==='prcpt'){pSyncRc();setTimeout(pPlaceNext,60)}
   pLayout()}
-{PL={card:$('#pcard'),img:$('#pcImg'),logo:$('#pcLogo')};
-  $$('#pFmt button').forEach(b=>b.onclick=()=>{if(S.p.fmt===b.dataset.f)return;S.p.fmt=b.dataset.f;pSyncFmt();if(!RM)PL.img.parentNode.animate([{opacity:0},{opacity:1}],{duration:420})});
+{PL={ring:$('#pring')};pBuild();
+  $$('#pFmt button').forEach(b=>b.onclick=()=>{if(S.p.fmt===b.dataset.f)return;S.p.fmt=b.dataset.f;pSyncFmt()});
   $('#pAP').onclick=()=>pRot(-1);$('#pAN').onclick=()=>pRot(1);
   $('#pkP').onclick=()=>pkRot(-1);$('#pkN').onclick=()=>pkRot(1);$('#pkL').onclick=()=>pkRot(-1);$('#pkR').onclick=()=>pkRot(1);
   $('#pkC').onclick=()=>{if(S.p.no){S.p.no=false;pSyncPack()}};
@@ -2375,8 +2411,21 @@ function pOnGo(to,from){if(!PL)return;
   $('#prC1').onclick=()=>{S.p.rc.c1=!S.p.rc.c1;pSyncRc();upd()};
   $('#prC2').onclick=()=>{S.p.rc.c2=!S.p.rc.c2;pSyncRc();upd()};
   /* свайп: дизайн и упаковка */
-  let px=null;frame.addEventListener('pointerdown',e=>{if((S.screen==='pdesign'||S.screen==='ppack')&&!e.target.closest('button'))px=e.clientX});
-  addEventListener('pointerup',e=>{if(px!==null){const dx=e.clientX-px;if(Math.abs(dx)>50){if(S.screen==='pdesign')pRot(dx<0?1:-1);else if(S.screen==='ppack')pkRot(dx<0?1:-1)}}px=null});
+  let px=null;frame.addEventListener('pointerdown',e=>{if(S.screen==='ppack'&&!e.target.closest('button'))px=e.clientX});
+  addEventListener('pointerup',e=>{if(px!==null){const dx=e.clientX-px;if(Math.abs(dx)>50&&S.screen==='ppack')pkRot(dx<0?1:-1)}px=null});
+  /* дизайн: карусель идёт за пальцем, на отпускании доезжает до ближайшей карты (с учётом скорости) */
+  frame.addEventListener('pointerdown',e=>{pMoved=false;if(S.screen!=='pdesign'||e.target.closest('button')||(e.pointerType==='mouse'&&e.button))return;const R=PRING[S.p.fmt];if(R.n<2)return;
+    pDrag={x:e.clientX,p0:R.pos,s0:Math.round(R.tgt),lx:e.clientX,lt:e.timeStamp,v:0}});
+  addEventListener('pointermove',e=>{if(!pDrag)return;const R=PRING[S.p.fmt],P=pRingP(S.p.fmt),dx=(e.clientX-pDrag.x)/pSc();
+    if(!pMoved&&Math.abs(dx)<6)return;pMoved=true;
+    const dt=(e.timeStamp-pDrag.lt)/1000;if(dt>0){pDrag.v=lerp(pDrag.v,-((e.clientX-pDrag.lx)/pSc()/P.rx)/dt,.5);pDrag.lx=e.clientX;pDrag.lt=e.timeStamp}
+    R.pos=pDrag.p0-dx/P.rx;R.vel=0;pKick()});
+  const pDrop=e=>{if(!pDrag)return;const R=PRING[S.p.fmt],d=pDrag;pDrag=null;if(!pMoved)return;
+    const stale=e.timeStamp-d.lt>90,v=stale?0:Math.max(-6,Math.min(6,d.v));
+    let t=Math.round(R.pos+v*.16);if(t===d.s0&&Math.abs(R.pos-d.s0)>.16)t=d.s0+Math.sign(R.pos-d.s0); // протянули дальше ~1/6 шага – листаем
+    t=Math.max(d.s0-1,Math.min(d.s0+1,t)); // за один жест – одна карта
+    R.vel=RM?0:v;R.tgt=t;S.p.i[S.p.fmt]=((t%R.n)+R.n)%R.n;pDots();pKick()};
+  addEventListener('pointerup',pDrop);addEventListener('pointercancel',pDrop);
   addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;const d=e.key==='ArrowLeft'?-1:e.key==='ArrowRight'?1:0;if(!d)return;if(S.screen==='pdesign')pRot(d);if(S.screen==='ppack')pkRot(d)});
   pReset();
   if(Q.has('plastic')){startP()}}
