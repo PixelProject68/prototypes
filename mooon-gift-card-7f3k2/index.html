@@ -1149,12 +1149,15 @@ body.demo #demo{display:block}
 .pkph.l{left:255px;top:329px;width:190px;height:120px}
 .pkph.r{left:995px;top:329px;width:190px;height:120px}
 .pkph.s:hover{transform:scale(1.04)}
-.pchip{position:absolute;left:628px;top:587px;width:185px;height:38px;border-radius:12px;background:var(--chip-on);border:1px solid var(--glass-line);font-size:16px;font-weight:500;display:grid;place-items:center;transition:background .35s,color .35s,border-color .35s,opacity .55s var(--out),transform .7s var(--out)}
+.pchip{position:absolute;left:628px;top:614px;width:185px;height:38px;border-radius:12px;background:var(--chip-on);border:1px solid var(--glass-line);font-size:16px;font-weight:500;display:grid;place-items:center;transition:background .35s,color .35s,border-color .35s,opacity .55s var(--out),transform .7s var(--out)}
 .pchip.on{background:#442D7C;color:#F2F0EC;border-color:#442D7C}
-.pkname{position:absolute;left:0;right:0;top:646px;text-align:center;font-size:20px;line-height:28px;letter-spacing:-.01em}
-.pktot{position:absolute;left:0;right:0;top:684px;text-align:center;font-size:32px;line-height:40px;letter-spacing:-.02em;transition:top .6s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
+.pkname{position:absolute;left:0;right:0;top:544px;text-align:center;font-size:20px;line-height:28px;letter-spacing:-.01em;transition:opacity .45s var(--ease)}
+.pktot{position:absolute;right:192px;top:784px;text-align:right;white-space:nowrap;font-size:24px;line-height:32px;letter-spacing:-.02em;transition:opacity .55s var(--out),transform .7s var(--out)}
 .scr[data-s="ppack"].no .pkname{opacity:0}
-.scr[data-s="ppack"].no .pktot{top:646px}
+/* точки каруселей пластика: один цвет текста, 20% и 60%, размер 6 (Figma 17.11) */
+#pDots,#pkDots{gap:8px}
+#pDots .dot,#pkDots .dot{width:6px;height:6px;background:color-mix(in srgb,var(--ink) 20%,transparent);box-shadow:none}
+#pDots .dot.on,#pkDots .dot.on{background:color-mix(in srgb,var(--ink) 60%,transparent)!important;transform:none}
 .pcol{position:absolute;left:692px;top:169px;width:490px}
 .pcol .ttl{position:relative;left:auto;top:auto;margin:0 0 15px}
 .otl{position:relative;display:flex;flex-direction:column;gap:12px;padding-left:26px}
@@ -1193,11 +1196,10 @@ body.demo #demo{display:block}
 .app.m .scr[data-s="ppack"] .ttl.c{text-align:left}
 .app.m .pkph.s{display:none}
 .app.m .pkph.c{left:16px;top:140px;width:calc(100% - 32px);height:198px}
-.app.m #pkDots{top:357px!important}
-.app.m .pchip{left:calc(50% - 93px);top:375px;width:186px}
-.app.m .pkname{left:16px;right:16px;text-align:left;top:443px;font-size:16px;line-height:24px}
-.app.m .pktot{left:16px;right:16px;text-align:left;top:487px;font-size:24px;line-height:32px}
-.app.m .scr[data-s="ppack"].no .pktot{top:443px}
+.app.m #pkDots{top:390px!important}
+.app.m .pchip{left:calc(50% - 93px);top:410px;width:186px}
+.app.m .pkname{left:16px;right:16px;top:352px;font-size:18px;line-height:24px}
+.app.m .pktot{left:0;right:0;top:auto;bottom:84px;text-align:center;font-size:20px;line-height:28px}
 .app.m .scr[data-s="porder"],.app.m .scr[data-s="prcpt"]{overflow-y:auto;overflow-x:hidden;padding:0 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
 .app.m .scr[data-s="porder"]{inset:82px 0 0 0}
 .app.m .scr[data-s="prcpt"]{inset:82px 0 0 0;padding-bottom:120px}
@@ -1365,7 +1367,7 @@ body.demo #demo{display:block}
         <div class="pkph s r" id="pkR" data-a><svg viewBox="0 0 36 36"><rect x="4" y="7" width="28" height="22" rx="3.5"/><circle cx="24.5" cy="13.5" r="2.4"/><path d="M5 26l8-8.5 6.5 6.5 4-4L31 27"/></svg></div>
         <button class="arr" id="pkP" aria-label="Предыдущая упаковка" style="left:474px;top:363px" data-a><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3L5 9l6 6"/></svg></button>
         <button class="arr" id="pkN" aria-label="Следующая упаковка" style="left:914px;top:363px" data-a><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3l6 6-6 6"/></svg></button>
-        <div class="dots" id="pkDots" style="top:560px" data-a></div>
+        <div class="dots" id="pkDots" style="top:588px" data-a></div>
       </div>
       <button class="pchip" id="pkNo" aria-pressed="false" data-a>Без упаковки</button>
       <div class="pkname" id="pkName" data-a>Название упаковки</div>
