@@ -449,7 +449,6 @@ input, textarea {
   transition-duration: .22s;
   transition-delay: 0s
 }
-/* next button */
 /* ── disc carousel ── */
 .it {
   position: absolute;
@@ -911,19 +910,21 @@ textarea::placeholder {
 .app.m .dn br {
   display: none
 }
+/* 19.11: при 28px заголовок встаёт в 3 строки (90), текст под ним – через 14 */
 .app.m .dn {
   left: 16px;
   right: 16px;
   width: auto;
   top: calc(var(--dy, 300px) + 130px);
   font-size: 28px;
-  line-height: 30px
+  line-height: 30px;
+  text-wrap: balance
 }
 .app.m .dn2 {
   left: 16px;
   right: 16px;
   width: auto;
-  top: calc(var(--dy, 300px) + 204px);
+  top: calc(var(--dy, 300px) + 234px);
   font-size: 14px;
   line-height: 19px;
   color: var(--sec)
@@ -1006,7 +1007,6 @@ textarea::placeholder {
     transform: none
   }
 }
-/* ── итог: ошибка оплаты ── */
 /* ── конверт: общий для упаковки и получателя (520×340, масштабируется) ──
    Задник, перед и клапан – из одного контура EC_PATH (верх – линия сгиба, низ – радиус 18).
    Фактура бумаги, подкладка «луны», тени складок – внутри SVG. Движение ведёт JS-таймлайн: только transform и opacity. */
@@ -1410,28 +1410,32 @@ body.demo #demo {
   text-align: center;
   bottom: 36px
 }
-/* Figma 07 моб: конверт 343,2×224,4 на y 288, карта 198 ≈ диск «Woow» 196 – выходит без масштабирования */
 .app.m .lbox {
   left: 16px;
   width: auto;
   right: 16px;
-  top: calc(var(--dy, 300px) + 276px)
+  top: calc(var(--dy, 300px) + 288px)
 }
+/* 19.11: на мобилке заголовок не поднимаем – он заходил на диск; поле ссылки ниже текста */
 .app.m .scr[data-s=done].v .dn {
-  top: calc(var(--dy, 300px) + 98px)
+  top: calc(var(--dy, 300px) + 130px)
 }
 .app.m .scr[data-s=done].v .dn2 {
-  top: calc(var(--dy, 300px) + 172px)
+  top: calc(var(--dy, 300px) + 234px)
 }
+/* 19.11: кнопка 334, как «Далее»; ссылка над ней с отступом 20 */
 .app.m .dl {
-  left: 20px;
-  right: 20px;
+  left: 28px;
+  right: 28px;
   top: auto;
   bottom: 20px;
   width: auto
 }
+.app.m .scr[data-s=done]:has(.dl:not([hidden])) .rlink {
+  bottom: 92px
+}
 .app.m .dl .pill, .app.m .dl.pill {
-  width: 100%;
+  width: auto;
   height: 52px;
   border-radius: 26px;
   font-size: 18px
@@ -1586,7 +1590,6 @@ body.demo #demo {
   --ab-navon: #a893f0;
   --ab-veil: rgba(20, 18, 19, .96)
 }
-/* 12 · Проверка баланса · десктоп */
 /* мобилка: подвал с кнопкой. Контент не срезается по линии, а уходит под размытие, которое плавно нарастает книзу (два слоя: слабое и сильное) */
 .app.m .scr:is([data-s="recipient"], [data-s="time"], [data-s="wish"], [data-s="pay"], [data-s="porder"]) {
   padding-bottom: 110px

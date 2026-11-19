@@ -562,8 +562,8 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .app.m .tot b{font-size:26px}
 /* DONE: block centred between header and footer */
 .app.m .dn br{display:none}
-.app.m .dn{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 130px);font-size:28px;line-height:30px}
-.app.m .dn2{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 204px);font-size:14px;line-height:19px;color:var(--sec)}
+/* 19.11: при 28px заголовок встаёт в 3 строки (90), текст под ним – через 14 */ .app.m .dn{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 130px);font-size:28px;line-height:30px;text-wrap:balance}
+.app.m .dn2{left:16px;right:16px;width:auto;top:calc(var(--dy,300px) + 234px);font-size:14px;line-height:19px;color:var(--sec)}
 .app.m .lnk{left:0;right:0;top:auto;bottom:20px;justify-content:center;gap:10px;font-size:16px}
 .app.m .lnk svg{width:18px;height:18px}
 /* MODALS → 358-wide glass cards */
@@ -792,10 +792,10 @@ body.demo #demo{display:block}
 .app.m .pkTxt{top:calc(var(--hc,422px) + 130px)}
 .app.m .skip{right:auto;left:0;width:100%;text-align:center;bottom:36px}
 .app.m .scr[data-s=open] .ec{top:calc(var(--hc,422px) - 134px);--es:.66} /* Figma 07 моб: конверт 343,2×224,4 на y 288, карта 198 ≈ диск «Woow» 196 – выходит без масштабирования */
-.app.m .lbox{left:16px;width:auto;right:16px;top:calc(var(--dy,300px) + 276px)}
-.app.m .scr[data-s=done].v .dn{top:calc(var(--dy,300px) + 98px)}.app.m .scr[data-s=done].v .dn2{top:calc(var(--dy,300px) + 172px)}
-.app.m .dl{left:20px;right:20px;top:auto;bottom:20px;width:auto}
-.app.m .dl .pill,.app.m .dl.pill{width:100%;height:52px;border-radius:26px;font-size:18px}
+.app.m .lbox{left:16px;width:auto;right:16px;top:calc(var(--dy,300px) + 288px)}
+/* 19.11: на мобилке заголовок не поднимаем – он заходил на диск; поле ссылки ниже текста */ .app.m .scr[data-s=done].v .dn{top:calc(var(--dy,300px) + 130px)}.app.m .scr[data-s=done].v .dn2{top:calc(var(--dy,300px) + 234px)}
+/* 19.11: кнопка 334, как «Далее»; ссылка над ней с отступом 20 */ .app.m .dl{left:28px;right:28px;top:auto;bottom:20px;width:auto}.app.m .scr[data-s=done]:has(.dl:not([hidden])) .rlink{bottom:92px}
+.app.m .dl .pill,.app.m .dl.pill{width:auto;height:52px;border-radius:26px;font-size:18px}
 .app.m .scr[data-s=woow],.app.m .scr[data-s=msg],.app.m .scr[data-s=card]{display:none;inset:0;flex-direction:column;align-items:center;padding:0 20px}
 .app.m .scr[data-s=woow].act,.app.m .scr[data-s=msg].act,.app.m .scr[data-s=card].act{display:flex}
 .app.m .scr[data-s=woow]{padding-top:calc(197px + var(--vo,0px))}
