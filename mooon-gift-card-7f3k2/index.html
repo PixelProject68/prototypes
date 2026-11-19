@@ -1686,6 +1686,24 @@ function layout(intro){
     if(wrap){el.classList.add('nt');el.style.opacity=0;put(el,{...t,cx:t.cx+Math.sign(r)*40},1);void el.offsetWidth;el.classList.remove('nt')}
     put(el,t);el.style.opacity=t.op})}
 function rot(d){S.design=((S.design+d)%N+N)%N;layout();dots();updBadge()}
+/* 19.11 (Ден): диск «плавает» вверх-вниз на всех экранах, где он виден, – как card-float в gift-open.html (6 с, ход до 8 px).
+   Ход = 1,8 % диаметра текущего диска (2…8 px), плашки суммы плывут вместе с диском. Свойство translate не мешает transform раскладки.
+   На экранах, где диска нет (главная, упаковка, открытие, «О картах», баланс, пластик), ход плавно уходит в 0, а при появлении
+   диска нарастает с нуля – поэтому на «Woow» после конверта нет скачка. prefers-reduced-motion и ?still – без плавания. */
+{const RM=matchMedia('(prefers-reduced-motion: reduce)'),STILL=new URLSearchParams(location.search).has('still'),T=6000;
+ let amp=0,prev=performance.now();const last=new WeakMap();
+ const pills=[...document.querySelectorAll('#badge,.scr .bd,.scr .mbadge')];
+ const set=(el,y)=>{const v=y.toFixed(2);if(last.get(el)!==v){el.style.translate=y?`0 ${v}px`:'';last.set(el,v)}};
+ function goal(){if(RM.matches||STILL||S.flow==='p')return 0;const sc=S.screen;
+   if(['home','pack','open','about','bal'].includes(sc))return 0;
+   const k=items.findIndex((_,i)=>rel(i)===0);if(k<0)return 0;const t=target(k,sc);if(!t.op)return 0;
+   return Math.max(2,Math.min(8,t.d*.018))}
+ function tick(now){const dt=Math.min(64,now-prev);prev=now;const g=goal();
+   amp+=(g-amp)*Math.min(1,dt/(g>amp?900:350));if(Math.abs(g-amp)<.01)amp=g;
+   const y=amp?-(amp/2)*Math.sin(2*Math.PI*now/T):0;
+   items.forEach(it=>set(it.el,y));pills.forEach(el=>set(el,y));
+   requestAnimationFrame(tick)}
+ requestAnimationFrame(tick)}
 $('#aP').onclick=()=>rot(-1);$('#aN').onclick=()=>rot(1);
 {/* поводы: лента едет за пальцем, после отпускания – пружиной к ближайшему поводу (05.11) */
 const ce=$('#chips');let cx0=null,moved=false,dx=0,step=150,occ0=0,pid=null;
