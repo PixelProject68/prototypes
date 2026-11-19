@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0608">
+<title>mooon – вам подарок</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<div class="app" id="app" data-s="open">
+  <div class="bg" aria-hidden="true"><div class="blob k1"><i></i></div><div class="blob k2"><i></i></div><div class="blob k3"><i></i></div><div class="blob k4"><i></i></div><div class="blob k5"><i></i></div></div>
+
+  <aside id="demo" aria-label="Демо-панель">
+  <b>Демо, клавиша D</b>
+  <span class="dh">Получатель</span>
+  <select id="dRv"><option value="wish">с пожеланием</option><option value="nowish">без пожелания</option><option value="surp">сюрприз</option></select>
+  <button class="go" id="dGo">Путь получателя ▸</button>
+  <label><input type="checkbox" id="dSnd" checked> Звук</label>
+</aside>
+  <div class="frame" id="frame">
+    <header class="hdr">
+      <button class="logo" id="logo" aria-label="mooon – на главную"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></button>
+    </header>
+
+    <div id="items"></div>
+
+    <!-- 07 ОТКРЫТИЕ (получатель) -->
+    <section class="scr" data-s="open" aria-label="Открытие подарка">
+      <div class="ec" id="ecO" role="button" tabindex="0" aria-label="Открыть конверт"></div>
+    </section>
+
+    <!-- 07 · 3 «Woow! Это – вам» -->
+    <section class="scr" data-s="woow" aria-label="Подарок для вас">
+      <div class="slot" id="slotW"></div>
+      <div class="bd"><div class="chipb" id="wBd">100 BYN</div></div>
+      <div class="mbadge" id="mbW">100 BYN</div>
+      <h1 class="woh" aria-label="Woow! Это – вам"><span class="ww" style="--wi:0">Wo<span class="dotO"></span>ow!</span><br><span class="ww" style="--wi:1">Это</span> <span class="ww" style="--wi:2">–</span> <span class="ww" style="--wi:3">вам</span></h1>
+      <div class="w1" id="w1" data-a></div>
+      <div class="w2" data-a>кажется, внутри что-то особенное</div>
+      <button class="pillc" id="openGift" data-a>открыть</button>
+    </section>
+
+    <!-- 08 ЭТО – ПРО ВАС -->
+    <section class="scr" data-s="msg" aria-label="Пожелание">
+      <div class="slot" id="slotM"></div>
+      <div class="mbadge" id="mbM">100 BYN</div>
+      <h1 class="ttl r" data-a>Это – про вас</h1>
+      <div class="mcol"><div class="bub" id="msgB" data-a></div><button class="pillc" id="smile" data-a>Улыбнуло</button></div>
+    </section>
+
+    <!-- 09 ВАС ЖДУТ ВЕЛИКИЕ ДЕЛА -->
+    <section class="scr" data-s="card" aria-label="Подарочная карта">
+      <div class="slot" id="slotC"></div>
+      <div class="mbadge" id="mbC">100 BYN</div>
+      <h1 class="ttl r" data-a>Вас ждут великие дела!</h1>
+      <p class="csub" id="csub" data-a>Подарочная карта mooon на 100 BYN</p>
+      <div class="ncard" data-a><small>Номер карты</small><div class="num"><span>0101 0101 1100 1010</span><button class="cp" id="cp" aria-label="Скопировать номер"><svg class="i1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.8V3.5a1.5 1.5 0 0 0-1.5-1.5H3.8A1.8 1.8 0 0 0 2 3.8V9a1.5 1.5 0 0 0 1.5 1.5H4"/></svg></button></div><div class="exp" id="exp">Срок действия: с 22.10.2026 до 22.10.2027</div></div>
+      <button class="pbig" id="toProf" data-a>Сохранить в профиле</button>
+      <p class="hint" data-a>Войдите или создайте профиль – карта добавится автоматически</p>
+      <button class="gh l" id="dlB" data-a><svg class="gi" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5M3.5 15.5h13"/></svg><span class="spin2"></span>Скачать</button>
+      <button class="gh r" id="wlB" data-a><svg class="gi" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="11" rx="2.4"/><path d="M3.5 8.5h13M5 5V4.3C5 3.6 5.6 3 6.3 3h7.4c.7 0 1.3.6 1.3 1.3V5"/></svg>Добавить в Wallet</button>
+    </section>
+
+    <!-- модалки получателя -->
+    <div id="ov2"><div class="ovc">
+      <div class="gm" id="gmW" role="dialog" aria-label="Добавить в Wallet">
+        <h3>Добавить в Wallet</h3><p id="gmWs">Подарочная карта mooon на 100 BYN</p>
+        <div class="qr" id="qr"></div><div class="qc">Наведите камеру телефона</div>
+        <div class="wb"><button class="wbtn" data-w="apple"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="11" rx="2.4"/><path d="M3.5 8.5h13"/></svg>Apple Wallet</button><button class="wbtn" data-w="google"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="11" rx="2.4"/><path d="M3.5 8.5h13"/></svg>Google Wallet</button><div class="wn">Откроется нужный Wallet – карта добавится в один тап</div></div>
+        <button class="gcan" data-close>Отмена</button>
+      </div>
+      <div class="gm" id="gmF" role="dialog" aria-label="Файл загружен">
+        <button class="x" data-close aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg></button>
+        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3>Файл загружен</h3><p>mooon-gift-card.pdf, 142&nbsp;КБ</p>
+        <button class="pillc" id="openF">Открыть</button>
+      </div>
+
+      <div class="gm" id="gmA" role="dialog" aria-label="Вход и регистрация">
+        <button class="x" data-close aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg></button>
+        <div class="atabs" id="aTabs"><button class="on" data-t="login">Вход</button><button data-t="reg">Регистрация</button></div>
+        <div class="ap on" data-p="login">
+          <p class="ah">Для входа используйте свой <b>email и пароль сайта mooon.by</b></p>
+          <label class="al" for="aId">email или номер телефона</label><input class="af" id="aId" placeholder="name@email.by" autocomplete="off">
+          <label class="al" for="aPw">пароль</label><div class="afw"><input class="af" id="aPw" type="password" placeholder="••••••••" autocomplete="off"><button class="eye" id="aEye" aria-label="Показать пароль"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10s3-5.5 8-5.5S18 10 18 10s-3 5.5-8 5.5S2 10 2 10z"/><circle cx="10" cy="10" r="2.4"/><path class="sl" d="M3 3l14 14"/></svg></button></div>
+          <div class="arow"><button class="ac on" id="aRm" role="checkbox" aria-checked="true"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span>Запомнить меня</button><button class="alk" id="aForgot">Забыли пароль?</button></div>
+          <button class="ab caps" id="aGo1">Войти</button>
+        </div>
+        <div class="ap" data-p="reg1">
+          <label class="al" for="aPh">номер телефона</label><input class="af" id="aPh" type="tel" inputmode="tel" placeholder="+375 __ ___ - ___" autocomplete="off">
+          <button class="ac" data-c="0" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я ознакомлен(а) и согласен(а) <u>с политикой обработки персональных данных.</u></span></button>
+          <button class="ac" data-c="1" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я ознакомлен(а) и согласен(а) <u>с правилами программы лояльности.</u></span></button>
+          <button class="ac" data-c="2" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span>Я согласен(а) на получение рекламно-информационных материалов по электронной почте.</span></button>
+          <button class="ab" id="aGo2">получить код по SMS</button>
+        </div>
+        <div class="ap" data-p="reg2">
+          <label class="al" for="aCode">введите код из SMS</label><input class="af code" id="aCode" inputmode="numeric" maxlength="4" placeholder="____" autocomplete="one-time-code">
+          <button class="ab on" id="aGo3">далее</button>
+          <p class="an" id="aTimer">Отправить код повторно или изменить номер телефона можно будет через 87 сек</p>
+        </div>
+        <div class="ap" data-p="reg3">
+          <label class="al" for="aName">имя</label><input class="af" id="aName" placeholder="как вас зовут" autocomplete="off">
+          <label class="al" for="aMail">email</label><input class="af" id="aMail" type="email" placeholder="name@email.by" autocomplete="off">
+          <button class="ab on" id="aGo4">зарегистрироваться</button>
+          <p class="an">Подтвердите email: отправим письмо со ссылкой для активации.</p>
+        </div>
+        <div class="ap mailp" data-p="reg4">
+          <div class="ck2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M15.4 12v1.6a2.2 2.2 0 0 0 4.4 0V12a7.8 7.8 0 1 0-3 6.1"/></svg></div>
+          <h3>Проверьте почту</h3>
+          <p class="an" id="aSent">Отправили письмо на name@email.by. Перейдите по ссылке из письма, чтобы активировать профиль, и подарок появится в нём.</p>
+          <button class="ab ghost" id="aChg">изменить email</button>
+          <p class="an">Письмо не пришло? <button class="alk" id="aAgain">Отправить ещё раз</button></p>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="badge hid" id="badge"></div>
+    <div class="toast" id="toast"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body></html>

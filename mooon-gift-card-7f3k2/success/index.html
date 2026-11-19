@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0608">
+<title>mooon – подарочная карта, успех</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<div class="app" id="app" data-s="pack">
+  <div class="bg" aria-hidden="true"><div class="blob k1"><i></i></div><div class="blob k2"><i></i></div><div class="blob k3"><i></i></div><div class="blob k4"><i></i></div><div class="blob k5"><i></i></div></div>
+
+  <aside id="demo" aria-label="Демо-панель">
+  <b>Демо, клавиша D</b>
+  <span class="dh">Статус после оплаты</span>
+  <select id="dStat"><option value="">авто</option><option value="a">а – отправлено</option><option value="b">б – отложено</option><option value="v">в – ссылка</option><option value="g">г – отправляем</option><option value="d">д – PDF себе</option></select>
+  <label><input type="checkbox" id="dSnd" checked> Звук</label>
+</aside>
+  <div class="frame" id="frame">
+    <header class="hdr">
+      <button class="logo" id="logo" aria-label="mooon – на главную"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></button>
+      <button class="close" id="closeB" aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1.5 1.5l13 13M14.5 1.5l-13 13"/></svg></button>
+      <div class="htl" id="hTitle"></div>
+    </header>
+
+    <div id="items"></div>
+
+    <!-- 05 УПАКОВКА -->
+    <section class="scr" data-s="pack" aria-label="Упаковка подарка">
+      <div class="ec" id="ecP"></div>
+      <div class="pkTxt" id="pkTxt" aria-live="polite"><span class="t1">Упаковываем подарок…</span><span class="t2">Уже летит к получателю</span></div>
+      <button class="skip" id="skip">Пропустить</button>
+    </section>
+
+    <!-- DONE -->
+    <section class="scr" data-s="done" aria-label="Готово">
+      <h1 class="dn" data-a>Всё получилось. <br>Впереди – чьи-то счастливые моменты</h1>
+      <p class="dn2" id="dn2" data-a></p>
+      <button class="lnk" id="lnk" data-a><span id="lnkT">Отправить ещё раз</span><svg id="lnkI" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 7.5A7 7 0 0 0 4 6.2M3.5 12.5A7 7 0 0 0 16 13.8M4 3v3.4h3.4M16 17v-3.4h-3.4"/></svg></button>
+      <div class="lbox" id="lbox" hidden data-a><span id="lnkV">mooon.by/g/kx4-92lp</span><button id="cpL" aria-label="Скопировать ссылку"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.8V3.5a1.5 1.5 0 0 0-1.5-1.5H3.8A1.8 1.8 0 0 0 2 3.8V9a1.5 1.5 0 0 0 1.5 1.5H4"/></svg></button></div>
+      <button class="pill dl" id="dl" hidden data-a><svg class="dli" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5M3.5 15.5h13"/></svg><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.8 3.8L16 6.5"/></svg><span id="dlT">Скачать карту</span></button>
+      <button class="rlink" id="toRcpt" data-a>Посмотреть, как получит подарок<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
+    </section>
+
+    <div class="badge hid" id="badge"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body></html>

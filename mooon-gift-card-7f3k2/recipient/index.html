@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0608">
+<title>mooon – подарочная карта, получатель</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+
+<div class="app" id="app" data-s="recipient">
+  <div class="bg" aria-hidden="true"><div class="blob k1"><i></i></div><div class="blob k2"><i></i></div><div class="blob k3"><i></i></div><div class="blob k4"><i></i></div><div class="blob k5"><i></i></div></div>
+
+  <div class="frame" id="frame">
+    <header class="hdr">
+      <button class="logo" id="logo" aria-label="mooon – на главную"><svg viewBox="0 0 117 22" fill="currentColor"><path fill="currentColor" d="M42.1729 0.0253906C48.4222 0.0254363 52.9582 4.647 52.9609 11.0146C52.9608 14.0075 51.9071 16.7662 49.9951 18.7812C48.0252 20.8557 45.2465 21.9999 42.1758 22C38.9836 22 36.252 20.8866 34.2793 18.7783C32.4142 16.7858 31.3878 14.0301 31.3877 11.0117C31.3877 8.02149 32.4418 5.2631 34.3594 3.24512C36.3321 1.1706 39.1075 0.0253906 42.1729 0.0253906ZM64.5098 0.0283203C70.4327 0.0283203 75.2342 4.94653 75.2344 11.0137C75.2344 17.081 70.4328 22 64.5098 22C58.5868 22 53.7852 17.081 53.7852 11.0137C53.7854 4.94656 58.5869 0.0283684 64.5098 0.0283203ZM86.6387 0.0253906C92.8879 0.0254987 97.424 4.64704 97.4268 11.0146C97.4267 14.0075 96.3729 16.7662 94.4609 18.7812C92.491 20.8557 89.7123 21.9999 86.6416 22C83.4495 22 80.7179 20.8865 78.7451 18.7783C76.88 16.7858 75.8536 14.0301 75.8535 11.0117C75.8535 8.0217 76.9069 5.26306 78.8242 3.24512C80.797 1.1706 83.5733 0.0253906 86.6387 0.0253906ZM9.67578 0C12.3383 0 14.5929 1.26649 15.9062 3.47949C17.4872 1.33997 20.103 0.0145451 22.7959 0.0117188C25.1383 0.0117494 27.1001 0.765894 28.4658 2.1875C29.8095 3.58652 30.5186 5.56218 30.5186 7.90234V21.5537H26.7246V8.34082C26.7246 5.34223 25.0694 3.55288 22.2939 3.55273C19.4963 3.55273 17.131 5.86166 17.1309 8.5918V18.4814L17.1455 21.5566H16.9189L14.4551 21.582V21.5566H13.3545V8.34375C13.3545 5.43555 11.5663 3.55576 8.80176 3.55566C6.21923 3.55566 3.77441 5.93272 3.77441 8.44531V21.5537H0V0.438477H3.77441V2.37402C5.22286 0.879005 7.3914 0.000105755 9.67578 0ZM108.853 0.110352C113.88 0.110352 117.003 3.33531 117 8.52441V21.5566H113.231V9.04102C113.231 5.66953 111.38 3.65449 108.279 3.6543C104.988 3.6543 102.311 6.32225 102.311 9.60352V21.5537H98.5254V0.4375H102.3V2.69043C103.944 1.04557 106.306 0.110404 108.853 0.110352ZM42.1729 3.55859C38.1473 3.55859 35.2256 6.69322 35.2256 11.0146C35.2258 15.4037 38.084 18.4697 42.1729 18.4697C46.2617 18.4697 49.1172 15.4036 49.1201 11.0146C49.1201 8.95724 48.4471 7.07741 47.2305 5.72363C45.9585 4.30767 44.209 3.55862 42.1729 3.55859ZM86.6387 3.55859C82.6131 3.55859 79.6914 6.69322 79.6914 11.0146C79.6916 15.4037 82.5498 18.4697 86.6387 18.4697C90.7274 18.4696 93.583 15.4036 93.5859 11.0146C93.5859 8.95727 92.9129 7.07741 91.6963 5.72363C90.4244 4.3077 88.6748 3.55865 86.6387 3.55859Z"/></svg></button>
+      <nav class="stepper" id="stepper" aria-label="Шаги"></nav>
+      <button class="close" id="closeB" aria-label="Закрыть"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M1.5 1.5l13 13M14.5 1.5l-13 13"/></svg></button>
+      <button class="back" id="backB" aria-label="Назад"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5L4.5 8 10 13.5"/></svg></button>
+      <div class="htl" id="hTitle"></div>
+    </header>
+
+    <div id="items"></div>
+
+    <!-- 3 RECIPIENT -->
+    <section class="scr" data-s="recipient" aria-label="Шаг 3. Получатель">
+      <h1 class="ttl r" data-a>Кому отправляем?</h1>
+      <div class="lab nself" style="left:692px;top:242px" data-a>ссылка на подарочную карту придёт в SMS</div>
+      <div class="fld nself" style="left:692px;top:268px;width:490px" id="fPhone" data-a><input id="phone" type="tel" inputmode="tel" placeholder="+375 29 314-52-08" autocomplete="off"><button class="ic" id="contact" aria-label="Выбрать из контактов"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.5 17c.6-3.4 3.2-5.2 6.5-5.2s5.9 1.8 6.5 5.2"/></svg></button></div>
+      <div class="lab nself ofrom" style="left:692px;top:338px" data-a>от кого</div>
+      <div class="fld nself ofrom" style="left:692px;top:364px;width:191px" id="fFrom" data-a><input id="from" placeholder="ваше имя" maxlength="30" autocomplete="off"></div>
+      <div class="lab nself" id="surLab" style="left:899px;top:338px" data-a>получатель не увидит, от кого подарок</div>
+      <button class="sur nself" id="sur" role="checkbox" aria-checked="false" data-a><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span>Сюрприз</button>
+      <button class="pdf" id="pdf" role="switch" aria-checked="false" data-a><span><b>прислать PDF на почту</b><small>если хотите подарить лично</small></span><span class="tg"></span></button>
+      <div class="more" id="more">
+        <div class="lab" style="left:692px;top:340px">ваш email</div>
+        <div class="fld" style="left:692px;top:366px;width:490px" id="fMail"><input id="email" type="email" placeholder="you@mail.by" autocomplete="off"></div>
+        <button class="cons" id="cons" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span><b>Согласен(а) на обработку персональных данных</b><u>Политика конфиденциальности mooon</u></span></button>
+        <button class="cons cons2" id="cons2" role="checkbox" aria-checked="false"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3"/></svg></span><span><b>Согласен(а) на получение рекламно-информационных материалов</b></span></button>
+      </div>
+    </section>
+
+    <div class="badge" id="badge"></div>
+    <div class="mfoot" aria-hidden="true"></div>
+    <button class="next" id="next"><span class="tx" id="nextT">Далее</span><span class="spin"></span></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body></html>
