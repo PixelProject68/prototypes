@@ -654,6 +654,32 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
         }
     }
   }
+  /* ── модалка: окно «Отправить сейчас?» перед отправкой отложенного подарка ── */
+  const ov2 = $('#ov2');
+
+  function openM2(id) {
+    ov2.classList.add('on');
+    $$('.gm').forEach(m => {
+      const on = m.id === id;
+      m.classList.toggle('act', on);
+      if (on) {
+        m.classList.add('pre');
+        void m.offsetWidth;
+        m.classList.remove('pre')
+      }
+    })
+  }
+
+  function closeM2() {
+    ov2.classList.remove('on');
+    setTimeout(() => $$('.gm').forEach(m => m.classList.remove('act')), 350)
+  }
+  ov2.addEventListener('click', e => {
+    if (e.target === ov2 || e.target.classList.contains('ovc') || e.target.closest('[data-close]')) closeM2()
+  });
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape' && ov2.classList.contains('on')) closeM2()
+  });
 
   function renderDone(k, anim) {
     const c = doneCopy(k),
@@ -702,14 +728,19 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
   $('#lnk').onclick = async () => {
     const b = $('#lnk');
     if (b.classList.contains('dis')) return;
+    if (S.when && !S.sentNow) return openM2('gmS'); /* отложенная отправка: сначала подтверждение */
     b.classList.add('go');
     setTimeout(() => b.classList.remove('go'), 700);
-    if (S.when && !S.sentNow) {
-      S.sentNow = true;
-      await sleep(450);
-      renderDone(statusKey(), true)
-    }
-  }
+  };
+  $('#sYes').onclick = async () => {
+    closeM2();
+    const b = $('#lnk');
+    b.classList.add('go');
+    setTimeout(() => b.classList.remove('go'), 700);
+    S.sentNow = true;
+    await sleep(450);
+    renderDone(statusKey(), true)
+  }; // «Да, передумал(а)!» – отправляем сразу; «Нет, спасибо» и клик мимо окна – остаётся по расписанию
   $('#cpL').onclick = () => {
     try {
       navigator.clipboard && navigator.clipboard.writeText(LINK_SAMPLE)
@@ -733,8 +764,9 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
       $('#dlT').textContent = 'Скачать карту'
     }, 2200)
   };
+  /* «Как выглядит подарок»: отправитель видит путь получателя без номера карты и кнопок (кроме покупки себе) */
   $('#toRcpt').onclick = () => {
-    location.href = '../gift/'
+    location.href = S.pdf ? '../gift/' : '../gift/?view=sender'
   };
 
   /* ── переход между экранами: старый уходит (.out), новый входит (.in), элементы с data-a появляются каскадом (--i) ── */

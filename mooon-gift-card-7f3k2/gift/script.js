@@ -1,6 +1,6 @@
 /* mooon, подарочная карта: страница получателя (ссылка из SMS).
    Экраны: «Открытие» (конверт, doOpen) → «Woow! Это – вам» → «Это – про вас» (пожелание) → «Вас ждут великие дела!» (карта) + модалки (Wallet, файл, вход и регистрация).
-   Параметры ссылки: ?rv=wish|nowish|surp – с пожеланием / без пожелания / сюрприз; ?theme=dark; ?demo – демо-панель (клавиша D).
+   Параметры ссылки: ?rv=wish|nowish|surp – с пожеланием / без пожелания / сюрприз; ?view=sender – страницу открыл отправитель (карта без номера и кнопок); ?theme=dark; ?demo – демо-панель (клавиша D).
    Клавиша T – тема. Выделено из общего прототипа, поведение то же. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s),
@@ -18,11 +18,13 @@
     sound: true
   };
   /* from – от кого, wish – пожелание, surprise – отправитель скрыт */
+  /* snd – страницу открыл отправитель («Как выглядит подарок»): номер карты видит только получатель */
   const S = {
     screen: null,
     from: 'Денис',
     wish: SAMPLE_WISH,
-    surprise: false
+    surprise: false,
+    snd: Q.get('view') === 'sender'
   };
 
   function setVariant(v) {
@@ -580,17 +582,8 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
   }
 
   /* ── путь получателя ── */
-  const gen = n => {
-    n = n.trim();
-    if (!n) return n;
-    const l = n.slice(-1).toLowerCase(),
-      p = n.slice(0, -1);
-    if ('бвгджзклмнпрстфхцчшщ'.includes(l)) return n + 'а';
-    if (l === 'ь' || l === 'й') return p + 'я';
-    if (l === 'а') return p + (/[гкхжчшщ]$/i.test(p) ? 'и' : 'ы');
-    if (l === 'я') return p + 'и';
-    return n
-  };
+  /* имя отправителя подставляется как введено, в именительном падеже, без склонения */
+
   const slotOf = sc => {
     const el = $(sc === 'woow' ? '#slotW' : sc === 'msg' ? '#slotM' : '#slotC');
     if (!el) return null;
@@ -914,10 +907,9 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
     BD();
     const from = S.from.trim(),
       el = $('#w1');
-    el.textContent = (S.surprise || !from) ? '' : `от ${gen(from)} – с теплом`;
-    el.style.display = el.textContent ? '' : 'none'
-  }
-
+    el.textContent = (S.surprise || !from) ? 'Кажется, внутри что-то особенное' : `${from} дарит вам что-то особенное`;
+    el.parentNode.style.setProperty('--wx', Math.max(0, el.offsetHeight - 28) + 'px')
+  } // длинное имя уходит на вторую строку – кнопка «открыть» сдвигается вниз
   function fillMsg() {
     BD();
     const w = S.wish.trim();
@@ -926,6 +918,7 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
 
   function fillCard() {
     BD();
+    $('.scr[data-s="card"]').classList.toggle('snd', !!S.snd); /* snd – экран открыл отправитель («Как выглядит подарок»): номер карты видит только получатель */
     $('#csub').textContent = `Подарочная карта mooon на ${AMOUNT} BYN`;
     const a = new Date(),
       b = new Date(a);

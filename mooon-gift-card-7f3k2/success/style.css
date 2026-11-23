@@ -652,6 +652,9 @@ textarea::placeholder {
 .hl.p {
   clip-path: polygon(896px 410px, 1248px 346px, 1294px 606px, 888px 622px)
 }
+.hl.on {
+  opacity: 1
+}
 .hl.e::after, .hl.p::after {
   content: '';
   position: absolute;
@@ -893,6 +896,11 @@ textarea::placeholder {
 }
 .app.m #when {
   margin-top: 18px
+}
+.app.m #when.on {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 12px
 }
 .app.m #when>:nth-child(1) {
   grid-area: 1/1
@@ -1325,6 +1333,110 @@ textarea::placeholder {
 .mbadge {
   display: none
 }
+.pillc {
+  position: absolute;
+  height: 50px;
+  padding: 0 57px;
+  border-radius: 25px;
+  background: var(--violet);
+  color: var(--on-violet);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 14px 30px -12px rgba(68, 45, 124, .7);
+  transition: transform .35s var(--spring), filter .2s
+}
+.pillc:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px)
+}
+.pillc:active {
+  transform: scale(.96)
+}
+/* модалки получателя */
+#ov2 {
+  position: absolute;
+  inset: -2200px;
+  z-index: 60;
+  background: var(--scrim);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s var(--ease)
+}
+#ov2.on {
+  opacity: 1;
+  pointer-events: auto
+}
+#ov2 .ovc {
+  position: absolute;
+  left: 2200px;
+  top: 2200px;
+  width: 1440px;
+  height: 900px;
+  display: grid;
+  place-items: center
+}
+.gm {
+  display: none;
+  position: relative;
+  border-radius: 32px;
+  background: var(--card);
+  color: var(--card-ink);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .45);
+  transform: translateY(16px) scale(.96);
+  opacity: 0;
+  transition: transform .55s var(--spring), opacity .3s
+}
+#ov2.on .gm.act {
+  display: block;
+  transform: none;
+  opacity: 1
+}
+#ov2.on .gm.act.pre {
+  transform: translateY(16px) scale(.96);
+  opacity: 0
+}
+.gm h3 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 500;
+  letter-spacing: -.02em
+}
+.gm p {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sec);
+  margin-top: 6px
+}
+#gmS {
+  width: 440px;
+  padding: 32px 33px 33px;
+  text-align: center;
+  background: linear-gradient(var(--card), var(--card)), var(--bg)
+}
+#gmS h3 {
+  line-height: 32px
+}
+#gmS .pillc {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  padding: 0;
+  margin-top: 24px;
+  border-radius: 26px;
+  font-weight: 500;
+  font-size: 18px
+}
+#gmS .gbt {
+  width: 100%;
+  height: 50px;
+  margin-top: 12px;
+  border-radius: 25px
+}
 /* демо-панель (D) */
 #demo {
   position: fixed;
@@ -1454,6 +1566,18 @@ body.demo #demo {
   place-items: center;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px)
+}
+.app.m #ov2 .ovc {
+  width: var(--W);
+  height: var(--H)
+}
+.app.m #gmS {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  width: auto;
+  padding: 24px
 }
 .app.m #demo {
   width: 200px;
@@ -1589,6 +1713,28 @@ body.demo #demo {
   --ab-mute: #9e9ca6;
   --ab-navon: #a893f0;
   --ab-veil: rgba(20, 18, 19, .96)
+}
+/* точки каруселей пластика: один цвет текста, 20% и 60%, размер 6 (Figma 17.11) */
+.gbt {
+  border: 1px solid var(--hair-2);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  display: grid;
+  place-items: center;
+  transition: transform .35s var(--spring), background .25s
+}
+.gbt:active {
+  transform: scale(.97);
+  transition-duration: .12s
+}
+.gbt[aria-expanded=true] {
+  background: color-mix(in srgb, var(--ink) 7%, transparent)
+}
+@media (hover:hover) {
+  .gbt:hover {
+    background: color-mix(in srgb, var(--ink) 7%, transparent)
+  }
 }
 /* мобилка: подвал с кнопкой. Контент не срезается по линии, а уходит под размытие, которое плавно нарастает книзу (два слоя: слабое и сильное) */
 .app.m .scr:is([data-s="recipient"], [data-s="time"], [data-s="wish"], [data-s="pay"], [data-s="porder"]) {

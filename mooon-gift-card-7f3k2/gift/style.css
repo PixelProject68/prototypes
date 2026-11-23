@@ -1364,29 +1364,19 @@ textarea::placeholder {
 }
 .scr[data-s=woow] .w1 {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 657px;
+  left: 370px;
+  right: 370px;
+  top: 654px;
   text-align: center;
+  text-wrap: balance;
   font-size: 20px;
-  line-height: 26px;
+  line-height: 28px;
   color: var(--sec);
   letter-spacing: -.01em
 }
-.scr[data-s=woow] .w2 {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 688px;
-  text-align: center;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--sec);
-  letter-spacing: -.005em
-}
 .scr[data-s=woow] .pillc {
   left: 50%;
-  top: 732px;
+  top: calc(706px + var(--wx, 0px));
   margin-left: -90px;
   width: 180px;
   padding: 0
@@ -1504,6 +1494,18 @@ textarea::placeholder {
   margin-top: 10px;
   font-size: 12px;
   color: var(--sec)
+}
+.scr[data-s=card].snd .ncard {
+  height: 61px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center
+}
+.scr[data-s=card].snd .ncard small, .scr[data-s=card].snd .ncard .num, .scr[data-s=card].snd :is(.pbig, .hint, .gh) {
+  display: none
+}
+.scr[data-s=card].snd .ncard .exp {
+  margin-top: 0
 }
 .pbig {
   position: absolute;
@@ -1904,7 +1906,7 @@ body.demo #demo {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px)
 }
-.app.m .scr[data-s=woow] .bd, .app.m .scr[data-s=woow] .woh, .app.m .scr[data-s=woow] .w1, .app.m .scr[data-s=woow] .w2, .app.m .scr[data-s=woow] .pillc, .app.m .scr[data-s=msg] .ttl.r, .app.m .scr[data-s=card] .ttl.r, .app.m .scr[data-s=card] .csub, .app.m .scr[data-s=card] .ncard, .app.m .scr[data-s=card] .pbig, .app.m .scr[data-s=card] .hint, .app.m .scr[data-s=card] .gh {
+.app.m .scr[data-s=woow] .bd, .app.m .scr[data-s=woow] .woh, .app.m .scr[data-s=woow] .w1, .app.m .scr[data-s=woow] .pillc, .app.m .scr[data-s=msg] .ttl.r, .app.m .scr[data-s=card] .ttl.r, .app.m .scr[data-s=card] .csub, .app.m .scr[data-s=card] .ncard, .app.m .scr[data-s=card] .pbig, .app.m .scr[data-s=card] .hint, .app.m .scr[data-s=card] .gh {
   position: relative;
   left: auto;
   top: auto;
@@ -1922,14 +1924,15 @@ body.demo #demo {
 }
 .app.m .scr[data-s=woow] .w1 {
   margin-top: 20px;
-  font-size: 18px
-}
-.app.m .scr[data-s=woow] .w2 {
-  margin-top: 2px
+  font-size: 18px;
+  line-height: 26px
 }
 .app.m .scr[data-s=woow] .pillc {
   margin-top: 26px;
   width: 180px
+}
+.app.m.short .scr[data-s=woow] {
+  padding-top: calc(197px - min(80px, 720px - var(--H)))
 }
 .app.m .scr[data-s=msg] .ttl.r {
   margin-top: 28px;
@@ -1990,6 +1993,14 @@ body.demo #demo {
   margin-top: 10px;
   width: 100%;
   height: 50px
+}
+.app.m .scr[data-s=card].snd .ncard {
+  display: block;
+  height: auto;
+  padding: 15px 16px
+}
+.app.m .scr[data-s=card].snd .ncard .exp {
+  line-height: 16px
 }
 .app.m #ov2 .ovc {
   width: var(--W);
@@ -2390,11 +2401,8 @@ body.demo #demo {
 .scr[data-s=woow].in .w1 {
   transition-delay: .3s
 }
-.scr[data-s=woow].in .w2 {
-  transition-delay: .34s
-}
 .scr[data-s=woow].in .pillc {
-  transition-delay: .38s
+  transition-delay: .34s
 }
 .scr[data-s=woow] .bd, .scr[data-s=woow] .mbadge {
   opacity: 0;
