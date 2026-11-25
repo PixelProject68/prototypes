@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<script>/* по ссылке с телефона – мобильная версия (?desktop оставляет десктоп); файл, открытый с диска, не перенаправляется */
+if (/^https?:/.test(location.protocol) && !/desktop/.test(location.search) && (innerWidth <= 820 || matchMedia('(pointer: coarse) and (max-width: 1024px)').matches)) location.replace('m.html' + location.search);</script>
+<title>mooon, вид с места</title>
+<link rel="stylesheet" href="style.css?v=1">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/geometries/RoundedBoxGeometry.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/utils/BufferGeometryUtils.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/lights/RectAreaLightUniformsLib.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/postprocessing/EffectComposer.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/postprocessing/RenderPass.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/postprocessing/UnrealBloomPass.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/postprocessing/OutputPass.js": "./js/vendor/three.bundle.js",
+    "three/examples/jsm/environments/RoomEnvironment.js": "./js/vendor/three.bundle.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="art">
+  <div class="herobg">
+        <canvas id="snow" width="2560" height="292"></canvas>
+  </div>
+
+  <header>
+    <svg class="logo" viewBox="0 0 140 26" aria-label="mooon" role="img"><path fill="#fff" d="M77.6049 25.9286C84.7649 25.9286 90.5693 20.1243 90.5693 12.9643C90.5693 5.80432 84.7649 0 77.6049 0C70.4449 0 64.6406 5.80432 64.6406 12.9643C64.6406 20.1243 70.4449 25.9286 77.6049 25.9286Z"/><path fill="#fff" d="M38.1406 12.9809C38.1406 5.34138 43.8246 0 51.0617 0C58.2988 0 63.9828 5.34138 63.9828 12.9809C63.9828 20.6205 58.3022 25.9619 51.0617 25.9619C43.8246 25.9586 38.1406 20.6172 38.1406 12.9809ZM58.9906 12.9809C58.9906 7.9389 55.4053 4.59305 51.0617 4.59305C46.7181 4.59305 43.1328 7.9389 43.1328 12.9809C43.1328 18.023 46.7181 21.3688 51.0617 21.3688C55.4053 21.3688 58.9906 18.023 58.9906 12.9809Z"/><path fill="#fff" d="M91.1719 12.9809C91.1719 5.34138 96.8525 0 104.093 0C111.33 0 117.014 5.34138 117.014 12.9809C117.014 20.6205 111.333 25.9619 104.093 25.9619C96.8525 25.9586 91.1719 20.6172 91.1719 12.9809ZM112.019 12.9809C112.019 7.9389 108.433 4.59305 104.09 4.59305C99.746 4.59305 96.1607 7.9389 96.1607 12.9809C96.1607 18.023 99.746 21.3688 104.09 21.3688C108.433 21.3688 112.019 18.023 112.019 12.9809Z"/><path fill="#fff" d="M130.736 0C127.509 0 124.779 1.28379 123.033 3.90459H122.93V0.498883H117.938V25.4597H122.93V11.757C122.93 6.81475 125.567 4.39017 129.116 4.39017C132.861 4.39017 135.013 6.37906 135.013 11.3213V25.4564H140.005V10.4001C140.001 3.05982 136.197 0 130.736 0Z"/><path fill="#fff" d="M28.2634 0C24.7014 0 21.9043 1.26384 20.0784 4.27709H19.9953C17.9066 1.13413 15.8811 0 12.3657 0C9.48877 0 6.50212 1.35031 5.05868 3.81147H4.99216V0.498883H0V25.4597H4.99216V11.1318C4.99216 6.63848 7.18392 4.3935 10.5298 4.3935C13.8756 4.3935 16.0641 6.34912 16.0641 10.8424V25.4597H21.0562V11.3513C21.0562 6.85798 23.248 4.3935 26.6437 4.3935C29.9896 4.3935 32.0583 6.34912 32.0583 10.8424V25.4597H37.0504V10.134C37.0504 3.29596 33.3055 0 28.2634 0Z"/></svg>
+    <div class="city"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="#5463F5"/><circle cx="12" cy="10" r="2.6" fill="#0F0F0F"/></svg>Минск<svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+    <nav><a class="on">афиша</a><a>mooon+</a><a>пространства</a></nav>
+    <div class="hicons">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5c1.4-2 3.3-3 5.5-3s4.1 1 5.5 3"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M8 12h12M4 17h16" stroke-linecap="round"/></svg>
+    </div>
+    <div id="timer"><span>Эбенезер</span><b id="timerVal">05:00</b></div>
+  </header>
+
+  <section class="hero">
+    <div class="crumbs">главная <span>→</span> афиша <span>→</span> эбенезер <span>→</span> <b>выбор места</b></div>
+    <div>
+      <h1 style="margin-top:34px">Эбенезер</h1>
+      <div class="meta"><span>триллер, фэнтези, драма, комедия</span><span class="dur"><svg class="clk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="currentColor" opacity=".45"/><path d="M12 7v5l3 2" stroke="#0F0F0F" stroke-width="2" fill="none" stroke-linecap="round"/></svg>2 ч</span><div class="chips"><div class="chip">16+</div><div class="chip">RU</div><div class="chip">2D</div><div class="chip">Dolby Digital</div></div></div>
+    </div>
+    <div class="info">
+      <div class="icard"><small>Дата</small><b>25.11</b></div>
+      <div class="icard"><small>Сеанс</small><b>19:00</b></div>
+      <div class="icard"><small>Зал</small><b>Зал 3 mooon+</b></div>
+      <div class="icard"><small>Пространство</small><b>Dana Mall</b></div>
+    </div>
+  </section>
+
+  <section id="stage">
+    <canvas id="gl"></canvas>
+    <div id="map">
+      <div class="stagehead"><span><b>Зал 3 mooon+</b>11 рядов, 156 мест</span><span class="hint3d"><span class="new">Новое</span>Выберите место и посмотрите, как будет видно экран</span></div>
+      <div id="screenArc"><svg viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 9 Q50 -3 100 9" stroke="#fff" stroke-width="1.4" fill="none" vector-effect="non-scaling-stroke" style="stroke-width:5px;filter:drop-shadow(0 0 6px #fff)"/></svg><span>ЭКРАН</span></div>
+      <div class="legend"><span><i class="lg-v"></i>Свободно</span><span><i class="lg-g"></i>Занято</span></div>
+      <div class="mapnote">Наведите на место, чтобы увидеть цену</div>
+      <div id="tip"></div>
+    </div>
+    <div class="pov-ui">
+      <div class="povseat glass ia"><small>Вид с места</small><b id="povSeat"></b><div class="row"><span id="povState" class="state"></span><span id="povType"></span></div><div id="mySeats"></div></div>
+      <div class="povfilm glass"><b>Эбенезер</b><span>Сегодня в 19:00, зал 3 mooon+</span></div>
+      <div class="minicard glass ia"><h4>Пересесть</h4><p>Нажмите на место, чтобы посмотреть оттуда</p><div id="mini"></div></div>
+      <div class="lookhint glass"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"><path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V12m0-1.5v-6a1.5 1.5 0 0 1 3 0v6m0-1a1.5 1.5 0 0 1 3 0v2m0-1a1.5 1.5 0 0 1 3 0V15a7 7 0 0 1-7 7h-1.5a7 7 0 0 1-5.4-2.6L3 16.3a1.6 1.6 0 0 1 2.4-2.1L8 16.5"/></svg>Потяните, чтобы осмотреться</div>
+      <div class="povbtns ia">
+        <button id="back" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Схема зала</button>
+        <button id="povAction" class="btn btn-v"></button>
+      </div>
+    </div>
+  </section>
+
+  <aside>
+    <div class="ttl">Билеты</div>
+    <div class="tickets" id="picked"></div>
+    <div class="promo"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" stroke-linejoin="round"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></div><div class="tx"><b>Вид с места<span class="new">Новое</span></b><span>Посмотрите, как будет виден экран из вашего кресла</span></div><button id="preview" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Посмотреть</button></div>
+    <div class="totalrow"><span>Итого:</span><b id="total"></b><button id="pay" class="btn btn-v">В корзину</button></div>
+    <div class="ttl types-ttl">Типы мест</div>
+    <div class="types">
+      <div class="trow"><span class="ti" id="tiS"></span><b>Single</b><span>20,00 BYN</span><span class="tog"><svg viewBox="0 0 24 24"><path d="M7 7l5 5 5-5M7 13l5 5 5-5"/></svg></span></div>
+      <div class="trow"><span class="ti" id="tiF"></span><b>Sofa</b><span>46,00 BYN</span><span class="tog"><svg viewBox="0 0 24 24"><path d="M7 7l5 5 5-5M7 13l5 5 5-5"/></svg></span></div>
+    </div>
+  </aside>
+  <div id="toast">Прототип: здесь места уходят в корзину</div>
+</div>
+<script type="module" src="js/app.js?v=1"></script>
+</body>
+</html>
