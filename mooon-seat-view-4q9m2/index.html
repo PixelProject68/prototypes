@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:,">
 <script>/* по ссылке с телефона – мобильная версия (?desktop оставляет десктоп); файл, открытый с диска, не перенаправляется */
-if (/^https?:/.test(location.protocol) && !/desktop/.test(location.search) && (innerWidth <= 820 || matchMedia('(pointer: coarse) and (max-width: 1024px)').matches)) location.replace('m.html' + location.search);</script>
+(function () {
+  if (!/^https?:/.test(location.protocol) || /desktop/.test(location.search)) return;
+  var phone = /iPhone|iPod|Android.+Mobile|Mobile.+Firefox/i.test(navigator.userAgent);   // телефон по браузеру – и в Telegram, и в Instagram
+  var go = function () { if (phone || innerWidth <= 820) location.replace('m.html' + location.search); };
+  go(); addEventListener('resize', go);   // узкое окно на компьютере тоже уходит на мобилку
+})();</script>
 <title>mooon, вид с места</title>
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 <script type="importmap">
 {
   "imports": {
@@ -91,6 +96,6 @@ if (/^https?:/.test(location.protocol) && !/desktop/.test(location.search) && (i
   </aside>
   <div id="toast">Прототип: здесь места уходят в корзину</div>
 </div>
-<script type="module" src="js/app.js?v=1"></script>
+<script type="module" src="js/app.js?v=2"></script>
 </body>
 </html>
