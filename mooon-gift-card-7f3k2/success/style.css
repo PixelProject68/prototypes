@@ -1604,6 +1604,10 @@ body.demo #demo {
   align-items: center;
   transition: color .2s
 }
+.app:not(.m) .scr[data-s=done].nolnk .rlink {
+  top: 509px
+}
+/* 24.11: без «Отправить ещё раз» ссылка встаёт на её место */
 .rlink:hover {
   color: var(--ink)
 }

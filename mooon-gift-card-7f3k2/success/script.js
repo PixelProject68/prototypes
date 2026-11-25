@@ -624,7 +624,7 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
 
   /* ── успех: 5 статусов ──
      a – отправлено, b – отложено, v – ссылка, g – отправляем (сразу после упаковки, через 2,4 с сменяется на «a»), d – PDF себе */
-  const ICON_REFRESH = '<path d="M16.5 7.5A7 7 0 0 0 4 6.2M3.5 12.5A7 7 0 0 0 16 13.8M4 3v3.4h3.4M16 17v-3.4h-3.4"/>';
+  /* 24.11: «Отправить ещё раз» убрана – плательщик не видит, дошла ли SMS, повтор шёл вслепую; ссылка #lnk осталась только у статуса «b» */
   const ICON_SEND = '<path d="M3 3.5l14 6.5-14 6.5 2.6-6.5L3 3.5zM5.6 10H17"/>';
   const statusKey = () => DEMO.force || ((S.when && !S.sentNow) ? 'b' : S.pdf ? 'd' : 'a');
 
@@ -634,7 +634,7 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
     switch (k) {
       case 'a':
         return {
-          t: `Отправили SMS с подарком на ${phonePretty()}.\nЧек улетел на ${to}.`, l: ['Отправить ещё раз', ICON_REFRESH]
+          t: `Отправили SMS с подарком на ${phonePretty()}.\nЧек улетел на ${to}.`
         };
       case 'b':
         return {
@@ -646,7 +646,7 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
         };
       case 'g':
         return {
-          t: `Оплачено. Отправляем подарок\nЧек отправили на ${to}`, l: ['Отправить ещё раз', ICON_REFRESH], dis: true
+          t: `Оплачено. Отправляем подарок\nЧек отправили на ${to}`
         };
       case 'd':
         return {
@@ -691,6 +691,7 @@ ${strip(p+'el',130,100.89,.606,-.796,7,'#fff',.22)}${strip(p+'er',390,100.89,-.6
     const apply = () => {
       dn2.textContent = c.t;
       sc.classList.toggle('v', k === 'v');
+      sc.classList.toggle('nolnk', k === 'a' || k === 'g');
       lnk.hidden = !c.l;
       lnk.classList.toggle('dis', !!c.dis);
       if (c.l) {
