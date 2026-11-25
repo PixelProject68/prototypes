@@ -528,6 +528,16 @@ input, textarea {
 .it.cur .glow {
   opacity: 1
 }
+.it .face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--bg);
+  opacity: var(--dm, 0);
+  transition: opacity .6s var(--ease);
+  pointer-events: none
+}
 /* ── badge on left disc ── */
 .badge {
   position: absolute;
@@ -1593,6 +1603,12 @@ body.demo #demo {
   width: auto
 }
 /* ── вход и регистрация (10а–10д) ── */
+.al {
+  display: block;
+  font-size: 14px;
+  color: var(--sec);
+  margin: 12px 0 6px
+}
 .rlink {
   position: absolute;
   left: 692px;

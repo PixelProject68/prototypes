@@ -171,7 +171,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
 .it .shine{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.55),rgba(255,255,255,0) 55%);mix-blend-mode:soft-light;opacity:var(--go,0);pointer-events:none}
 .it .glow{position:absolute;inset:-60px;opacity:0;transition:opacity .8s var(--ease);pointer-events:none;z-index:-1}
 .it .glow img{width:100%;height:100%;border-radius:50%;filter:blur(70px);opacity:var(--glow);display:block}
-.it.cur .glow{opacity:1}
+.it.cur .glow{opacity:1}.it .face::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--bg);opacity:var(--dm,0);transition:opacity .6s var(--ease);pointer-events:none}.scr[data-s="design"] .arr{display:none}
 .arr{position:absolute;top:444px;width:52px;height:52px;border-radius:50%;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 24px -10px rgba(0,0,0,.35);display:grid;place-items:center;z-index:6;transition:transform .4s var(--spring),background .3s}
 .arr:hover{transform:scale(1.08);background:rgba(255,255,255,.3)}
 .arr svg{width:18px;height:18px}
@@ -1130,7 +1130,7 @@ body.demo #demo{display:block}
 .pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
 .pc .pcl{position:absolute;left:6.5%;bottom:8%;width:22%;height:auto;display:block;transition:color .4s;opacity:var(--lo,1)}
 .pg[data-f="v"] .pcl{left:9%;bottom:6%;width:36%}
-.pc .shn{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}
+.pc .shn{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}.pc .pcw::after{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--dm,0);pointer-events:none}
 .pfmt{position:absolute;left:671px;top:294px;width:98px;height:40px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-line);padding:4px;display:grid;grid-template-columns:1fr 1fr;z-index:6;transition:top .9s var(--spring),opacity .55s var(--out),transform .7s var(--out)}
 .pfmt i{position:absolute;left:4px;top:4px;width:44px;height:30px;border-radius:10px;background:var(--violet);transition:transform .55s var(--spring)}
 .pfmt.v i{transform:translateX(44px)}
@@ -1657,7 +1657,7 @@ function place(el,cx,cy,d,op){el.style.transform=`translate(${cx-d/2}px,${cy-d/2
 function target(i,sc){const r=rel(i),a=Math.abs(r);if(S.flow==='p')return M?{cx:W/2,cy:300,d:200,op:0}:{cx:720,cy:470,d:300,op:0};
   if(M){const cx=W/2;
     if(sc==='home')return {cx,cy:300,d:200,op:0};
-    if(sc==='design'){const cy=dCY();if(a===0)return {cx,cy,d:250*KD,op:1};if(a===1)return {cx:cx+r*200*KD,cy,d:140*KD,op:1};return {cx:cx+Math.sign(r)*330*KD,cy,d:105*KD,op:0}} // пропорции Figma 01а моб: 250 / 140 / ±200 // сдвиг масштабируется вместе с дисками – пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
+    if(sc==='design')return dCF(r,1); // пропорции Figma 01а моб: 250 / 140 / ±200 // сдвиг масштабируется вместе с дисками – пропорции как в Figma 01а моб (250 / 140 / ±200) на любой высоте экрана
     if(sc==='nominal'){const cy=vy(282)-TOP;if(a===0)return {cx,cy,d:190*K,op:1};return {cx:cx+Math.sign(r)*200,cy,d:140*K,op:0}}
     if(sc==='woow'||sc==='msg'||sc==='card'){const sl=slotOf(sc);return sl?{...sl,op:a===0?1:0}:{cx,cy:300,d:200,op:0}}
     if(sc==='pack'||sc==='open'||sc==='about'||sc==='bal')return {cx,cy:300,d:200,op:0};
@@ -1666,12 +1666,12 @@ function target(i,sc){const r=rel(i),a=Math.abs(r);if(S.flow==='p')return M?{cx:
     if(sc==='pay'||sc==='chek')return {cx:bx,cy:by,d:bd,op:0};
     return {cx:bx,cy:by,d:bd,op:a===0?1:0}}
   if(sc==='home')return {cx:720,cy:470,d:300,op:0};
-  if(sc==='design'){if(a===0)return {cx:720,cy:470,d:380,op:1};if(a===1)return {cx:720+r*375,cy:470,d:150,op:1};return {cx:720+Math.sign(r)*515,cy:470,d:105,op:1}}
-  if(sc==='nominal'){if(a===0)return {cx:720,cy:470,d:380,op:1};return {cx:720+Math.sign(r)*(a===1?375:515),cy:470,d:a===1?150:105,op:0}}
+  if(sc==='design')return dCF(r,1);
+  if(sc==='nominal')return dCF(r,0);
   if(sc==='woow')return {cx:720,cy:320,d:300,op:a===0?1:0};
   if(sc==='pack'||sc==='open'||sc==='about'||sc==='bal')return {cx:720,cy:470,d:300,op:0};
   if(a===0)return {cx:325,cy:415,d:470,op:1};return {cx:325,cy:415,d:200,op:0}}
-const put=(el,t,k=1)=>{const d=t.d*k;el.style.transform=`translate(${t.cx-d/2}px,${t.cy-d/2}px) scale(${d/380})`}
+/* 24.11 (Ден): карусель в перспективе. Точка схода – центр выбранного диска; соседние повёрнуты к центру (52° и 62°), чуть уходят вглубь, меньше с шагом ~0,69 (380 / 263 / 183) и под вуалью цвета фона (20 % и 50 %). cfS – где поставить центр, чтобы край u встал в точку T на экране; cfE – где на экране окажется край u; cfM – готовая матрица проекции (плоская: глубины после проекции нет, порядок слоёв задаёт z-index – так Safari не сортирует и не режет слои по глубине) */ function cfM(px,py,X,Y,z,th,al,s,ox,oy,P){const r=th*Math.PI/180,k=Math.sin(r)/P,c=Math.cos(r),ca=Math.cos(al*Math.PI/180),sa=Math.sin(al*Math.PI/180),w0=1-z/P,m11=s*ca*(c+px*k),m12=s*sa+s*ca*py*k,m14=s*ca*k,m21=-s*sa*(c+px*k),m22=s*ca-s*sa*py*k,m24=-s*sa*k,f=v=>+v.toFixed(8);return `matrix3d(${f(m11)},${f(m12)},0,${f(m14)},${f(m21)},${f(m22)},0,${f(m24)},0,0,1,0,${f(px*w0+X-ox*m11-oy*m21)},${f(py*w0+Y-ox*m12-oy*m22)},0,${f(w0-ox*m14-oy*m24)})`} function cfS(T,th,z,u,P){const r=th*Math.PI/180;return T*(P-z+u*Math.sin(r))/P-u*Math.cos(r)} function cfE(X,th,z,u,P){const r=th*Math.PI/180;return (X+u*Math.cos(r))*P/(P-(z-u*Math.sin(r)))} const dF=()=>M?250*(typeof KD==='number'?KD:1)/380:1,dP=()=>1400*dF(),dPX=()=>M?W/2:720,dPY=()=>M?(typeof dCY==='function'?dCY():300):470; /* на отдельных страницах (success, gift, recipient) шага «Дизайн», KD и dCY нет */ function dCF(r,vis){const a=Math.abs(r),s=Math.sign(r),f=dF(),P=dP(),cx=dPX(),cy=dPY(),d0=380*f;if(!a)return {cx,cy,d:d0,op:1};const d1=M?140*KD:263,d2=M?105*KD:183,g1=M?14*KD:20,g2=M?12*KD:16,z1=-60*f,z2=-120*f,x1=-cfS(-(d0/2)-g1,52,z1,d1/2,P),x2=-cfS(cfE(-x1,52,z1,-d1/2,P)-g2,62,z2,d2/2,P);if(a===1)return {cx:cx+s*x1,cy,d:d1,ry:-s*52,z:z1,dm:.2,op:vis};if(a===2)return {cx:cx+s*x2,cy,d:d2,ry:-s*62,z:z2,dm:.5,op:M?0:vis};return {cx:cx+s*(x2+d2),cy,d:d2*.8,ry:-s*66,z:z2*1.3,dm:.6,op:0}} const put=(el,t,k=1)=>{const d=t.d*k,px=dPX(),py=dPY();el.style.transform=`scale3d(1,1,.0001) translate(${px}px,${py}px) perspective(${dP().toFixed(1)}px) translate3d(${(t.cx-px).toFixed(2)}px,${(t.cy-py).toFixed(2)}px,${(t.z||0).toFixed(1)}px) rotateY(${t.ry||0}deg) scale(${(d/380).toFixed(5)}) translate(-190px,-190px)`; /* диски едут CSS-переходом: запись по шагам, чтобы браузер вёл сдвиг, поворот и масштаб раздельно (готовую матрицу он интерполирует с перекосом); scale3d(1,1,.0001) сплющивает глубину */el.style.setProperty('--dm',t.dm||0)}
 function layout(intro){
   const sc=S.screen;
   items.forEach((it,i)=>{
@@ -1683,7 +1683,7 @@ function layout(intro){
       el.classList.add('nt');el.style.opacity=0;put(el,t,.82);void el.offsetWidth;el.classList.remove('nt');
       el.style.transitionDelay=(.12+a*.09)+'s';put(el,t);el.style.opacity=t.op;
       setTimeout(()=>{el.style.transitionDelay=''},1400);return}
-    if(wrap){el.classList.add('nt');el.style.opacity=0;put(el,{...t,cx:t.cx+Math.sign(r)*40},1);void el.offsetWidth;el.classList.remove('nt')}
+    if(wrap&&!t.op&&sc==='design'){put(el,{...t,cx:2*dPX()-t.cx,ry:-(t.ry||0)});el.style.opacity=0;it.pk=1;return} /* крайний диск уходит за свой край и гаснет, а не исчезает на месте */ if(wrap||it.pk){it.pk=0;el.classList.add('nt');el.style.opacity=0;put(el,{...t,cx:t.cx+Math.sign(r)*40},1);void el.offsetWidth;el.classList.remove('nt')}
     put(el,t);el.style.opacity=t.op})}
 function rot(d){S.design=((S.design+d)%N+N)%N;layout();dots();updBadge()}
 /* 19.11 (Ден): диск «плавает» вверх-вниз на всех экранах, где он виден, – как card-float в gift-open.html (6 с, ход до 8 px).
@@ -2519,7 +2519,7 @@ const PRING={h:null,v:null};let pVis=0,pVisT=0,pRaf=0,pLast=0,pDrag=null,pMoved=
 /* формат: 0 – горизонтальная, 1 – вертикальная. c – центральная карта, s – боковые (идут следом). Карта не гаснет, а поворачивается на 90°, рисунок на ней сменяется к концу поворота */
 const pF={c:0,s:0,vc:0,vs:0,tc:0,ts:0,tm:0};
 function pBuild(){const tpl=$('#pcT');
-  ['h','v'].forEach(f=>{const src=PCARDS[f],n=src.length;let list=src.map((c,j)=>({c,j}));while(n>1&&list.length<4)list=list.concat(src.map((c,j)=>({c,j}))); // 2–3 дизайна: повторяем, чтобы кольцо замыкалось
+  ['h','v'].forEach(f=>{const src=PCARDS[f],n=src.length;let list=src.map((c,j)=>({c,j}));while(n>1&&list.length<6)list=list.concat(src.map((c,j)=>({c,j}))); // 2–3 дизайна: повторяем, чтобы кольцо замыкалось
     const g=document.createElement('div');g.className='pg';g.dataset.f=f;PL.ring.appendChild(g);
     const R=PRING[f]={el:g,L:list.length,n,pos:0,tgt:0,vel:0,cards:null};
     R.cards=list.map((x,k)=>{const el=document.createElement('div');el.className='pc';el.appendChild(tpl.content.cloneNode(true));
@@ -2529,21 +2529,21 @@ function pBuild(){const tpl=$('#pcT');
 const pSc=()=>parseFloat(frame.style.getPropertyValue('--s'))||1;
 const pOff=(R,k,at)=>{let o=((k-at)%R.L+R.L)%R.L;return o>R.L/2?o-R.L:o};
 /* размеры кольца: карта в центре, шаг до соседних, масштаб соседних, насколько соседние уходят за центр при переходе на «Номинал» */
-function pRingP(f){const b=pGeo('pdesign',f,true);
-  if(M)return f==='v'?{w:b.w,h:b.h,rx:b.w*.88,sn:.56,tuck:.7}:{w:b.w,h:b.h,rx:W/2+b.w*.4+12,sn:.8,tuck:1};
-  return f==='v'?{w:b.w,h:b.h,rx:280,sn:.48,tuck:.5}:{w:b.w,h:b.h,rx:370,sn:190/440,tuck:.5}}
+function pRingP(f){const b=pGeo('pdesign',f,true),v=f==='v',w=b.w,P=1400; /* 24.11 (Ден): карусель в перспективе. c – [угол, глубина, зазор] для соседней карты и для крайней, как в пробе Figma 3520:3976 */
+  const c=M?(v?[44,-170,12,54,-330,10]:[36,-300,Math.max(18,W/2-w/2+16),46,-520,14]):(v?[32,-140,18,42,-300,14]:[36,-300,18,46,-520,14]),x1=-cfS(-(w/2)-c[2],c[0],c[1],w/2,P),x2=-cfS(cfE(-x1,c[0],c[1],-w/2,P)-c[5],c[3],c[4],w/2,P);
+  return {w:b.w,h:b.h,rx:x1,X:[0,x1,x2,x2+(x2-x1)*.8],A:[0,c[0],c[3],c[3]+6],Z:[0,c[1],c[4],c[4]-140],D:[0,.2,.5,.6],tuck:M&&!v?1:.5}}
 const pSm=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
 /* место карты в кольце своего формата: сдвиг, масштаб, прозрачность, глубина */
-function pSlot(P,o){const a=Math.abs(o),side=Math.min(1,a),th=Math.max(-2,Math.min(2,o))*Math.PI/2,cs=Math.cos(th);
-  return {s:(cs>=0?P.sn+(1-P.sn)*cs:P.sn*(1+.35*cs))*lerp(1,lerp(.8,1,pVis),side),x:P.rx*Math.sin(th)*lerp(1,lerp(P.tuck,1,pVis),side),
-    op:(a<=1?1:Math.max(0,1-(a-1)/.5))*lerp(1,pVis,side),cs,a,side}}
+function pSlot(P,o){const a=Math.abs(o),side=Math.min(1,a),sg=o<0?-1:1,i=Math.min(2,Math.floor(a)),t=Math.min(1,a-i),q=V=>lerp(V[i],V[i+1],t),th=Math.max(-2,Math.min(2,o))*Math.PI/2,cs=Math.cos(th);
+  return {s:lerp(1,lerp(.8,1,pVis),side),x:sg*q(P.X)*lerp(1,lerp(P.tuck,1,pVis),side),ry:-sg*q(P.A),z:q(P.Z),dm:q(P.D),
+    op:(a<=2?1:Math.max(0,1-(a-2)/.5))*lerp(1,pVis,side),cs,a,side}}
 function pDraw(){const Ph=pRingP('h'),Pv=pRingP('v');
   ['h','v'].forEach(f=>{const R=PRING[f],isV=f==='v',act=f===S.p.fmt&&S.screen==='pdesign';
   R.cards.forEach(c=>{const o=pOff(R,c.k,R.pos),gh=pSlot(Ph,o),gv=pSlot(Pv,o),p=lerp(pF.c,pF.s,gh.side),pc=Math.max(0,Math.min(1,p));
     /* одна и та же «физическая» карта: длинная сторона L, угол 0° – лежит, 90° – стоит; слой горизонтального и слой вертикального рисунка совпадают по контуру */
     const x=lerp(gh.x,gv.x,p),L=lerp(Ph.w*gh.s,Pv.h*gv.s,p)*(1-.06*Math.sin(Math.PI*pc)),ang=p*90-(isV?90:0),rad=ang*Math.PI/180,sc=L/(isV?Pv.h:Ph.w);
     const op=lerp(gh.op,gv.op,pc)*(isV?pSm(.55,.97,pc):(pc<.97?1:0));
-    const st=c.el.style;st.transform=`translate(${x.toFixed(2)}px,0) rotate(${ang.toFixed(2)}deg) scale(${sc.toFixed(4)})`;st.opacity=op.toFixed(3);st.zIndex=Math.round(gh.cs*10)+10;
+    const st=c.el.style;st.transform=cfM(0,0,x,0,lerp(gh.z,gv.z,p),lerp(gh.ry,gv.ry,p),ang,sc,0,0,1400);st.setProperty('--dm',lerp(gh.dm,gv.dm,pc).toFixed(3));st.opacity=op.toFixed(3);st.zIndex=Math.round(gh.cs*10)+10;
     st.setProperty('--lo',(isV?pSm(.86,1,pc):1-pSm(.12,.45,pc)).toFixed(3));st.setProperty('--sx',Math.sin(rad).toFixed(3));st.setProperty('--sy',Math.cos(rad).toFixed(3));
     c.el.classList.toggle('cur',gh.a<.5);st.pointerEvents=(act&&gh.a>=.5&&op>.6)?'auto':'none'})})}
 function pTick(t){const dt=Math.min(.2,(t-pLast)/1000)||.016,n=Math.max(1,Math.ceil(dt/.008));pLast=t;let live=false;
@@ -2567,7 +2567,7 @@ function pLayout(){if(!PL)return;const f=S.p.fmt,g=pGeo(S.screen),b=pGeo('pdesig
   if(S.screen==='pdesign'){const top=g.cy-g.h/2,bot=g.cy+g.h/2,one=PCARDS[S.p.fmt].length<2;
     $('#pFmt').style.top=(top-(M?52:56))+'px';
     $('#pAP').style.left=(g.cx-g.w/2-26)+'px';$('#pAN').style.left=(g.cx+g.w/2-26)+'px';$('#pAP').style.top=$('#pAN').style.top=(g.cy-26)+'px';
-    $('#pDots').style.top=(bot+(M?14:32))+'px';[$('#pAP'),$('#pAN'),$('#pDots')].forEach(e=>e.classList.toggle('hid',one))}
+    $('#pDots').style.top=(bot+(M?14:32))+'px';[$('#pAP'),$('#pAN')].forEach(e=>e.classList.add('hid'));$('#pDots').classList.toggle('hid',one)}
   pPlaceNext()}
 /* мобилка, «Получатель»: кнопка «Далее» – сразу под формой (как в Figma 3290:4033) */
 function pPlaceNext(){if(M&&S.screen==='prcpt'){const f=$('#prForm'),fr=frame.getBoundingClientRect(),s=fr.width/W,b=(f.getBoundingClientRect().bottom-fr.top)/s;next.style.top=Math.min(b+28,H-72)+'px';next.style.bottom='auto'}else{next.style.top='';next.style.bottom=''}}
