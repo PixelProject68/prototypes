@@ -138,7 +138,7 @@
   disc.style.pointerEvents = 'none';
   disc.innerHTML = `<div class="tw"><div class="glow"><img alt="" src="${CARD_SRC}"></div><div class="face"><img alt="Дизайн карты" src="${CARD_SRC}" draggable="false"><i class="shine"></i></div></div>`;
   $('#items').appendChild(disc);
-  /* 24.11 (Ден): карусель в перспективе. Точка схода – центр выбранного диска; соседние повёрнуты к центру (52° и 62°), чуть уходят вглубь, меньше с шагом ~0,69 (380 / 263 / 183) и под вуалью цвета фона (20 % и 50 %). cfS – где поставить центр, чтобы край u встал в точку T на экране; cfE – где на экране окажется край u; cfM – готовая матрица проекции (плоская: глубины после проекции нет, порядок слоёв задаёт z-index – так Safari не сортирует и не режет слои по глубине) */
+  /* 24.11 (Ден): карусель в перспективе. Только пластик (25.11 диски вернули плоскими). Точка схода – центр выбранной карты; соседние повёрнуты к центру и под вуалью цвета фона. cfS – где поставить центр, чтобы край u встал в точку T на экране; cfE – где на экране окажется край u; cfM – готовая матрица проекции (плоская: глубины после проекции нет, порядок слоёв задаёт z-index – так Safari не сортирует и не режет слои по глубине) */
   function cfM(px, py, X, Y, z, th, al, s, ox, oy, P) {
     const r = th * Math.PI / 180,
       k = Math.sin(r) / P,
@@ -165,66 +165,9 @@
     const r = th * Math.PI / 180;
     return (X + u * Math.cos(r)) * P / (P - (z - u * Math.sin(r)))
   }
-  const dF = () => M ? 250 * (typeof KD === 'number' ? KD : 1) / 380 : 1,
-    dP = () => 1400 * dF(),
-    dPX = () => M ? W / 2 : 720,
-    dPY = () => M ? (typeof dCY === 'function' ? dCY() : 300) : 470; /* на отдельных страницах (success, gift, recipient) шага «Дизайн», KD и dCY нет */
-  function dCF(r, vis) {
-    const a = Math.abs(r),
-      s = Math.sign(r),
-      f = dF(),
-      P = dP(),
-      cx = dPX(),
-      cy = dPY(),
-      d0 = 380 * f;
-    if (!a) return {
-      cx,
-      cy,
-      d: d0,
-      op: 1
-    };
-    const d1 = M ? 140 * KD : 263,
-      d2 = M ? 105 * KD : 183,
-      g1 = M ? 14 * KD : 20,
-      g2 = M ? 12 * KD : 16,
-      z1 = -60 * f,
-      z2 = -120 * f,
-      x1 = -cfS(-(d0 / 2) - g1, 52, z1, d1 / 2, P),
-      x2 = -cfS(cfE(-x1, 52, z1, -d1 / 2, P) - g2, 62, z2, d2 / 2, P);
-    if (a === 1) return {
-      cx: cx + s * x1,
-      cy,
-      d: d1,
-      ry: -s * 52,
-      z: z1,
-      dm: .2,
-      op: vis
-    };
-    if (a === 2) return {
-      cx: cx + s * x2,
-      cy,
-      d: d2,
-      ry: -s * 62,
-      z: z2,
-      dm: .5,
-      op: M ? 0 : vis
-    };
-    return {
-      cx: cx + s * (x2 + d2),
-      cy,
-      d: d2 * .8,
-      ry: -s * 66,
-      z: z2 * 1.3,
-      dm: .6,
-      op: 0
-    }
-  }
   const put = (el, t, k = 1) => {
-    const d = t.d * k,
-      px = dPX(),
-      py = dPY();
-    el.style.transform = `scale3d(1,1,.0001) translate(${px}px,${py}px) perspective(${dP().toFixed(1)}px) translate3d(${(t.cx-px).toFixed(2)}px,${(t.cy-py).toFixed(2)}px,${(t.z||0).toFixed(1)}px) rotateY(${t.ry||0}deg) scale(${(d/380).toFixed(5)}) translate(-190px,-190px)`; /* диски едут CSS-переходом: запись по шагам, чтобы браузер вёл сдвиг, поворот и масштаб раздельно (готовую матрицу он интерполирует с перекосом); scale3d(1,1,.0001) сплющивает глубину */
-    el.style.setProperty('--dm', t.dm || 0)
+    const d = t.d * k;
+    el.style.transform = `translate(${t.cx-d/2}px,${t.cy-d/2}px) scale(${d/380})`
   }
 
   function layout(intro) {
